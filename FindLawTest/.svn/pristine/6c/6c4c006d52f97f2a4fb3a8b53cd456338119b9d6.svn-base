@@ -1,0 +1,174 @@
+package tr.findlaw.tests;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.testng.annotations.Test;
+
+import com.framework.reports.TestNGCustomReporter;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.FindLawOrderToolPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.PasswordHoldersPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+
+public class Sprint_8 extends FindlawBaseTest{
+	
+	   private Logger logger = LogManager.getLogger(this.getClass());
+  	   
+/*
+* Take any Existing Account which is not having IMC product:41892830 and add it to the cart
+* 
+* 	Complete the Order
+*/		   
+@Test(enabled = false, description = "SOC-4103 Tech Only Mapping SFDC to ESI for free service days and discount for bridging")
+   public void soc_4103() {
+       applicationLogin();
+       accountpage = new Accountpage(driver);
+       accountpage.searchExistAccount(12);
+       contactsPage = new ContactsPage(driver);
+       String ContactName=contactsPage.createNewContact();
+       //String ContactName= ExcelUtils.getDataByColumnName("Contacts", "Id");
+       //contactsPage.SearchExistContact(12);
+       OpptyPage optypage = new OpptyPage(driver);
+       optypage.createOpty(); 
+       quotepage = new QuotePage(driver);
+       String QuoteId=quotepage.createQuote();
+       addproductspage = new AddProductsPage(driver);
+       int ctrl = 2; 
+       addproductspage.addProducts(ctrl,12);                      
+       contact28page = new Contact28Page(driver);
+       contact28page.addContact28(ContactName);
+       //String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+       generateDocumentPage = new GenerateDocumentPage(driver);
+       generateDocumentPage.generateDocument();
+       sendesignPage = new SendEsignPage(driver);
+       sendesignPage.sendForEsign();
+       webmailLogin();
+       esignprocesspage = new EsignProcessPage(driver);
+       esignprocesspage.esignProcess();
+       applicationLogin(); 
+       searchquotepage = new SearchQuotePage(driver);
+       searchquotepage.searchQuote(QuoteId);
+       validateesignpage = new ValidateEsignPage(driver);
+       validateesignpage.validateEsign(); 
+       findlawordertoolpage = new FindLawOrderToolPage(driver);
+       findlawordertoolpage.clickCOB();
+       findlawordertoolpage.loginWithSafeuserId(QuoteId);
+       int ctrlval=2;
+       findlawordertoolpage.cobProcess(ctrlval);
+       applicationLogin();
+       searchquotepage = new SearchQuotePage(driver);
+       searchquotepage.searchQuote(QuoteId);
+       validateesignpage = new ValidateEsignPage(driver); 
+       validateesignpage.validateOrder();         
+       }
+       
+  /*
+   * Take any existing Account and add products 42089522 and 30572846
+   *      
+   * Finalize the cart and Complete the Order    
+   *      
+   */
+@Test(enabled = false, description = "SOC-4470 Ability to chose contract terms available 1,2, 3, for some Engagement product model products (CPQ)")
+   public void soc_4470() {
+       applicationLogin();
+       accountpage = new Accountpage(driver);
+       accountpage.searchExistAccount(13);
+       contactsPage = new ContactsPage(driver);
+       String ContactName=contactsPage.createNewContact();
+       //String ContactName= ExcelUtils.getDataByColumnName("Contacts", "Id");
+       //contactsPage.SearchExistContact(13);
+       OpptyPage optypage = new OpptyPage(driver);
+       optypage.createOpty(); 
+       quotepage = new QuotePage(driver);
+       String QuoteId=quotepage.createQuote();
+       addproductspage = new AddProductsPage(driver);
+       addproductspage.validateContractTerm(13); 
+       contact28page = new Contact28Page(driver);
+       contact28page.addContact28(ContactName);
+       //String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+       passwordholderspage = new PasswordHoldersPage(driver);
+       int ctrl1=1;
+       passwordholderspage.addPasswordHolders(ctrl1);
+       generateDocumentPage = new GenerateDocumentPage(driver);
+       generateDocumentPage.generateDocument();
+       sendesignPage = new SendEsignPage(driver);
+       sendesignPage.sendForEsign();
+       webmailLogin();
+       esignprocesspage = new EsignProcessPage(driver);
+       esignprocesspage.esignProcess();
+       applicationLogin();
+       searchquotepage = new SearchQuotePage(driver);
+       searchquotepage.searchQuote(QuoteId);
+       validateesignpage = new ValidateEsignPage(driver);
+       validateesignpage.validateEsign();
+       findlawordertoolpage = new FindLawOrderToolPage(driver);
+       findlawordertoolpage.clickCOB();
+       findlawordertoolpage.loginWithSafeuserId(QuoteId);
+       int ctrlval= 4;
+       findlawordertoolpage.cobProcess(ctrlval);
+       applicationLogin();
+       searchquotepage = new SearchQuotePage(driver);
+       searchquotepage.searchQuote(QuoteId);
+       validateesignpage = new ValidateEsignPage(driver);
+       validateesignpage.validateOrder();         
+       }
+
+/*
+ *  Take any Existing Account which is not having Firmsite 333C product as an Asset  
+ *    
+ *  Finalize the Cart and complete the Order , Validate Net Value
+ */
+@Test(enabled = false, description = "SOC-4993 CPQ Order sent to Findlaw to contain the “Net Annual Value”")
+    public void soc_4993() {
+       applicationLogin();
+       accountpage = new Accountpage(driver);
+       accountpage.searchExistAccount(14);
+       contactsPage = new ContactsPage(driver);
+       String ContactName=contactsPage.createNewContact();
+       //String ContactName= ExcelUtils.getDataByColumnName("Contacts", "Id");
+       //contactsPage.SearchExistContact(14);
+       OpptyPage optypage = new OpptyPage(driver);
+       optypage.createOpty(); 
+       quotepage = new QuotePage(driver);
+       String QuoteId=quotepage.createQuote();
+       addproductspage = new AddProductsPage(driver);
+       int ctrl = 1; 
+       addproductspage.addProducts(ctrl,14);                      
+       contact28page = new Contact28Page(driver);
+       contact28page.addContact28(ContactName);
+       //String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+       generateDocumentPage = new GenerateDocumentPage(driver);
+       generateDocumentPage.generateDocument();
+       sendesignPage = new SendEsignPage(driver);
+       sendesignPage.sendForEsign();
+       webmailLogin();
+       esignprocesspage = new EsignProcessPage(driver);
+       esignprocesspage.esignProcess();
+       applicationLogin();
+       searchquotepage = new SearchQuotePage(driver);
+       searchquotepage.searchQuote(QuoteId);
+       validateesignpage = new ValidateEsignPage(driver);
+       validateesignpage.validateEsign();
+       findlawordertoolpage = new FindLawOrderToolPage(driver);
+       findlawordertoolpage.clickCOB();
+       findlawordertoolpage.loginWithSafeuserId(QuoteId);
+       int ctrlval= 1;
+       findlawordertoolpage.cobProcess(ctrlval);
+       applicationLogin();
+       searchquotepage = new SearchQuotePage(driver);
+       searchquotepage.searchQuote(QuoteId);
+       quotepage.ValidateNetValue();                                        
+       }
+
+}

@@ -1,0 +1,294 @@
+package tr.findlaw.pages;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
+
+import com.framework.asserts.AssertionHandler;
+import com.framework.reports.ReportBuilder;
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+import com.framework.utils.StringUtils;
+
+import junit.framework.Assert;
+import tr.findlaw.objects.AddProductsPageObjects;
+import tr.findlaw.objects.OpportunityPageObjects;
+import tr.findlaw.objects.QuotePageObjects;
+
+public class QuotePage extends BasePage{
+	
+	String lblQuoteP1="//div[@id='ep']/div[1]/table/tbody/tr/td[1]/h2";
+	String lblNewOwner= "//h3[text()='Select New Owner']";
+	String  lblIncrement ="//td[@id='bodyCell']/div[4]/div[2]/div[2]//tr[8]/td[4]/div";
+	public QuotePage(WebDriver webDriver) {
+		super(webDriver);
+		
+	}
+	
+	public String createQuote() { 	
+		elementHandler.waitforElement(QuotePageObjects.btnCreateQuote);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(QuotePageObjects.btnCreateQuote,QuotePageObjects.textproposalname);
+		String ProposalName = StringUtils.testDataModification(ExcelUtils.getDataByColumnName("Quote", "ProposalName"));
+		elementHandler.writeText(QuotePageObjects.textproposalname, ProposalName);
+		elementHandler.clickElement(QuotePageObjects.btnsave,QuotePageObjects.linkChange);
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.linkChange);
+		elementHandler.clickElement(QuotePageObjects.linkChange,QuotePageObjects.txtOwner);
+		actionHandler.waitForSomeTime(5000);
+		String OwnerName= ExcelUtils.getDataByColumnName("Quote", "OwnerName");
+		elementHandler.writeText(QuotePageObjects.txtOwner, OwnerName);
+		elementHandler.clickElement(QuotePageObjects.btnSave);
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.btnEdit);
+		elementHandler.clickElement(QuotePageObjects.btnEdit);
+		javascripthandler.scrollIntoView(QuotePageObjects.lblApprovalSeg);
+		elementHandler.selectByVisibleText(QuotePageObjects.drpdwnApprovalSegment, "FindLaw");
+		elementHandler.clickElement(QuotePageObjects.btnSave1);
+		elementHandler.waitForXpathToLoad(lblQuoteP1);
+		actionHandler.waitForSomeTime(5000);
+		String QuoteId= elementHandler.getText(QuotePageObjects.lblProposalId);
+		AssertionHandler.verifyNotEquals(QuoteId, "");
+		TestNGCustomReporter.log(logger, "Quote is successfully created: " +QuoteId+ " " +ReportBuilder.takesScreenshot());
+		return QuoteId;	
+	}
+	
+	public String createQuotewoOwnerchange() {
+		elementHandler.waitforElement(QuotePageObjects.btnCreateQuote);
+		elementHandler.clickElement(QuotePageObjects.btnCreateQuote,QuotePageObjects.textproposalname);
+		actionHandler.waitForSomeTime(5000);
+		String ProposalName = StringUtils.testDataModification(ExcelUtils.getDataByColumnName("Quote", "ProposalName"));
+		elementHandler.writeText(QuotePageObjects.textproposalname, ProposalName);
+		elementHandler.clickElement(QuotePageObjects.btnsave);
+		actionHandler.waitForSomeTime(5000);
+		String QuoteId= elementHandler.getText(QuotePageObjects.lblProposalId);
+		AssertionHandler.verifyNotEquals(QuoteId, "", "Quote ID value is blank");
+		javascripthandler.scrollIntoView(QuotePageObjects.lblApprlSegDefault);
+		String ArrpvSegDeft= elementHandler.getText(QuotePageObjects.lblApprlSegDefault);
+		String Segment= ExcelUtils.getDataByColumnName("Quote", "Apprv_Seg");
+		AssertionHandler.verifyEquals(ArrpvSegDeft, Segment);
+		TestNGCustomReporter.log(logger, "Approval Segment Default value is displayed as:" +ArrpvSegDeft +ReportBuilder.takesScreenshot());
+		String ApprvSeg= elementHandler.getText(QuotePageObjects.lblApprvSeg);
+		AssertionHandler.verifyEquals(ApprvSeg, Segment);
+		TestNGCustomReporter.log(logger, "Approval Segment value is displayed as:" +ApprvSeg +ReportBuilder.takesScreenshot());
+		javascripthandler.scrollIntoView(QuotePageObjects.lblProposalId);
+		TestNGCustomReporter.log(logger, "Quote is successfully created: " +QuoteId+ " " +ReportBuilder.takesScreenshot());
+		return QuoteId;		
+	}
+	
+	public void logoutUser() {
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lblUserMenu);
+		elementHandler.clickElement(QuotePageObjects.lblUserMenu, QuotePageObjects.linkLogout);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(QuotePageObjects.linkLogout);
+		TestNGCustomReporter.log(logger, "Logout successfully for the user");
+	}
+	
+public String createQuotefrSpecificuser() { 
+		elementHandler.waitforElement(QuotePageObjects.btnCreateQuote1);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(QuotePageObjects.btnCreateQuote1,QuotePageObjects.textproposalname);
+		String ProposalName = StringUtils.testDataModification(ExcelUtils.getDataByColumnName("Quote", "ProposalName"));
+		elementHandler.writeText(QuotePageObjects.textproposalname, ProposalName);
+		elementHandler.clickElement(QuotePageObjects.btnsave,QuotePageObjects.btnEdit);
+		/*elementHandler.waitForElementTobeClickable(QuotePageObjects.linkChange);
+		elementHandler.clickElement(QuotePageObjects.linkChange);
+		elementHandler.waitForXpathToLoad(lblNewOwner);
+		String OwnerName= ExcelUtils.getDataByColumnName("Quote", "OwnerName");
+		elementHandler.writeText(QuotePageObjects.txtOwner, OwnerName);
+		elementHandler.clickElement(QuotePageObjects.btnSave);*/
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.btnEdit);
+		elementHandler.clickElement(QuotePageObjects.btnEdit);
+		javascripthandler.scrollIntoView(QuotePageObjects.lblApprovalSeg);
+		elementHandler.selectByVisibleText(QuotePageObjects.drpdwnApprovalSegment, "FindLaw");
+		javascripthandler.scrollIntoView(QuotePageObjects.lblQuote);
+		elementHandler.clickElement(QuotePageObjects.btnSave1);
+		elementHandler.waitForXpathToLoad(lblQuoteP1);
+		String QuoteId= elementHandler.getText(QuotePageObjects.lblProposalId);
+		AssertionHandler.verifyNotEquals(QuoteId, "", "Proposal Id not displayed");
+		TestNGCustomReporter.log(logger, "Quote is successfully created: " +QuoteId+ " " +ReportBuilder.takesScreenshot());
+		return QuoteId;	
+	}
+
+	public void ValidateNetValue() {
+		windowHandler.refereshWebPage();
+		elementHandler.waitForXpathToLoad(lblIncrement);
+		String NetValue= elementHandler.getText(QuotePageObjects.lblIncremental);
+		TestNGCustomReporter.log(logger, "Net Annual Value is displayed as  : " +NetValue+ " "+ ReportBuilder.takesScreenshot());
+	}
+	
+	public void ValidateMarginTyp() {
+		elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+		elementHandler.clickElement(AddProductsPageObjects.lnkLineItems,AddProductsPageObjects.lnkIMSsuite);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(AddProductsPageObjects.lnkIMSsuite);
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value1= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val1= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Margin_Type", 2);
+		AssertionHandler.verifyEquals(Value1, val1);
+		TestNGCustomReporter.log(logger, "Margin Type for IMS product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkIMEProgram );
+		elementHandler.clickElement(AddProductsPageObjects.lnkIMEProgram);
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value2= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val2= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Margin_Type", 3);
+		AssertionHandler.verifyEquals(Value2, val2);
+		TestNGCustomReporter.log(logger, "Margin Type for IME Essential product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkIMCProgram);
+		elementHandler.clickElement(AddProductsPageObjects.lnkIMCProgram );
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value3= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val3= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Margin_Type", 4);
+		AssertionHandler.verifyEquals(Value3, val3);
+		TestNGCustomReporter.log(logger, "Margin Type for IMC Catalyst product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkIMPprogram );
+		elementHandler.clickElement(AddProductsPageObjects.lnkIMPprogram );
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value4= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val4= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Margin_Type", 5);
+		AssertionHandler.verifyEquals(Value4, val4);
+		TestNGCustomReporter.log(logger, "Margin Type for IMP Presence product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+	}
+	
+	
+	public void ValidateEBMarginTyp() {
+		elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+		elementHandler.clickElement(AddProductsPageObjects.lnkLineItems,QuotePageObjects.lnkSocial);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(QuotePageObjects.lnkSocial);
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value1= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val1= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Type", 2);
+		AssertionHandler.verifyEquals(Value1, val1);
+		TestNGCustomReporter.log(logger, "Margin Type for FindLaw Social promotion Service product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lnkReputation);
+		elementHandler.clickElement(QuotePageObjects.lnkReputation );
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value2= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val2= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Type", 3);
+		AssertionHandler.verifyEquals(Value2, val2);
+		TestNGCustomReporter.log(logger, "Margin Type for Findlaw Reputation Advisor product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lnkLegal);
+		elementHandler.clickElement(QuotePageObjects.lnkLegal );
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value3= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val3= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Type", 4);
+		AssertionHandler.verifyEquals(Value3, val3);
+		TestNGCustomReporter.log(logger, "Margin Type for Findlaw Legal Leader product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lnkImpact);
+		elementHandler.clickElement(QuotePageObjects.lnkImpact );
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value4= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val4= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Type", 5);
+		AssertionHandler.verifyEquals(Value4, val4);
+		TestNGCustomReporter.log(logger, "Margin Type for Findlaw Impact product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+		
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lnkBuild);
+		elementHandler.clickElement(QuotePageObjects.lnkBuild );
+		actionHandler.waitForSomeTime(10000);
+		//elementHandler.waitForXpathToLoad("//td[text()='Material Number']/../td[4]/div");
+		javascripthandler.highlightElement(AddProductsPageObjects.lblMaterialNo);
+		javascripthandler.scrollIntoView(AddProductsPageObjects.lblMarginType);
+		String Value5= elementHandler.getText(AddProductsPageObjects.lblMarginType);
+		String val5= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Type", 6);
+		AssertionHandler.verifyEquals(Value5, val5);
+		TestNGCustomReporter.log(logger, "Margin Type for Builder product Verified successfully" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+		driver.navigate().back();
+		actionHandler.waitForSomeTime(2000);
+	}
+	
+	
+	public String submitForApproval() {
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.btnSales);
+		elementHandler.clickElement(QuotePageObjects.btnSales, QuotePageObjects.lnkApptusMgnt);
+		actionHandler.waitForSomeTime(4000);
+		elementHandler.clickElement(QuotePageObjects.lnkApptusMgnt, QuotePageObjects.lnkApprovalReq);
+		actionHandler.waitForSomeTime(5000);
+		elementHandler.clickElement(QuotePageObjects.lnkApprovalReq, QuotePageObjects.lnkName);
+		actionHandler.waitForSomeTime(5000);
+		String name= elementHandler.getText(QuotePageObjects.lnkName);
+		AssertionHandler.verifyNotEquals(name, "", "name is blank");
+		elementHandler.clickElement(QuotePageObjects.lnkName,QuotePageObjects.lblApprovalReq);
+		actionHandler.waitForSomeTime(5000);
+		javascripthandler.scrollIntoView(QuotePageObjects.lnkReassign);
+		elementHandler.clickElement(QuotePageObjects.lnkReassign, QuotePageObjects.txtApprover);
+		actionHandler.waitForSomeTime(5000);
+		String Approver=ExcelUtils.getDataByColumnName("Quote", "OwnerName");		
+		elementHandler.writeText(QuotePageObjects.txtApprover, Approver, QuotePageObjects.txtComments);
+		String Comment=ExcelUtils.getDataByColumnName("Quote", "Comments");
+		elementHandler.writeText(QuotePageObjects.txtComments, Comment, QuotePageObjects.btnReassign);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(QuotePageObjects.btnReassign);
+		actionHandler.waitForSomeTime(5000);
+		return name;
+		
+	}
+	
+	
+	
+
+}

@@ -1,0 +1,464 @@
+package tr.findlaw.tests;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.testng.annotations.Test;
+
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.FindLawOrderToolPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+
+public class Sprint_12 extends FindlawBaseTest {
+	
+	private Logger logger = LogManager.getLogger(this.getClass());
+	
+	 @Test(enabled = false, description = "SOC-4524  CPQ Configuration for Material for Blogs Product model")
+	  public void SOC_4524() {
+	  TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+      applicationLogin();
+      /*TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+      accountpage = new Accountpage(driver);
+      int ctrl1=11;
+      accountpage.SearchAccount(ctrl1);
+      TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+      contactsPage = new ContactsPage(driver);
+      String ContactName= contactsPage.createNewContact();*/
+      contactsPage = new ContactsPage(driver);
+     contactsPage.SearchExistContact();
+     String ContactName= ExcelUtils.getDataByColumnName("Contacts", "Id");
+      TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+      OpptyPage optypage = new OpptyPage(driver);
+     optypage.createOpty(); 
+      TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+      quotepage = new QuotePage(driver);
+      String QuoteId=quotepage.createQuote();
+      TestNGCustomReporter.log(logger,
+				"======================== Add Product page script execution started ========================");
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 32; // If ctrl = 14 then execute the Add bridge for the product in cart page
+		addproductspage.AddProducts(ctrl); 
+		TestNGCustomReporter.log(logger,
+				"======================== Contact28 page script execution started ========================");
+		contact28page = new Contact28Page(driver);
+		contact28page.AddContact28(ContactName);
+		// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"======================== Generate Document page script execution started ========================");
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.Generate_Document();
+		TestNGCustomReporter.log(logger,
+				"======================== Send For Esign page script execution started ========================");
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.Send_For_Esign();
+		webmailLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Esign Process page script execution started ========================");
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.EsignProcess();
+		TestNGCustomReporter.log(logger,
+				"======================== SFDC Login script execution started ========================");
+		applicationLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Esign Process page script execution started ========================");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"========================  Esign Process page script execution started ========================");
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.ValidateEsign();
+		TestNGCustomReporter.log(logger,
+				"========================  Click COB page script executution started ========================");
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOB();
+		TestNGCustomReporter.log(logger,
+				"========================  Login to Safe Page execution started ========================");
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"========================  COB process page script executution started ========================");
+		int ctrlval = 10;
+		findlawordertoolpage.COBProcess(ctrlval);
+		applicationLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Search for Quote script execution started ========================");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		TestNGCustomReporter.log(logger,
+				"========================  Validate Order Script Execution started ========================");
+		validateesignpage.ValidateOrder();   
+		 
+	 }
+
+	
+	 @Test(enabled = false, description = "SOC-4528 Analysis and Development for integration SFDC & SAP")
+	  public void SOC_4528() {
+	  TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+     applicationLogin();
+     TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+     accountpage = new Accountpage(driver);
+     int ctrl1=4;
+     accountpage.SearchAccount(ctrl1);
+     TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+     contactsPage = new ContactsPage(driver);
+     String ContactName= contactsPage.createNewContact();
+     /*contactsPage = new ContactsPage(driver);
+    contactsPage.SearchExistContact();
+    String ContactName= ExcelUtils.getDataByColumnName("Contacts", "Id");*/
+     TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+     OpptyPage optypage = new OpptyPage(driver);
+    optypage.createOpty(); 
+     TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+     quotepage = new QuotePage(driver);
+     String QuoteId=quotepage.createQuote();
+     TestNGCustomReporter.log(logger,
+				"======================== Add Product page script execution started ========================");
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 34; // If ctrl = 14 then execute the Add bridge for the product in cart page
+		addproductspage.AddProducts(ctrl); 
+		TestNGCustomReporter.log(logger,
+				"======================== Contact28 page script execution started ========================");
+		contact28page = new Contact28Page(driver);
+		contact28page.AddContact28(ContactName);
+		// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"======================== Generate Document page script execution started ========================");
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.Generate_Document();
+		TestNGCustomReporter.log(logger,
+				"======================== Send For Esign page script execution started ========================");
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.Send_For_Esign();
+		webmailLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Esign Process page script execution started ========================");
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.EsignProcess();
+		TestNGCustomReporter.log(logger,
+				"======================== SFDC Login script execution started ========================");
+		applicationLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Esign Process page script execution started ========================");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"========================  Esign Process page script execution started ========================");
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.ValidateEsign();
+		TestNGCustomReporter.log(logger,
+				"========================  Click COB page script executution started ========================");
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOB();
+		TestNGCustomReporter.log(logger,
+				"========================  Login to Safe Page execution started ========================");
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"========================  COB process page script executution started ========================");
+		int ctrlval = 11;
+		findlawordertoolpage.COBProcess(ctrlval);
+		applicationLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Search for Quote script execution started ========================");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		TestNGCustomReporter.log(logger,
+				"========================  Validate Order Script Execution started ========================");
+		validateesignpage.ValidateOrder();   
+		 
+	 }
+	 
+	 @Test(enabled = false, description = "SOC-4530 Testing Only- Ability to discount by percentage for Blogs model products (CPQ)")
+     public void SOC_4530() {
+		 TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+         applicationLogin();
+         TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+         accountpage = new Accountpage(driver);
+         int ctrl1= 13;
+         accountpage.SearchAccount(ctrl1);
+         TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+         contactsPage = new ContactsPage(driver);
+         String ContactName= contactsPage.createNewContact();
+         TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOpty(); 
+         TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+         quotepage = new QuotePage(driver);
+         String QuoteId=quotepage.createQuote();
+         TestNGCustomReporter.log(logger,"======================== Add Product page script execution started ========================");
+         addproductspage = new AddProductsPage(driver);
+         int ctrl = 35; //If ctrl = 12 then execute the Validaion of Price for all products
+         addproductspage.AddProducts(ctrl);   
+         TestNGCustomReporter.log(logger,
+  				"======================== Contact28 page script execution started ========================");
+  		contact28page = new Contact28Page(driver);
+  		contact28page.AddContact28(ContactName);
+  		// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+  		searchquotepage = new SearchQuotePage(driver);
+  		searchquotepage.SearchQuote(QuoteId);
+  		TestNGCustomReporter.log(logger,
+  				"======================== Generate Document page script execution started ========================");
+  		generateDocumentPage = new GenerateDocumentPage(driver);
+  		generateDocumentPage.Generate_Document();
+  		TestNGCustomReporter.log(logger,
+  				"======================== Send For Esign page script execution started ========================");
+  		sendesignPage = new SendEsignPage(driver);
+  		sendesignPage.Send_For_Esign();
+  		webmailLogin();
+  		TestNGCustomReporter.log(logger,
+  				"========================  Esign Process page script execution started ========================");
+  		esignprocesspage = new EsignProcessPage(driver);
+  		esignprocesspage.EsignProcess();
+  		TestNGCustomReporter.log(logger,
+  				"======================== SFDC Login script execution started ========================");
+  		applicationLogin();
+  		TestNGCustomReporter.log(logger,
+  				"========================  Esign Process page script execution started ========================");
+  		searchquotepage = new SearchQuotePage(driver);
+  		searchquotepage.SearchQuote(QuoteId);
+  		TestNGCustomReporter.log(logger,
+  				"========================  Esign Process page script execution started ========================");
+  		validateesignpage = new ValidateEsignPage(driver);
+  		validateesignpage.ValidateEsign();
+  		TestNGCustomReporter.log(logger,
+				"========================  Click COB page script executution started ========================");
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOB();
+		TestNGCustomReporter.log(logger,
+				"========================  Login to Safe Page execution started ========================");
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"========================  COB process page script executution started ========================");
+		int ctrlval = 12;
+		findlawordertoolpage.COBProcess(ctrlval);
+		applicationLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Search for Quote script execution started ========================");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		TestNGCustomReporter.log(logger,
+				"========================  Validate Order Script Execution started ========================");
+		validateesignpage.ValidateOrder(); 
+  		
+	 }
+	 
+	
+	 @Test(enabled = false, description = "SOC-4531 Testing Only- Ability to bridge some of the products within the Blogs product model for only 30,60,90 days at 100 percent (UI will show 1,2 3 month option) (CPQ)")
+     public void SOC_4531() {
+		 TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+         applicationLogin();
+         TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+         accountpage = new Accountpage(driver);
+         int ctrl1= 3;
+         accountpage.SearchAccount(ctrl1);
+         TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+         contactsPage = new ContactsPage(driver);
+         String ContactName= contactsPage.createNewContact();
+         TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOpty(); 
+         TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+         quotepage = new QuotePage(driver);
+         String QuoteId=quotepage.createQuote();
+         TestNGCustomReporter.log(logger,"======================== Add Product page script execution started ========================");
+         addproductspage = new AddProductsPage(driver);
+         int ctrl = 36; //If ctrl = 12 then execute the Validaion of Price for all products
+         addproductspage.AddProducts(ctrl);   
+         TestNGCustomReporter.log(logger,
+  				"======================== Contact28 page script execution started ========================");
+  		contact28page = new Contact28Page(driver);
+  		contact28page.AddContact28(ContactName);
+  		// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+  		searchquotepage = new SearchQuotePage(driver);
+  		searchquotepage.SearchQuote(QuoteId);
+  		TestNGCustomReporter.log(logger,
+  				"======================== Generate Document page script execution started ========================");
+  		generateDocumentPage = new GenerateDocumentPage(driver);
+  		generateDocumentPage.Generate_Document();
+  		TestNGCustomReporter.log(logger,
+  				"======================== Send For Esign page script execution started ========================");
+  		sendesignPage = new SendEsignPage(driver);
+  		sendesignPage.Send_For_Esign();
+  		webmailLogin();
+  		TestNGCustomReporter.log(logger,
+  				"========================  Esign Process page script execution started ========================");
+  		esignprocesspage = new EsignProcessPage(driver);
+  		esignprocesspage.EsignProcess();
+  		TestNGCustomReporter.log(logger,
+  				"======================== SFDC Login script execution started ========================");
+  		applicationLogin();
+  		TestNGCustomReporter.log(logger,
+  				"========================  Esign Process page script execution started ========================");
+  		searchquotepage = new SearchQuotePage(driver);
+  		searchquotepage.SearchQuote(QuoteId);
+  		TestNGCustomReporter.log(logger,
+  				"========================  Esign Process page script execution started ========================");
+  		validateesignpage = new ValidateEsignPage(driver);
+  		validateesignpage.ValidateEsign();
+  		TestNGCustomReporter.log(logger,
+				"========================  Click COB page script executution started ========================");
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOB();
+		TestNGCustomReporter.log(logger,
+				"========================  Login to Safe Page execution started ========================");
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		TestNGCustomReporter.log(logger,
+				"========================  COB process page script executution started ========================");
+		int ctrlval = 13;
+		findlawordertoolpage.COBProcess(ctrlval);
+		applicationLogin();
+		TestNGCustomReporter.log(logger,
+				"========================  Search for Quote script execution started ========================");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.SearchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		TestNGCustomReporter.log(logger,
+				"========================  Validate Order Script Execution started ========================");
+		validateesignpage.ValidateOrder(); 
+  		
+	 }
+	 
+	
+		 @Test(enabled = false, description = "SOC-4532 Testing Only - Ability to chose contract terms available 1,2, 3, for some Blogs product model products (CPQ)")
+	     public void SOC_4532() {
+			 TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+	         applicationLogin();
+	         TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+	         accountpage = new Accountpage(driver);
+	         int ctrl1= 3;
+	         accountpage.SearchAccount(ctrl1);
+	         TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+	         contactsPage = new ContactsPage(driver);
+	         String ContactName= contactsPage.createNewContact();
+	         TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+	         OpptyPage optypage = new OpptyPage(driver);
+	         optypage.createOpty(); 
+	         TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+	         quotepage = new QuotePage(driver);
+	         String QuoteId=quotepage.createQuote();
+	         TestNGCustomReporter.log(logger,"======================== Add Product page script execution started ========================");
+	         addproductspage = new AddProductsPage(driver);
+	         int ctrl = 37; //If ctrl = 12 then execute the Validaion of Price for all products
+	         addproductspage.AddProducts(ctrl);   
+	         TestNGCustomReporter.log(logger,
+	  				"======================== Contact28 page script execution started ========================");
+	  		contact28page = new Contact28Page(driver);
+	  		contact28page.AddContact28(ContactName);
+	  		// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+	  		searchquotepage = new SearchQuotePage(driver);
+	  		searchquotepage.SearchQuote(QuoteId);
+	  		TestNGCustomReporter.log(logger,
+	  				"======================== Generate Document page script execution started ========================");
+	  		generateDocumentPage = new GenerateDocumentPage(driver);
+	  		generateDocumentPage.Generate_Document();
+	  		TestNGCustomReporter.log(logger,
+	  				"======================== Send For Esign page script execution started ========================");
+	  		sendesignPage = new SendEsignPage(driver);
+	  		sendesignPage.Send_For_Esign();
+	  		webmailLogin();
+	  		TestNGCustomReporter.log(logger,
+	  				"========================  Esign Process page script execution started ========================");
+	  		esignprocesspage = new EsignProcessPage(driver);
+	  		esignprocesspage.EsignProcess();
+	  		TestNGCustomReporter.log(logger,
+	  				"======================== SFDC Login script execution started ========================");
+	  		applicationLogin();
+	  		TestNGCustomReporter.log(logger,
+	  				"========================  Esign Process page script execution started ========================");
+	  		searchquotepage = new SearchQuotePage(driver);
+	  		searchquotepage.SearchQuote(QuoteId);
+	  		TestNGCustomReporter.log(logger,
+	  				"========================  Esign Process page script execution started ========================");
+	  		validateesignpage = new ValidateEsignPage(driver);
+	  		validateesignpage.ValidateEsign();
+	  		TestNGCustomReporter.log(logger,
+					"========================  Click COB page script executution started ========================");
+			findlawordertoolpage = new FindLawOrderToolPage(driver);
+			findlawordertoolpage.clickCOB();
+			TestNGCustomReporter.log(logger,
+					"========================  Login to Safe Page execution started ========================");
+			findlawordertoolpage.loginWithSafeuserId(QuoteId);
+			TestNGCustomReporter.log(logger,
+					"========================  COB process page script executution started ========================");
+			int ctrlval = 14;
+			findlawordertoolpage.COBProcess(ctrlval);
+			applicationLogin();
+			TestNGCustomReporter.log(logger,
+					"========================  Search for Quote script execution started ========================");
+			searchquotepage = new SearchQuotePage(driver);
+			searchquotepage.SearchQuote(QuoteId);
+			validateesignpage = new ValidateEsignPage(driver);
+			TestNGCustomReporter.log(logger,
+					"========================  Validate Order Script Execution started ========================");
+			validateesignpage.ValidateOrder(); 
+	  		
+		 }
+		 
+		 
+		 @Test(enabled = false, description = "SOC-4534 Testing only- Ability to determine the price for year 2 & 3  (CPQ) for Blog product model products")
+	     public void SOC_4534() {
+	                     TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+	                     applicationLogin();
+	                     TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+	                     accountpage = new Accountpage(driver);
+	                     int ctrl1=14;
+	                     accountpage.SearchAccount(ctrl1);
+	                     TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+	                     contactsPage = new ContactsPage(driver);
+	                     contactsPage.createNewContact();
+	                     TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+	                     OpptyPage optypage = new OpptyPage(driver);
+	                     optypage.createOpty(); 
+	                     TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+	                     quotepage = new QuotePage(driver);
+	                     quotepage.createQuote();
+	                     TestNGCustomReporter.log(logger,"======================== Add Product page script execution started ========================");
+	                     addproductspage = new AddProductsPage(driver);
+	                     int ctrl = 38; //If ctrl = 12 then execute the Validaion of Price for all products
+	                     addproductspage.AddProducts(ctrl);                      
+	                              
+	     }
+		 
+		
+		 @Test(enabled = false, description = "SOC-5457 Adjust Column Display for Installed Products in Cart")
+	     public void SOC_5457() {
+			 TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+	         applicationLogin();
+	         TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+	         accountpage = new Accountpage(driver);
+	         int ctrl1= 13;
+	         accountpage.SearchAccount(ctrl1);
+	         TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+	         contactsPage = new ContactsPage(driver);
+	         contactsPage.createNewContact();
+	         TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+	         OpptyPage optypage = new OpptyPage(driver);
+	         optypage.createOpty(); 
+	         TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+	         quotepage = new QuotePage(driver);
+	         quotepage.createQuote();
+	         TestNGCustomReporter.log(logger,"======================== Add Product page script execution started ========================");
+	         addproductspage = new AddProductsPage(driver);
+	         int ctrl = 39; 
+	         addproductspage.AddProducts(ctrl);   
+			 
+		 }
+	 
+}

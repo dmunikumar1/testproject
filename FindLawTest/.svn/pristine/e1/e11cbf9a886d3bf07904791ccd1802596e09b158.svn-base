@@ -1,0 +1,118 @@
+package tr.findlaw.tests;
+
+
+import org.testng.annotations.Test;
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+	
+public class Sprint_7 extends FindlawBaseTest{
+	
+/*
+ * Take any existing Account which is not having any IM products (IMS,IMP, IMC, IME) as an Asset and add all of them 
+ * follow rule to add IM products.
+ * Finalize the cart and Complete the Order
+ * 
+ */
+	@Test(enabled = true, description = "SOC-4348 CPQ - Configure and Validate IM Solution ( IMS,IMP, IMC, IME) & pricing in US")
+	public void soc_4348_New() {
+	    applicationLogin();
+	    accountpage = new Accountpage(driver);
+	    accountpage.searchExistAccount(10);
+	    contactsPage = new ContactsPage(driver);
+	    String ContactName=contactsPage.createNewContact();
+	    //String ContactName= ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",10);
+	    //contactsPage.searchExistContact(10);
+	    OpptyPage optypage = new OpptyPage(driver);
+	    optypage.createOpty(); 
+	    quotepage = new QuotePage(driver);
+	    String QuoteId=quotepage.createQuote();
+	    //String QuoteId=ExcelUtils.getDataByColumnNameWithRowIndex("Quote", "Name",10);
+	    searchquotepage = new SearchQuotePage(driver);
+	    searchquotepage.searchQuote(QuoteId);
+	    addproductspage = new AddProductsPage(driver);
+	    int ctrl = 1; 
+	    addproductspage.addProducts(ctrl,10);  
+	    searchquotepage = new SearchQuotePage(driver);
+	    searchquotepage.searchQuote(QuoteId);
+	    contact28page = new Contact28Page(driver);
+	    contact28page.addContact28(ContactName);
+	    generateDocumentPage = new GenerateDocumentPage(driver);
+	    generateDocumentPage.generateDocument();
+	    sendesignPage = new SendEsignPage(driver);
+	    sendesignPage.sendForEsign();
+	    webmailLogin();
+	    esignprocesspage = new EsignProcessPage(driver);
+	    esignprocesspage.esignProcess();
+	    applicationLogin();
+	    searchquotepage = new SearchQuotePage(driver);
+	    searchquotepage.searchQuote(QuoteId);
+	    validateesignpage = new ValidateEsignPage(driver);
+	    validateesignpage.validateEsign();
+	    /*findlawordertoolpage = new FindLawOrderToolPage(driver);
+	    findlawordertoolpage.clickCOB();
+	    findlawordertoolpage.loginWithSafeuserId(QuoteId);
+	    int ctrlval=25 ;	//5
+	    findlawordertoolpage.cobProcess(ctrlval);
+	    applicationLogin();
+	    searchquotepage = new SearchQuotePage(driver);
+	    searchquotepage.searchQuote(QuoteId);
+	    validateesignpage = new ValidateEsignPage(driver); 
+	    validateesignpage.validateOrder();*/         
+	}
+	   
+	
+/*
+ * Take any Existing Account which is having any one of IM products:41777796,41822784,41892830,41915678 as an Asset and Finalize the cart
+ * This Scenario covers SOC_5389
+ */	
+ @Test(enabled = false, description = "SOC-4348 CPQ - Configure and Validate IM Solution ( IMS,IMP, IMC, IME) & pricing in US")
+	        public void soc_4348_RenewIM() {
+	        applicationLogin();
+	       accountpage = new Accountpage(driver);
+	       // String accounts = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 11);
+            //String[] listOfAccount = accounts.split(",");
+           /* for (int i=0; i<listOfAccount.length; i++) 
+            {*/
+	        accountpage.searchExistAccount(11);
+	        contactsPage = new ContactsPage(driver);
+	        String ContactName=contactsPage.createNewContact();
+	       // String ContactName= ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",11);
+	       // contactsPage.searchExistContact(11);
+	        OpptyPage optypage = new OpptyPage(driver);
+	        optypage.createOpty(); 
+	        quotepage = new QuotePage(driver);
+	        String QuoteId=quotepage.createQuote();
+	        addproductspage = new AddProductsPage(driver); 	
+	        int ctrl = 5; 
+	        addproductspage.addProducts(ctrl,11); 
+	        searchquotepage = new SearchQuotePage(driver);
+	        searchquotepage.searchQuote(QuoteId);
+	        contact28page = new Contact28Page(driver);
+	        contact28page.addContact28(ContactName);
+	        generateDocumentPage = new GenerateDocumentPage(driver);
+	        generateDocumentPage.generateDocument();
+	        sendesignPage = new SendEsignPage(driver);
+	        sendesignPage.sendForEsign();
+	        webmailLogin();
+	        esignprocesspage = new EsignProcessPage(driver);
+	        esignprocesspage.esignProcess();
+	        applicationLogin();
+	        searchquotepage = new SearchQuotePage(driver);
+	        searchquotepage.searchQuote(QuoteId);
+	        validateesignpage = new ValidateEsignPage(driver); 
+		    validateesignpage.validateEsignForRenew();
+           // }
+            }                     
+	       }
+
+	

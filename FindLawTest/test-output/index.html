@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+  <meta charset='utf-8'>
+  <title>TestNG reports</title>
+
+    <link type="text/css" href="testng-reports.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="testng-reports.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['table']});
+      google.setOnLoadCallback(drawTable);
+      var suiteTableInitFunctions = new Array();
+      var suiteTableData = new Array();
+    </script>
+    <!--
+      <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+     -->
+  </head>
+
+  <body>
+    <div class="top-banner-root">
+      <span class="top-banner-title-font">Test results</span>
+      <br/>
+      <span class="top-banner-font-1">1 suite, 1 failed test</span>
+    </div> <!-- top-banner-root -->
+    <div class="navigator-root">
+      <div class="navigator-suite-header">
+        <span>All suites</span>
+        <a href="#" class="collapse-all-link" title="Collapse/expand all the suites">
+          <img class="collapse-all-icon" src="collapseall.gif">
+          </img> <!-- collapse-all-icon -->
+        </a> <!-- collapse-all-link -->
+      </div> <!-- navigator-suite-header -->
+      <div class="suite">
+        <div class="rounded-window">
+          <div class="suite-header light-rounded-window-top">
+            <a href="#" class="navigator-link" panel-name="suite-RegressionTestQA">
+              <span class="suite-name border-failed">RegressionTestQA</span>
+            </a> <!-- navigator-link -->
+          </div> <!-- suite-header light-rounded-window-top -->
+          <div class="navigator-suite-content">
+            <div class="suite-section-title">
+              <span>Info</span>
+            </div> <!-- suite-section-title -->
+            <div class="suite-section-content">
+              <ul>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="test-xml-RegressionTestQA">
+                    <span>E:\TCS\FindLawTest\chromeSmokeSuite.xml</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="testlist-RegressionTestQA">
+                    <span class="test-stats">1 test</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="group-RegressionTestQA">
+                    <span>0 groups</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="times-RegressionTestQA">
+                    <span>Times</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="reporter-RegressionTestQA">
+                    <span>Reporter output</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="ignored-methods-RegressionTestQA">
+                    <span>Ignored methods</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+                <li>
+                  <a href="#" class="navigator-link " panel-name="chronological-RegressionTestQA">
+                    <span>Chronological view</span>
+                  </a> <!-- navigator-link  -->
+                </li>
+              </ul>
+            </div> <!-- suite-section-content -->
+            <div class="result-section">
+              <div class="suite-section-title">
+                <span>Results</span>
+              </div> <!-- suite-section-title -->
+              <div class="suite-section-content">
+                <ul>
+                  <li>
+                    <span class="method-stats">1 method, 1 failed,   </span>
+                  </li>
+                  <li>
+                    <span class="method-list-title failed">Failed methods</span>
+                    <span class="show-or-hide-methods failed">
+                      <a href="#" panel-name="suite-RegressionTestQA" class="hide-methods failed suite-RegressionTestQA"> (hide)</a> <!-- hide-methods failed suite-RegressionTestQA -->
+                      <a href="#" panel-name="suite-RegressionTestQA" class="show-methods failed suite-RegressionTestQA"> (show)</a> <!-- show-methods failed suite-RegressionTestQA -->
+                    </span>
+                    <div class="method-list-content failed suite-RegressionTestQA">
+                      <span>
+                        <img width="3%" src="failed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-RegressionTestQA" title="tr.findlaw.tests.Sprint_6" hash-for-method="soc_4102">soc_4102</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                    </div> <!-- method-list-content failed suite-RegressionTestQA -->
+                  </li>
+                </ul>
+              </div> <!-- suite-section-content -->
+            </div> <!-- result-section -->
+          </div> <!-- navigator-suite-content -->
+        </div> <!-- rounded-window -->
+      </div> <!-- suite -->
+    </div> <!-- navigator-root -->
+    <div class="wrapper">
+      <div class="main-panel-root">
+        <div panel-name="suite-RegressionTestQA" class="panel RegressionTestQA">
+          <div class="suite-RegressionTestQA-class-failed">
+            <div class="main-panel-header rounded-window-top">
+              <img src="failed.png"/>
+              <span class="class-name">tr.findlaw.tests.Sprint_6</span>
+            </div> <!-- main-panel-header rounded-window-top -->
+            <div class="main-panel-content rounded-window-bottom">
+              <div class="method">
+                <div class="method-content">
+                  <a name="soc_4102">
+                  </a> <!-- soc_4102 -->
+                  <span class="method-name">soc_4102</span>
+                  <div class="stack-trace">junit.framework.AssertionFailedError: Found 5 accessibility violations:
+1) id attribute value must be unique: https://dequeuniversity.com/rules/axe/3.0/duplicate-id?application=axeAPI
+  a) [&quot;#marketing&quot;,&quot;html &gt; body &gt; div:nth-child(2) &gt; .columnContainer.parbase &gt; div &gt; .container &gt; .columns-wrapper.xs-min-height-500 &gt; .col.text-left &gt; div:nth-child(2) &gt; h2&quot;]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: salesforce-for-small-business
+
+
+  b) [&quot;#marketing&quot;,&quot;html &gt; body &gt; div:nth-child(16) &gt; .columnContainer.parbase &gt; div &gt; .container &gt; .columns-wrapper.xs-min-height-500 &gt; .col.text-left &gt; div:nth-child(3) &gt; h1&quot;]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: agenda-builder-is-live
+
+
+  c) [&quot;#marketing&quot;,&quot;html &gt; body &gt; div:nth-child(16) &gt; .columnContainer.parbase &gt; div &gt; .container &gt; .columns-wrapper.xs-min-height-500 &gt; .col.text-left &gt; div:nth-child(4) &gt; h2&quot;]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: start-planning-your-sessions-today
+
+
+2) &lt;html&gt; element must have a lang attribute: https://dequeuniversity.com/rules/axe/3.0/html-has-lang?application=axeAPI
+  a) [&quot;body &gt; iframe[src$=\&quot;sessionserver212.html\&quot;]&quot;,&quot;html&quot;]
+    Fix any of the following:
+      The &lt;html&gt; element does not have a lang attribute
+
+
+3) Images must have alternate text: https://dequeuniversity.com/rules/axe/3.0/image-alt?application=axeAPI
+  a) [&quot;#marketing&quot;,&quot;#small-business-kit &gt; a &gt; svg[role=\&quot;img\&quot;]&quot;]
+    Fix any of the following:
+      Element does not have an alt attribute
+      aria-label attribute does not exist or is empty
+      aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible
+      Element has no title attribute or the title attribute is empty
+      Element&apos;s default semantics were not overridden with role=&quot;presentation&quot;
+      Element&apos;s default semantics were not overridden with role=&quot;none&quot;
+
+
+4) Page must contain one main landmark.: https://dequeuniversity.com/rules/axe/3.0/landmark-one-main?application=axeAPI
+  a) [&quot;html&quot;]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  b) [&quot;#marketing&quot;,&quot;html&quot;]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  c) [&quot;body &gt; iframe[src$=\&quot;sessionserver212.html\&quot;]&quot;,&quot;html&quot;]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+5) Content should be contained in a landmark region: https://dequeuniversity.com/rules/axe/3.0/region?application=axeAPI
+  a) [&quot;html&quot;]
+    Fix any of the following:
+      Content not contained by an ARIA landmark
+
+
+	at com.framework.reports.ReportBuilder.buildTestNodes(ReportBuilder.java:134)
+	at com.framework.reports.ReportBuilder.buildReports(ReportBuilder.java:60)
+	at com.framework.test.BaseTest.afterSuite(BaseTest.java:66)
+... Removed 19 stack frames
+</div> <!-- stack-trace -->
+                  <em>
+(SOC-4102 Ability to bridge IM & Firmsites for only 30,60,90 days for 100 percent)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+            </div> <!-- main-panel-content rounded-window-bottom -->
+          </div> <!-- suite-RegressionTestQA-class-failed -->
+        </div> <!-- panel RegressionTestQA -->
+        <div panel-name="test-xml-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">E:\TCS\FindLawTest\chromeSmokeSuite.xml</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;
+&lt;suite guice-stage=&quot;DEVELOPMENT&quot; name=&quot;RegressionTestQA&quot;&gt;
+  &lt;parameter name=&quot;environment&quot; value=&quot;UAT&quot;/&gt;
+  &lt;parameter name=&quot;suitename&quot; value=&quot;Smoke_Chrome&quot;/&gt;
+  &lt;parameter name=&quot;browsertype&quot; value=&quot;chrome&quot;/&gt;
+  &lt;test name=&quot;SmokeTest&quot;&gt;
+    &lt;classes&gt;
+      &lt;class name=&quot;tr.findlaw.tests.Sprint_6&quot;/&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt; &lt;!-- SmokeTest --&gt;
+&lt;/suite&gt; &lt;!-- RegressionTestQA --&gt;
+            </pre>
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="testlist-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Tests for RegressionTestQA</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <ul>
+              <li>
+                <span class="test-name">SmokeTest (1 class)</span>
+              </li>
+            </ul>
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="group-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Groups for RegressionTestQA</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="times-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Times for RegressionTestQA</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="times-div">
+              <script type="text/javascript">
+suiteTableInitFunctions.push('tableData_RegressionTestQA');
+function tableData_RegressionTestQA() {
+var data = new google.visualization.DataTable();
+data.addColumn('number', 'Number');
+data.addColumn('string', 'Method');
+data.addColumn('string', 'Class');
+data.addColumn('number', 'Time (ms)');
+data.addRows(1);
+data.setCell(0, 0, 0)
+data.setCell(0, 1, 'soc_4102')
+data.setCell(0, 2, 'tr.findlaw.tests.Sprint_6')
+data.setCell(0, 3, 25721);
+window.suiteTableData['RegressionTestQA']= { tableData: data, tableDiv: 'times-div-RegressionTestQA'}
+return data;
+}
+              </script>
+              <span class="suite-total-time">Total running time: 25 seconds</span>
+              <div id="times-div-RegressionTestQA">
+              </div> <!-- times-div-RegressionTestQA -->
+            </div> <!-- times-div -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="reporter-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Reporter output for RegressionTestQA</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="reporter-method-div">
+              <span class="reporter-method-name">soc_4102</span>
+              <div class="reporter-method-output-div">
+                <span class="reporter-method-output">soc_4102 : Launched the url</br></span>
+              </div> <!-- reporter-method-output-div -->
+            </div> <!-- reporter-method-div -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="ignored-methods-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">0 ignored methods</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+        <div panel-name="chronological-RegressionTestQA" class="panel">
+          <div class="main-panel-header rounded-window-top">
+            <span class="header-content">Methods in chronological order</span>
+          </div> <!-- main-panel-header rounded-window-top -->
+          <div class="main-panel-content rounded-window-bottom">
+            <div class="chronological-class">
+              <div class="chronological-class-name">tr.findlaw.tests.Sprint_6</div> <!-- chronological-class-name -->
+              <div class="configuration-suite before">
+                <span class="method-name">beforeSuite(Smoke_Chrome, UAT, chrome)</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-suite before -->
+              <div class="configuration-method before">
+                <span class="method-name">setup</span>
+                <span class="method-start">296 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">soc_4102</span>
+                <span class="method-start">6242 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">tearDown([TestResult name=soc_4102 status=FAILURE method=Sprint_6.soc_4102()[pri:1, instance:tr.findlaw.tests...)</span>
+                <span class="method-start">32563 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-suite after">
+                <span class="method-name">afterSuite(org.testng.TestRunner@1286528d)</span>
+                <span class="method-start">35406 ms</span>
+              </div> <!-- configuration-suite after -->
+          </div> <!-- main-panel-content rounded-window-bottom -->
+        </div> <!-- panel -->
+      </div> <!-- main-panel-root -->
+    </div> <!-- wrapper -->
+  </body>
+</html>

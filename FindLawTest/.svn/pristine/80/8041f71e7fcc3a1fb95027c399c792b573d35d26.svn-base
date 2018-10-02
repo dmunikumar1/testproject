@@ -1,0 +1,116 @@
+package tr.findlaw.tests;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.testng.annotations.Test;
+
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.FindLawOrderToolPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+
+public class Sprint_10 extends FindlawBaseTest{
+	
+	private Logger logger = LogManager.getLogger(this.getClass());
+
+/*
+ * Take any Existing Account and create a Quote
+ * 
+ * Validate the Approval Segment Field value
+ */
+	 @Test(enabled = false, description = "SOC-4705 Approval Segment to be defaulted to FindLaw for FindLaw user")
+     public void soc_4705() {
+         applicationLogin();
+        /* accountpage = new Accountpage(driver);
+         accountpage.searchExistAccount(22);
+         contactsPage = new ContactsPage(driver);
+         contactsPage.createNewContact();*/
+         contactsPage = new ContactsPage(driver);
+         contactsPage.searchExistContact(22);
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOptywtOwnerName();  
+         quotepage = new QuotePage(driver);
+         quotepage.createQuotewoOwnerchange(); 
+		 
+	 }
+	 
+/*
+ * Take any Existing Account which is not having any IM Products:41822784,41892830,41915678,41777796 as an Asset
+ * 
+ * 	Add them to the cart and validate the Margin Type for all 
+ */
+	 //1000008743- not include IMP
+	// 1000290260, 1000331114, 1003179608
+	 @Test(enabled = false, description = "SOC-5176 Update Margin Type for IM Solution Products")
+     public void soc_5176() {
+         applicationLogin();
+         accountpage = new Accountpage(driver);
+         accountpage.searchExistAccount(23);
+         contactsPage = new ContactsPage(driver);
+         contactsPage.createNewContact();
+         contactsPage.searchExistContact(23);
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOpty(); 
+         quotepage = new QuotePage(driver);
+         quotepage.createQuote();
+         addproductspage = new AddProductsPage(driver);
+         int ctrl = 1; 
+         addproductspage.addProducts(ctrl,23);
+         quotepage = new QuotePage(driver);
+         quotepage.ValidateMarginTyp();	 
+	 }
+
+	 
+/*
+ * Take any Existing Account which is not having IMP product:41915678  as an Asset
+ * 
+ * Add to the cart and Finalize it, Complete the order
+ */
+	 @Test(enabled = false, description = "SOC-5389 Integration for Renewal Process")
+     public void soc_5389() {
+			applicationLogin();
+			accountpage = new Accountpage(driver);			
+			accountpage.searchExistAccount(24);
+			contactsPage = new ContactsPage(driver);
+			String ContactName= contactsPage.createNewContact();
+			contactsPage.searchExistContact(24);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			addproductspage = new AddProductsPage(driver);
+			int ctrl = 5; 
+			addproductspage.addProducts(ctrl,24);  
+			contact28page = new Contact28Page(driver);
+			contact28page.addContact28(ContactName);
+			// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+			searchquotepage = new SearchQuotePage(driver);
+			searchquotepage.searchQuote(QuoteId);
+			ExcelUtils.writeData("C:\\Users\\UX010052\\Documents\\Workspace\\FindLawTest\\src\\test\\resources\\testdata", "SOC_5389_Quote", QuoteId);
+			generateDocumentPage = new GenerateDocumentPage(driver);
+			generateDocumentPage.generateDocument();
+			sendesignPage = new SendEsignPage(driver);
+			sendesignPage.sendForEsign();
+			webmailLogin();
+			esignprocesspage = new EsignProcessPage(driver);
+			esignprocesspage.esignProcess();
+			applicationLogin();
+			searchquotepage = new SearchQuotePage(driver);
+			searchquotepage.searchQuote(QuoteId);
+			validateesignpage = new ValidateEsignPage(driver);
+			validateesignpage.validateEsign();	 
+	 }
+
+}

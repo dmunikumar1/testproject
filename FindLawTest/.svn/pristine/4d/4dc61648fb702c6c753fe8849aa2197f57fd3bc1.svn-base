@@ -1,0 +1,830 @@
+package tr.findlaw.objects;
+
+import java.util.List;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class AddProductsPageObjects {
+
+	@FindBy(xpath =" //div[@apt-dropdown='category-selection']")
+	public static WebElement drpdwnAllProd;
+	
+	@FindBy(xpath =" //input[@type='search']")
+	public static WebElement txtboxSearch;
+	
+	@FindBy(xpath ="//div[4]/div/ul//ul/li")
+	public static WebElement drpdwnPPCWeb;
+	
+	@FindBy(xpath ="//button[@ng-click='catalogProduct.configure()']")
+	public static WebElement btnConfigure;
+	
+	@FindBy(xpath ="//ul[@id='accordion']//a[text()='FNDLW PREMIUM PROFILE - NFC']")
+	public static WebElement lnkPremiumProfile;
+	
+	@FindBy(xpath ="//ul[@id='accordion']//a[text()='FNDLW FOCUS PAGE - NFC']")
+	public static WebElement lnkFocusPage;
+	
+	@FindBy(xpath ="//h3[text()='Multi-Year and Bridge']")
+	public static WebElement lblMultiYr;
+	
+	@FindBy(xpath ="//td[text()='Bridge Discount']/../td[4]")
+	public static WebElement lblBridgeDisc;
+	
+	@FindBy(xpath ="//tbody/tr[1]/th[text()='Product Detail']")
+	public static WebElement lblProductDtl;
+	
+	@FindBy(xpath ="//td[text()='Bridge']/../td[4]")
+	public static WebElement lblBridge1;
+	
+	@FindBy(xpath ="//div[contains(@id,'ZV_body')]/table/tbody//th/a")
+	public static List <WebElement> lblLineItem;
+	
+	@FindBy(xpath ="//tbody/tr[1]//td[6]//span")
+	public static WebElement lblCheck;
+	
+	@FindBy(xpath ="//label[text()='Product Detail']")
+	public static WebElement lblProductDetail1;
+	
+	@FindBy(xpath ="//assets-filter//div[1]/ul//label[text()='Renewal Date.']")
+	public static WebElement lblRenewaldate;
+	
+	@FindBy(xpath ="//asset-header//button[text()='Terminate']")
+	public static WebElement btnTerminate1;
+	
+	@FindBy(xpath ="//div[@class='btn-toolbar pull-right']//input")
+	public static WebElement btnExit;
+	
+	@FindBy(xpath ="//assets-filter//div[1]/ul//label[text()='Deal Type']")
+	public static WebElement lblDealType;
+	
+	@FindBy(xpath ="//assets-filter//div[1]/ul//label[text()='Deal Id']")
+	public static WebElement lblDealId;
+	
+	@FindBy(xpath ="//assets-filter//div[1]/ul//label[text()='MLA Agr #']")
+	public static WebElement lblMLAAgr;	
+	
+	@FindBy(xpath ="//assets-filter//div[1]/ul//label[text()='Proposal Business Unit']")
+	public static WebElement lblBusinessUnit;
+	
+	@FindBy(xpath ="//ul[@id='accordion']/li/div")
+	public static List<WebElement> lblproductGroup;
+	
+	@FindBy(xpath ="//button/span[text()='PA/GEO Products']")
+	public static WebElement btnPAGEOProduct;
+	
+	@FindBy(xpath ="//div[3]/div[2]//div[14]/ul/li//dynamic-field/div")
+	public static List<WebElement> lblYear23DiscSurc;
+	
+	@FindBy(xpath ="//label[text()='Contract Start Date']")
+	public static WebElement lblContStartDate;
+	
+	@FindBy(xpath ="//main-asset//tbody//td[1]/div/div/div/h3/span/a")
+	public static List <WebElement> lnkAssets;
+	
+	@FindBy(xpath ="//div[9]/dynamic-field/div/p[1]/input")
+	public static WebElement txtboxFeeOverride;
+	
+	@FindBy(xpath ="//pricing-guidance-flyout//span")
+	public static WebElement btncancel1;
+	
+	@FindBy(xpath ="//ul[@id='accordion']/li[1]/div")
+	public static WebElement drpdwnTopSpot;
+	
+	@FindBy(xpath ="//ul[@id='accordion']/li[2]/div")
+	public static WebElement drpdwnSpotlights;
+	
+	@FindBy(xpath ="//button[text()='Search']")
+	public static WebElement btnSearch;
+	
+	@FindBy(xpath ="//div[3]/div[1]/div/h3")
+	public static WebElement lblProduct;
+	
+	@FindBy(xpath ="//div[3]/div[2]//div[1]//h3/span")
+	public static List <WebElement> lstproducts;
+	
+	@FindBy(xpath ="//div[2]/div[2]/form//input[@value='Go to Cart']")
+	public static WebElement btnGoTocart;
+	
+	@FindBy(xpath ="//table/tbody//td[1]/input")
+	public static List <WebElement> checkboxproduct;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th[2]/a")
+	public static WebElement headerPracArea;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th[3]/a")
+	public static WebElement headerCounty;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th[4]/a")
+	public static WebElement headerPrice1;
+	
+	@FindBy(xpath ="//button[text()=' Add to Cart ']")
+	public static WebElement btnAddToCartprod;
+	
+	@FindBy(xpath ="//label[text()='State']/..//select")
+	public static WebElement drpdwnState;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th/a")
+	public static List<WebElement> headerList;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th[4]/a")
+	public static WebElement headerAvailableInvent;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th[5]/a")
+	public static WebElement headerPrice;
+	
+	@FindBy(xpath ="//div[1]//thead/tr/th[3]/a")
+	public static WebElement headerMetro;
+	
+	@FindBy(xpath ="//a[contains(text(),'Q-')]")
+	public static WebElement linkQuote;
+	
+	@FindBy(xpath ="//h2[text()='Quote/Proposal']")
+	public static WebElement lblQuotePro;
+	
+	@FindBy(xpath ="//tbody/tr/td[4]")
+	public static List <WebElement> lblAIvalues;
+	
+	@FindBy(xpath ="//a[text()='FINDLAW DIRECTORY TOPSPOT']")
+	public static WebElement optionTopSpot;
+	
+	@FindBy(xpath ="//a[text()='FNDLW ROTATING TOPSPOTS']")
+	public static WebElement optionRotatingTopspot;
+	
+	@FindBy(xpath ="//a[contains(text(),'FINDLAW DIGITAL MARKETING')]")
+	public static WebElement optionDigitalMrkt;
+	
+	@FindBy(xpath ="//a[contains(text(),'SUPER LAWYERS ASK')]")
+	public static WebElement optionSuperLawyers;
+	
+	@FindBy(xpath ="//a[contains(text(),'FOCUS PAGE')]")
+	public static WebElement optionFocusPage;
+	
+	@FindBy(xpath ="//a[contains(text(),'POST PLUS')]")
+	public static WebElement optionFindlwPostPlus;
+	
+	@FindBy(xpath ="//a[contains(text(),'PREMIUM PROFILE')]")
+	public static WebElement optionPremiumProfile;
+	
+	@FindBy(xpath ="//label[contains(text(),'Attorney Count')]")
+	public static WebElement lblAttorneyCount;
+	
+	@FindBy(xpath ="//label[text()='County']")
+	public static WebElement lblCounty;
+	
+	@FindBy(xpath ="//label[text()='Practice Category']")
+	public static WebElement lblPracCategory;
+	
+	@FindBy(xpath ="//label[text()='State']")
+	public static WebElement lblState;
+	
+	@FindBy(xpath ="//a[text()='LI DIRECTORY SPOTLIGHT']")
+	public static WebElement optionliDirectorySpot;
+	
+	@FindBy(xpath ="//ul[@id='accordion']//li[1]/ul//a")
+	public static List<WebElement> listTopSpot;
+	
+	@FindBy(xpath ="//label[text()='Practice Category']/..//Select")
+	public static WebElement drpdwnPracCategory;
+	
+	@FindBy(xpath ="//label[text()='Practice Area']/..//Select")
+	public static WebElement drpdwnPracArea;
+	
+	@FindBy(xpath ="//label[text()='County']/..//Select")
+	public static WebElement drpdwnCounty;
+	
+	@FindBy(xpath ="//label[text()='Attorney Count Range']/..//Select")
+	public static WebElement drpdwnAttorneyCount;
+	
+	@FindBy(xpath ="//label[text()='Metro']/..//Select")
+	public static WebElement drpdwnMetro;
+	
+	@FindBy(xpath ="//label[text()='Attorney Count Range']/..//Select")
+	public static WebElement drpdwnAttrCountRng;
+	
+	@FindBy(id ="terminateDate")
+	public static WebElement txtTermDate;
+	
+	@FindBy(xpath ="//cart-header//div[1]/label")
+	public static WebElement checkbxSelect;
+	
+	@FindBy(xpath ="//constraint-messages/div/div[1]//li/p")
+	public static WebElement lblErrorMessg;
+	
+	@FindBy(xpath ="//page-error-messages/div[1]//p")
+	public static WebElement lblValidatnMessage;
+	
+	@FindBy(xpath ="//page-error-messages/div[1]//p")
+	public static WebElement lblValidatnMessage1;
+	
+	@FindBy(xpath ="//button[text()='Confirm']")
+	public static WebElement btnConfirm1;
+	
+	@FindBy(xpath ="//main-asset//table/tbody//td[1]/div//div/label")
+	public static List <WebElement> checkboxes;
+	
+	@FindBy(xpath ="//div[1]/label[text()='Contract Term']")
+	public static WebElement lnlContractTrm;
+	
+	@FindBy(xpath ="//cancel-asset//div[3]/div[1]/button")
+	public static WebElement btnCalculate;
+	
+	@FindBy(xpath ="//div[2]//asset-actions/button[2]")
+	public static WebElement btnTerminate;
+	
+	@FindBy(xpath ="//constraint-messages//div[3]//p")
+	public static WebElement lblPPCMessage;
+	
+	@FindBy(xpath ="//div[@class='checkbox-override']/label")
+	public static List <WebElement> chkboxSelect;
+	
+	@FindBy(xpath ="//a[text()='more']")
+	public static WebElement lnkMore;
+	
+	@FindBy(xpath ="//page-error-messages/div[1]//p")
+	public static WebElement lnlerrorMessage;
+	
+	@FindBy(xpath ="//div[1]/label[text()='Base Price']")
+	public static WebElement lblBaseprice;
+	
+	@FindBy(xpath ="//td[text()='Proposal ID']/../td[2]/div")
+	public static WebElement lblproposalId;
+	
+	@FindBy(xpath ="//recommended-products/span/i")
+	public static WebElement lblRecommend;
+	
+	@FindBy(xpath ="//recommended-products//div[3]/button[1]")
+	public static WebElement btnAddtoCart;
+	
+	@FindBy(xpath ="//h2[text()='Quote/Proposal Detail']")
+	public static String lblQuoteProposl;
+	
+	@FindBy(xpath ="//div[1]/label[text()='Years 2-3 Disc/Surc']")
+	public static WebElement lblYear23Surc;
+	
+	@FindBy(xpath = "//div[2]//div[6]/ul[1]/li//dynamic-field/div")
+	public static List <WebElement> lblQuantityval;
+	
+	@FindBy(xpath ="//div[1]/label[text()='Bridge']")
+	public static WebElement lblbridge;
+	
+	@FindBy(xpath ="//td[5]//dynamic-field//a/abbr")
+	public static WebElement btnCancel;
+	
+	@FindBy(xpath ="//label[1]")
+	public static List <WebElement> lblCartPage;
+	
+	@FindBy(xpath ="//label[text()='Line Status']")
+	public static WebElement lblLineStatus;
+	
+	@FindBy(xpath ="//div[10]//pricing-guidance/div")
+	public static List <WebElement> imgGuidance;
+	
+	@FindBy(xpath ="//span[text()='Product Attributes']")
+	public static WebElement lblProdAttr;
+	
+	@FindBy(xpath ="//td[9]//p[1]/input")
+	public static List <WebElement> txtAdjustAmt;
+	
+	@FindBy(xpath ="//div[9]//dynamic-field//a/span[3]/b")
+	public static List <WebElement> drpdwnAdjustTypelist;
+	
+	@FindBy(xpath ="//div[contains(@id,'A_body')]/table/tbody/tr[2]/td[2]/a")
+	public static WebElement lnkMatrixId;
+	
+	@FindBy(xpath ="//th[text()='Dimension 2']/../../tr[2]/td[6]")
+	public static WebElement lblDimension;
+	
+	@FindBy(xpath ="//div[3]/div[4]//constraint-messages//div[3]//li[1]/p")
+	public static WebElement lblMessage1;
+	
+	@FindBy(xpath ="//div[3]/div[4]//constraint-messages//div[3]//li[2]/p")
+	public static WebElement lblMessage2;
+	
+	@FindBy(xpath ="//tbody/tr/td[1]//div[3]/label")
+	public static WebElement Checkbox;
+	
+	@FindBy(xpath ="//cart-header//div[2]/button[2]")
+	public static WebElement btnRemove;
+	
+	@FindBy(xpath ="//td[text()='Material Number']/../td[4]/div")
+	public static WebElement lblMaterialNo;
+	
+	@FindBy(xpath ="//a[text()='IME Program']/../../td[2]/a")
+	public static WebElement lnkIMEProgram;
+	
+	@FindBy(xpath ="//a[text()='IMP Program']/../../td[2]/a")
+	public static WebElement lnkIMPprogram;
+	
+	@FindBy(xpath ="//a[text()='IMC Program']/../../td[2]/a")
+	public static WebElement lnkIMCProgram;
+	
+	@FindBy(xpath ="//a[text()='IMS Program']/../../td[2]/a")
+	public static WebElement lnkIMSsuite;
+	
+	@FindBy(xpath ="//span[text()='Margin Type']/../../td[2]/div")
+	public static WebElement lblMarginType;
+	
+	@FindBy(xpath ="//h3[text()='Entries']")
+	public static WebElement lblEntries;
+	
+	@FindBy(xpath ="//div[6]/div/div/display-actions//button/span")
+	public static WebElement btnSave;
+	
+	@FindBy(xpath ="//a[1]/i[@title='Approval Required']")
+	public static WebElement lblSymbolApproval;
+	
+	@FindBy(xpath ="//tbody/tr[11]/td[7]")
+	public static WebElement lblAdjustmntAmt;
+	
+	@FindBy(xpath ="//button/span[text()='Save']")
+	public static WebElement btnSave1;
+	
+	@FindBy(xpath ="//span[text()=' Number of Attorneys']/../..//div/p/input")
+	public static WebElement txtboxNumbAttrys;
+	
+	@FindBy(xpath ="//li[@ng-click='nav.showGroup(optionGroup)']/../li[2]")
+	public static WebElement tabSecondaries;
+	
+	@FindBy(xpath ="//table/tbody/tr[5]/td[3]/a")
+	public static WebElement lnkIME;
+
+	@FindBy(xpath ="//div[1]/dynamic-field/div/div/descendant::span[3]/b")
+	public static WebElement drpdwnPPCType;
+	
+	@FindBy(xpath ="//div[2]/dynamic-field/div/div/a/span[3]/b")
+	public static WebElement drpdwnPPCLang;
+	
+	@FindBy(xpath ="//div[3]/dynamic-field/div/div/a/span[3]/b")
+	public static WebElement drpdwnPPCWebsite;
+	
+	@FindBy(xpath ="//div[4]/dynamic-field/div/p[1]/input")
+	public static WebElement txtPPCAmount;
+	
+	@FindBy(xpath ="//i[1]")
+	public static List <WebElement> labelQuestion;
+	
+	@FindBy(xpath ="//li/p")
+	public static WebElement labelInfo;
+	
+	@FindBy(xpath ="//proposal-summary//span[3]//div")
+	public static WebElement labelStatus;
+	
+	@FindBy(xpath ="//div[1]/dynamic-field/div/div/a/span[3]/b")
+	public static WebElement drpdwnPPCType1;
+	
+	@FindBy(xpath ="//a[contains(text(),'Call Tracking')]")
+	public static WebElement lnkPPCEspanol;
+	
+	@FindBy(xpath ="//a[contains(text(),'Tracking')]")
+	public static WebElement lnkCallTrack;
+	
+	@FindBy(xpath ="//table/tbody/tr[7]/td[3]/a")
+	public static WebElement lnkIMC;
+	
+	@FindBy(xpath ="//table/tbody/tr[9]/td[3]/a")
+	public static WebElement lnkIMP;
+	
+	@FindBy(xpath ="//span[text()='Validate']")
+	public static WebElement btnValidate;
+	
+	@FindBy(xpath ="//span[text()='Go to Pricing']")
+	public static WebElement btnGoToPricng;
+	
+	@FindBy(xpath ="//div[@class='system-notification']/div[1]//p[contains(@class,'no-wrap')]")
+	public static WebElement lblErrorMessage;
+	
+	@FindBy(xpath ="//td[11]//a//span[3]")
+	public static WebElement drpdownBridge;
+	
+	@FindBy(xpath ="//td[11]//a/span[1]")
+	public static WebElement drpdownBridge1;
+	
+	@FindBy(xpath ="//ul[@id='ui-select-choices-2']//li[1]")
+	public static WebElement txtBridgeValue;
+	
+	@FindBy(xpath ="//div[16]//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnBridge5;
+	
+	@FindBy(xpath ="//td[9]/ul[1]/li//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnBridge6;
+	
+	@FindBy(xpath ="//div[6]/div//ul//ul")
+	public static List <WebElement> listBridgevalues;
+	
+	@FindBy(xpath ="//div/display-actions[2]/div/span/button")
+	public static WebElement btnReprice;
+	
+	@FindBy(xpath ="//img[@src='/resource/Proposal_Chevron_Draft']")
+	public static WebElement tabDraft;
+	
+	@FindBy(xpath ="//input[@value='Submit']")
+	public static WebElement btnSubmit;
+	
+	@FindBy(xpath ="//h2[text()='Quote/Proposal Detail']")
+	public static WebElement lblQuoteProposal;
+	
+	@FindBy(xpath ="//input[@value='Return']")
+	public static WebElement btnReturn;
+	
+	@FindBy(xpath ="//button[@class='button Finalize active-true']")
+	public static WebElement btnFinalize;
+	
+	@FindBy(xpath ="//span[text()='Submit for Approval']")
+	public static WebElement btnSubmtForApproval;
+	
+	@FindBy(xpath ="//main-asset//td[1]//div/label")
+	public static WebElement checkbox;
+	
+	@FindBy(xpath ="//div[contains(@id,'AssetDate')]/input")
+	public static WebElement radiobtnoptn;
+	
+	@FindBy(xpath ="//renew-asset//button[1]")
+	public static WebElement btnConfirm;
+	
+	@FindBy(xpath ="//asset-actions/button[text()='Renew']")
+	public static WebElement btnRenew;
+	
+	@FindBy(xpath ="//span[text()='Installed Products']")
+	public static WebElement btnInstalledProduct;
+	
+	@FindBy(xpath ="//search-assets/div/input")
+	public static WebElement txtInstalledProduct;
+	
+	@FindBy(xpath ="//div[3]/div[2]//div[1]//h3/span")
+	public static List <WebElement> lnkAssetLines;
+	
+	@FindBy(xpath ="//tr[@class='line-item-row is--open ng-scope']/td[5]/ul[1]/li//dynamic-field//a/span[3]/b")
+	public static WebElement drpdwnAdjustType;
+	
+	@FindBy(xpath ="//tr[1]/td[8]/ul[1]//dynamic-field//a/span[3]/b")
+	public static WebElement drpdwnAdjustTyp;
+	
+	@FindBy(xpath ="//div[9]//dynamic-field/div/div/a/span[3]/b")
+	public static List<WebElement> drpdwnAdjustmentTyp;
+	
+	@FindBy(xpath ="//td[5]/ul[1]/li//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnAdjustmentTyp1;
+	
+	@FindBy(xpath ="//cart-header//div[1]/label")
+	public static WebElement chkboxSelectAll;
+	
+	@FindBy(xpath ="//tr[2]/td[2]/dynamic-field//a/span[1]")
+	public static WebElement drpdwnAdjustty;
+	
+	@FindBy(xpath ="//div[text()='% Discount']")
+	public static WebElement drpdwnDiscnt;
+	
+	@FindBy(xpath ="//label[text()='Bridge']/../../td[2]//div/a")
+	public static WebElement drpdwnBridge;
+	
+	@FindBy(xpath ="//li[contains(@id,'ui-select-choices-row-7-2')]/div/div")
+	public static WebElement drpdwnBridgeval;
+	
+	@FindBy(xpath ="//tr[3]/td[2]/dynamic-field//p[1]/input")
+	public static WebElement txtAdjust2;
+	
+	@FindBy(xpath ="//mass-line-update-dialog//button[2]")
+	public static WebElement btnApply;
+	
+	@FindBy(xpath ="//button[text()='Mass Update']")
+	public static WebElement btnMassUpdt;
+	
+	@FindBy(xpath ="//td[8]/ul[1]//dynamic-field//a/span[3]/b")
+	public static List <WebElement> drpdwnAdjustTyps;
+	
+	@FindBy(xpath ="//tr[@class='line-item-row is--open ng-scope']/td[6]/ul[1]/li/div/div/div/div/dynamic-field/div/p[1]/input")
+	public static WebElement txtAdjustAmount;
+	
+	@FindBy(xpath ="//tr[1]/td[9]//p[1]/input")
+	public static WebElement txtAdjust;
+	
+	@FindBy(xpath ="//div[10]/ul[1]//dynamic-field/div/p[1]/input")
+	public static List <WebElement> txtAdjustAmount1;
+	
+	@FindBy(xpath ="//td[6]/ul[1]/li//dynamic-field//p[1]/input")
+	public static List <WebElement> txtAdjustAmount2;
+	
+	@FindBy(xpath ="//td[9]//dynamic-field/div/p[1]/input")
+	public static WebElement txtAdjust1;
+	
+	@FindBy(xpath ="//td[9]//p[1]/input")
+	public static List <WebElement> txtAdjustvalus;
+	
+	@FindBy(xpath ="//div[6]/div/ul/li/ul/li[1]")
+	public static WebElement drpdwnDiscount;
+	
+	@FindBy(xpath ="//label[text()='Net Adjustment (%)']")
+	public static WebElement lblNetAdjust;
+	
+	@FindBy(xpath ="//div[6]/ul[1]//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnContractTerm;
+	
+	@FindBy(xpath ="//td[11]/ul[1]/li//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnContractTerm1;
+	
+	@FindBy(xpath ="//div[5]/ul[1]//dynamic-field//a")
+	public static WebElement drpdwnContract;
+	
+	@FindBy(xpath ="//li[@class='ui-select-choices-group']/ul/li[1]")
+	public static WebElement txtContract1yr;
+	
+	@FindBy(xpath ="//li[@class='ui-select-choices-group']/ul/li[2]/div")
+	public static WebElement txtContract2yr;
+	
+	@FindBy(xpath ="//div[4]/div[2]/recommended-products/span/i")
+	public static WebElement lblrecommendproduct;
+	
+	@FindBy(xpath ="//div[4]/div[2]/recommended-products//li/div[1]")
+	public static WebElement lblWebchatConnect;
+	
+	@FindBy(xpath ="//div[3]/div[2]//display-actions//span[1]/button/span")
+	public static WebElement btnAddMoreProducts;
+	
+	@FindBy(xpath ="//div[4]/div[2]/recommended-products//li/div[3]/button[1]")
+	public static WebElement btnAddToCart;
+	
+	@FindBy(xpath ="//td[15]//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnBridge1;
+	
+	@FindBy(xpath ="//td[9]//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnBridgenew;
+	
+	@FindBy(xpath ="//td[15]//dynamic-field//a/span[3]/b")
+	public static WebElement drpdwnBridge11;
+	
+	@FindBy(xpath ="//div[6]//div[1]//label[text()='Quantity']")
+	public static WebElement lblQuantity;
+	
+	@FindBy(xpath ="//div[14]//div[1]//label[text()='Current price']")
+	public static WebElement lblCrntPrice;
+	
+	@FindBy(xpath ="//div[12]//div[1]//label[text()='Year 2-3 Price']")
+	public static WebElement lblYear23;
+	
+	@FindBy(xpath ="//div[11]//div[1]//label[text()='Net Price']")
+	public static WebElement lblNetPrice;
+	
+	@FindBy(xpath ="//div[10]//div[1]//label[text()='Guidance']")
+	public static WebElement lblGuidance;
+	
+	@FindBy(xpath ="//div[9]//div[1]//label[text()='Adjustment Amount']")
+	public static WebElement lblAdjutAmt;
+	
+	@FindBy(xpath ="//div[8]//div[1]//label[text()='Adjustment Type']")
+	public static WebElement lblAdjustType;
+	
+	@FindBy(xpath ="//div[1]/label[text()='Contract Start Date']")
+	public static WebElement lblStartDate;
+	
+	@FindBy(xpath ="//div[1]/label[text()='Contract End Date']")
+	public static WebElement lblEndDate;
+	
+	@FindBy(xpath ="//div[6]/div/ul/li/ul/li[2]/div")
+	public static List<WebElement> drpdwnBridgevalues1;
+	
+	@FindBy(xpath ="//div[6]/div/ul/li/ul/li[3]/div")
+	public static List<WebElement> drpdwnBridgevalues2;
+	
+	@FindBy(xpath ="//tr[2]/td[15]//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnBridge2;
+	
+	@FindBy(xpath ="//tr[3]/td[15]//dynamic-field//a/span[3]/b")
+	public static List<WebElement> drpdwnBridge3;
+	
+	@FindBy(xpath ="//catalog-product//button[1]/span[1]")
+	public static WebElement btnAddToCart1;
+	
+	@FindBy(xpath ="//catalog-product//button[1]/span[2]")
+	public static WebElement btnAddAnother;
+	
+	@FindBy(xpath ="//div[3]/div[3]//div[@class='error error--critical']//p")
+	public static WebElement lblErrorMsg;
+	
+	/*@FindBy(xpath ="//tr[1]//td[12]//dynamic-field//a/span[3]")
+	public static WebElement drpdwnContract1;*/
+	
+	/*@FindBy(xpath ="//tr[2]//td[12]//dynamic-field//a/span[3]")
+	public static WebElement drpdwnContract2;*/
+	
+	@FindBy(xpath ="//tr[1]//td[5]//dynamic-field//a/span[3]")
+	public static WebElement drpdwnContract1;
+	
+	@FindBy(xpath ="//td[5]//dynamic-field//a/span[3]/b")
+	public static List <WebElement> drpdwnContrctTerm;
+	
+	@FindBy(xpath ="//tr[2]//td[5]//dynamic-field//a/span[3]")
+	public static WebElement drpdwnContract2;
+	
+	@FindBy(xpath ="//div/div[12]/ul[1]/li//dynamic-field/div")
+	public static List <WebElement> lblYear23Price;
+	
+	@FindBy(xpath ="//a[contains(text(),'IMPACT SUITE')]")
+	public static WebElement lnlImpact;
+	
+	@FindBy(xpath ="//span[text()='Line Items']")
+	public static WebElement lnkLineItems;
+	
+	@FindBy(xpath ="//div[contains(@id,'V_body')]//tr[3]/td[3]/a")
+	public static WebElement lnkIMS;
+	
+	@FindBy(xpath ="//a[contains(text(),'ADDITIONAL LANDING')]")
+	public static WebElement lnkPPCadd;
+	
+	@FindBy(xpath ="//th[text()='Product']/../../tr[2]/td[2]/a")
+	public static WebElement lnkSocial;
+	
+	@FindBy(xpath ="//th[text()='Product']/../../tr[3]/td[2]/a")
+	public static WebElement lnkEndUser;
+	
+	@FindBy(xpath ="//tr/td[3]/a")
+	public static List <WebElement> lnkOptions;
+	
+	@FindBy(xpath ="//div[@class='pShowMore']/a[2]")
+	public static WebElement lnkGoToList;
+	
+	@FindBy(xpath ="//th[text()='Product']/../..//td[2]")
+	public static List <WebElement> lblProducts;
+	
+	@FindBy(xpath ="//a[contains(text(),'Show')]")
+	public static WebElement lnkShowMore;
+	
+	@FindBy(xpath ="//div[@class='listHoverLinks']/a[1]/span")
+	public static WebElement lnkPriceList;
+	
+	@FindBy(xpath ="//div[contains(@id,'T_body')]/table/tbody/tr[2]/th/a")
+	public static WebElement lnkItem;
+	
+	@FindBy(xpath ="//a[contains(@id,'kA_link')]/span")
+	public static WebElement lnkMatrxpricing;
+	
+	@FindBy(xpath ="//div[@id='ep']/div[1]//td[1]/h2")
+	public static WebElement lblpriceList;
+	
+	@FindBy(xpath ="//div[@id='ep']/div[1]//td[1]/h2")
+	public static WebElement lblProductDetail;
+	
+	@FindBy(xpath ="//div[@id='ep']/div[2]/div[2]//tr[18]/td[2]")
+	public static WebElement lblvalue1;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[3]/td[3]/a")
+	public static WebElement lnkOption1;
+	
+	@FindBy(xpath ="//a[contains(text(),'QUARTERLY')]")
+	public static WebElement lnkQuarterly;
+	
+	@FindBy(xpath ="//a[text()='FNDLW CLIENT PULSE']")
+	public static WebElement lnkClient;
+	
+	@FindBy(xpath ="//a[contains(text(),'ENGAGEMENT')]")
+	public static WebElement lnkEngage;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[4]/td[3]/a")
+	public static WebElement lnkOption2;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[5]/td[3]/a")
+	public static WebElement lnkOption3;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[6]/td[3]/a")
+	public static WebElement lnkOption4;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[7]/td[3]/a")
+	public static WebElement lnkOption5;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[8]/td[3]/a")
+	public static WebElement lnkOption6;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[9]/td[3]/a")
+	public static WebElement lnkOption7;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[11]/td[3]/a")
+	public static WebElement lnkOption8;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[12]/td[3]/a")
+	public static WebElement lnkOption9;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[13]/td[3]/a")
+	public static WebElement lnkOptn;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[14]/td[3]/a")
+	public static WebElement lnkOptn1;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[15]/td[3]/a")
+	public static WebElement lnkOptn2;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[16]/td[3]/a")
+	public static WebElement lnkOptn3;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[17]/td[3]/a")
+	public static WebElement lnkOptn4;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[19]/td[3]/a")
+	public static WebElement lnkOptn5;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[20]/td[3]/a")
+	public static WebElement lnkOptn6;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[21]/td[3]/a")
+	public static WebElement lnkOptn7;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[22]/td[3]/a")
+	public static WebElement lnkOptn8;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[23]/td[3]/a")
+	public static WebElement lnkOptn9;
+	
+	@FindBy(xpath ="//tbody/tr[2]/td[7]")
+	public static WebElement lblAdjustAmt;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[24]/td[3]/a")
+	public static WebElement lnkOpt1;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[25]/td[3]/a")
+	public static WebElement lnkOpt2;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[26]/td[3]/a")
+	public static WebElement lnkOpt3;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[28]/td[3]/a")
+	public static WebElement lnkOpt4;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[29]/td[3]/a")
+	public static WebElement lnkOpt5;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[30]/td[3]/a")
+	public static WebElement lnkOpt6;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[31]/td[3]/a")
+	public static WebElement lnkOpt7;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[32]/td[3]/a")
+	public static WebElement lnkOpt8;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[33]/td[3]/a")
+	public static WebElement lnkOpt9;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[34]/td[3]/a")
+	public static WebElement lnkOpt;
+	
+	@FindBy(xpath ="//table[@class='list']//tr[35]/td[3]/a")
+	public static WebElement linkOptn;
+	
+	@FindBy(xpath ="//ul[1]/li[2]/p/a")
+	public static List<WebElement> lblShowOptions;
+
+	@FindBy(xpath ="//div[12]/ul/li/ul[1]//dynamic-field/div")
+	public static List <WebElement> lblYear23PriceProd1;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[2]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Price_8;
+	
+	@FindBy(xpath ="//div[1]/div/ul[2]/li/div/div/span")
+	public static List <WebElement> lblAssetName;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[3]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Price_9;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[4]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[5]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc1;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[6]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc2;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[7]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc3;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[8]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc4;
+	
+	@FindBy(xpath ="//tr[3]/td[12]/ul[2]/li[9]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc5;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[2]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc6;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[3]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc7;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[4]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc8;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[5]/ul[1]//dynamic-field/div")
+	public static WebElement lblYear23Prc9;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[6]/ul[1]//dynamic-field/div")
+	public static WebElement lblYr23Prc1;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[7]/ul[1]//dynamic-field/div")
+	public static WebElement lblYr23Prc2;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[8]/ul[1]//dynamic-field/div")
+	public static WebElement lblYr23Prc3;
+	
+	@FindBy(xpath ="//tr[4]/td[12]/ul[2]/li[9]/ul[1]//dynamic-field/div")
+	public static WebElement lblYr23Prc4;
+	
+	
+}

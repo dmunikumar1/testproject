@@ -1,0 +1,44 @@
+package tr.findlaw.pages;
+
+import org.openqa.selenium.WebDriver;
+import com.framework.asserts.AssertionHandler;
+import com.framework.reports.ReportBuilder;
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.objects.QuotePageObjects;
+import tr.findlaw.objects.SendForEsignObjects;
+
+public class SendEsignPage extends BasePage {
+	
+	String lblQuote="//div[@id='ep']/div[1]/table/tbody/tr/td[1]/h2";
+	
+	public SendEsignPage(WebDriver webDriver) {
+		super(webDriver);
+	}	
+			
+	public void sendForEsign() {
+		javascripthandler.scrollIntoView(QuotePageObjects.btnEsignature);
+		elementHandler.clickElement(QuotePageObjects.btnEsignature, SendForEsignObjects.chckboxOrderForm);
+		elementHandler.clickElement(SendForEsignObjects.chckboxOrderForm);
+		TestNGCustomReporter.log(logger, "Findlaw Order Form Checked");
+		elementHandler.clickElement(SendForEsignObjects.btnAddRecpnts);
+		actionHandler.waitForSomeTime(5000);
+		String email= ExcelUtils.getDataByColumnName("Contacts", "Email");
+		elementHandler.writeText(SendForEsignObjects.txtEmail, email,SendForEsignObjects.btnSendForEsign);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(SendForEsignObjects.btnSendForEsign);
+		TestNGCustomReporter.log(logger, "Send for Esign successfully completed" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(80000);
+		actionHandler.waitForSomeTime(80000);
+		boolean status1= elementHandler.isElementDisplayed(QuotePageObjects.btnEdit);
+		if (status1 == false) {
+			actionHandler.waitForSomeTime(50000);
+		}
+		elementHandler.waitForXpathToLoad(lblQuote);
+		boolean quote= elementHandler.isElementDisplayed(QuotePageObjects.lblQuoteproposal);
+		AssertionHandler.verifyTrue(quote, "Quote proposal label not displayed");
+		
+	}
+
+}

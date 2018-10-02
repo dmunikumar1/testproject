@@ -1,0 +1,36 @@
+package tr.findlaw.pages;
+
+
+import org.openqa.selenium.WebDriver;
+import com.framework.asserts.AssertionHandler;
+import com.framework.reports.ReportBuilder;
+import com.framework.reports.TestNGCustomReporter;
+import tr.findlaw.objects.GenerateDocumentPageObjects;
+import tr.findlaw.objects.QuotePageObjects;
+
+public class GenerateDocumentPage extends BasePage {
+
+	public GenerateDocumentPage(WebDriver webDriver) {
+		super(webDriver);
+
+	}
+
+public void generateDocument() {
+	
+	javascripthandler.scrollIntoView(QuotePageObjects.btnGenerate);
+	elementHandler.clickElement(QuotePageObjects.btnGenerate, GenerateDocumentPageObjects.lblGenrtPrpsl);
+	TestNGCustomReporter.log(logger, "clicked on generate button");	
+	elementHandler.clickElement(GenerateDocumentPageObjects.radiobtnFindLaw);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(GenerateDocumentPageObjects.btnGenerate, GenerateDocumentPageObjects.btnReturn);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(GenerateDocumentPageObjects.btnReturn, QuotePageObjects.btnEdit);
+	TestNGCustomReporter.log(logger, "Document Generated" +ReportBuilder.takesScreenshot());	
+	actionHandler.waitForSomeTime(5000);
+	boolean progress= elementHandler.isElementDisplayed(GenerateDocumentPageObjects.lblProgress);
+	AssertionHandler.verifyTrue(progress, "Quote page not displayed");			
+}
+
+
+
+}

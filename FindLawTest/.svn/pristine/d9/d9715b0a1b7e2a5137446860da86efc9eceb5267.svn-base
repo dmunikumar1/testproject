@@ -1,0 +1,3015 @@
+package tr.findlaw.pages;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.asserts.SoftAssert;
+
+import com.framework.asserts.AssertionHandler;
+import com.framework.asserts.SoftAssertionHandler;
+import com.framework.reports.ReportBuilder;
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.objects.AddProductsPageObjects;
+import tr.findlaw.objects.QuotePageObjects;
+
+public class AddProductsPage extends BasePage {
+	
+	String lblCategorySelectn= "//div[@apt-dropdown='category-selection']";
+	String btnProductAttr= "//span[text()='Product Attributes']";
+	String  imgQuotepg  ="//td[text()='Progress']/../td[2]//img";
+	String  lblPrice= "//div[@id='ep']/div[1]//td[1]/h2";
+	
+	public AddProductsPage(WebDriver webDriver) {
+		super(webDriver);
+		
+	}
+
+public void addProducts(int ctrl,int Row) {
+		
+		switch(ctrl)
+		{
+		
+	/*
+	 * This case is for adding either Firmsite or IM product to the cart .
+	 * Finalize or Submit for Approval process need to complete.
+	 */
+	
+		case 1:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			actionHandler.waitForSomeTime(5000);   
+			elementHandler.waitForPageToLoad();
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            actionHandler.waitForSomeTime(15000);                  
+            String Product = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] listofproduct1 = Product.split(",");
+            
+            for (int i=0; i<listofproduct1.length; i++)
+            {
+            	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listofproduct1[i]);
+                actionHandler.keyboardAction(Keys.ENTER);
+                actionHandler.waitForSomeTime(25000);
+                elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+                elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+				elementHandler.waitForXpathToLoad(btnProductAttr);
+				elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+				elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+				actionHandler.waitForSomeTime(30000);
+				elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts);
+				actionHandler.waitForSomeTime(15000);
+                TestNGCustomReporter.log(logger, "Product "+listofproduct1[i] +" Added Successfully");
+            }
+            actionHandler.waitForSomeTime(5000);
+            elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(30000);
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblNetAdjust);
+			actionHandler.waitForSomeTime(2000);
+			TestNGCustomReporter.log(logger, "Net Adjustment Amount displayed" +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(10000);
+			
+			boolean enablebtn= AddProductsPageObjects.btnFinalize.isEnabled();
+			if (enablebtn == true) {
+				elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.waitForXpathToLoad(imgQuotepg);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");	
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Finalize button" +ReportBuilder.takesScreenshot());					
+			}
+			else {
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmtForApproval);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmtForApproval,AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit, AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit,AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(5000);
+				elementHandler.clickElement(AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(20000);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Submit for approval button" +ReportBuilder.takesScreenshot());
+			}
+			break;
+			
+/*
+ * This case is to add multiple IM or Firmsite products to the cart.
+ * Provide Bridge,Contract,Discount details to the single or multiple products.
+ * Finalize or Submit for Approval process need to be completed.	
+ */
+	
+		case 2:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            actionHandler.waitForSomeTime(15000);                  
+            String Product1 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] listofproduct = Product1.split(",");           
+            for (int i=0; i<listofproduct.length; i++)
+            {
+            	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listofproduct[i]);
+                actionHandler.keyboardAction(Keys.ENTER);
+                actionHandler.waitForSomeTime(25000);
+                elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+                elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+                elementHandler.waitForXpathToLoad(btnProductAttr);
+				elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+				elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+				actionHandler.waitForSomeTime(5000);
+				elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+				actionHandler.waitForSomeTime(30000);
+				elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts);
+				actionHandler.waitForSomeTime(15000);
+                TestNGCustomReporter.log(logger, "Product "+listofproduct[i] +" Added Successfully");
+            }
+            actionHandler.waitForSomeTime(5000);
+            elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(30000);
+			
+			//Contract Term
+            String ContractTerm = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Contract_Term", Row);
+            String[] arrContract = ContractTerm.split(",");
+            for (int k=0;k<arrContract.length;k++) 
+            {
+            	if(!ContractTerm.equals("NA"))
+            	{
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnContractTerm.get(k));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnContractTerm.get(k));
+                   TestNGCustomReporter.log(logger,"validate Contract Term drop down values" );
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=5; j++)
+                   {
+                          String CntrctTrm=driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+CntrctTrm.trim());
+                          if(CntrctTrm.trim().contentEquals(ContractTerm.trim()))
+                          {
+                                 driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+            	}
+           }
+			
+			//Adjustment Type
+            String AdjustTerm = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Adjust_Type", Row);
+            String[] arrAdjust = AdjustTerm.split(",");
+            for (int i=0;i<arrAdjust.length;i++)
+            {
+            if (!AdjustTerm.equals("NA"))
+            {
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnAdjustmentTyp.get(i));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnAdjustmentTyp.get(i));
+                   TestNGCustomReporter.log(logger,"validate Adjustment Type field drop down values");
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=3; j++)
+                   {
+                          String AdjustTrm=driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+AdjustTrm.trim());
+                          if(AdjustTrm.trim().contentEquals(AdjustTerm.trim()))
+                          {
+                                 driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+            	}
+            }
+            
+            //Adjustment Amount
+            String adjustDiscount = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "AdjustAmount", Row);
+            String[] arrDiscount = adjustDiscount.split(",");
+            for (int k=0;k<arrDiscount.length;k++) 
+            {
+            	if (!adjustDiscount.equals("NA"))
+            	{
+                   actionHandler.waitForSomeTime(2000);
+                   elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(k), adjustDiscount);
+            	}  
+            }
+            
+			//Bridge
+            String bridge = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Bridge", Row);
+            String[] arrBridge = bridge.split(",");
+            for (int k=0;k<arrBridge.length;k++)
+            {
+	            if (!bridge.equals("NA"))
+	            {
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnBridge5.get(k));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnBridge5.get(k));
+                   TestNGCustomReporter.log(logger,"validate Bridge field drop down values");
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=5; j++)
+                   {
+                          String bridgeTrm=driver.findElement(By.xpath("//ul[contains(@id,'ui-select-choices-')]/li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+bridgeTrm.trim());
+                          if(bridgeTrm.trim().contentEquals(bridge.trim()))
+                          {
+                                 driver.findElement(By.xpath("//ul[contains(@id,'ui-select-choices-')]/li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+	            }
+            } 
+            
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblNetAdjust);
+			actionHandler.waitForSomeTime(2000);
+			TestNGCustomReporter.log(logger, "Net Adjustment Amount displayed" +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(25000);
+			
+			boolean status= AddProductsPageObjects.btnFinalize.isEnabled();
+			if (status == true) {
+				elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.waitForXpathToLoad(imgQuotepg);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Finalize button" +ReportBuilder.takesScreenshot());	
+				
+			}
+			else {
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmtForApproval);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmtForApproval,AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit, AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit,AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(5000);
+				elementHandler.clickElement(AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(20000);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Submit for approval button" +ReportBuilder.takesScreenshot());
+			}
+			break;
+		
+/*
+ * This case is to add multiple products to the cart and Finalize it.			
+ */
+			
+		case 3:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);                    
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);     
+            actionHandler.waitForSomeTime(15000);                  
+
+            String Product2 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] listofproduct3 = Product2.split(",");
+      
+            for (int i=0; i<listofproduct3.length; i++)
+            {
+           elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listofproduct3[i]);
+           actionHandler.keyboardAction(Keys.ENTER);
+           actionHandler.waitForSomeTime(25000);
+           elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(20000);
+           TestNGCustomReporter.log(logger, "Product "+listofproduct3[i] +" Added Successfully");
+            }
+            actionHandler.waitForSomeTime(5000);
+            elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+            elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+            actionHandler.waitForSomeTime(20000);
+            javascripthandler.scrollIntoView(AddProductsPageObjects.lblNetAdjust);
+            TestNGCustomReporter.log(logger, "Net Adjustment Amount displayed" +ReportBuilder.takesScreenshot());
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(15000);
+
+			boolean status1= AddProductsPageObjects.btnFinalize.isEnabled();
+			if (status1 == true) {
+				elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.waitForXpathToLoad(imgQuotepg);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Finalize button" +ReportBuilder.takesScreenshot());	
+				
+			}
+			else {
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmtForApproval);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmtForApproval,AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit, AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit,AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(5000);
+				elementHandler.clickElement(AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(20000);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Submit for approval button" +ReportBuilder.takesScreenshot());
+			}
+			break;
+
+/*
+ * This case is to add multiple products and add it to the cart.
+ * Provide Details like Contract Term,Discount,Bridge to the products.
+ * Finalize or Submit for Approval			
+ */
+			
+		case 4:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);                    
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);     
+            actionHandler.waitForSomeTime(15000);                  
+
+            String Product3 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] listofproduct4 = Product3.split(",");
+      
+            for (int i=0; i<listofproduct4.length; i++)
+            {
+           elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listofproduct4[i]);
+           actionHandler.keyboardAction(Keys.ENTER);
+           actionHandler.waitForSomeTime(25000);
+           elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(20000);
+           TestNGCustomReporter.log(logger, "Product "+listofproduct4[i] +" Added Successfully");
+            }
+            actionHandler.waitForSomeTime(5000);
+            elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+            elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+            actionHandler.waitForSomeTime(30000);
+            
+          //Contract Term
+            String ContractTerm1 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Contract_Term", Row);
+            String[] arrContract1 = ContractTerm1.split(",");
+            for (int k=0;k<arrContract1.length;k++) 
+            {
+            	if (!ContractTerm1.equals("NA"))
+            	{
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnContractTerm.get(k));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnContractTerm.get(k));
+                   TestNGCustomReporter.log(logger,"validate contract Term field drop down values");
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=5; j++)
+                   {
+                          String CntrctTrm1=driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+CntrctTrm1.trim());
+                          if(CntrctTrm1.trim().contentEquals(ContractTerm1.trim()))
+                          {
+                                 driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+            	}
+           }
+			
+			//Adjustment Type
+            String AdjustTerm1 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Adjust_Type", Row);
+            String[] arrAdjust1 = AdjustTerm1.split(",");
+            for (int i=0;i<arrAdjust1.length;i++)
+            {
+            if (!AdjustTerm1.equals("NA"))
+            {
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnAdjustmentTyp.get(i));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnAdjustmentTyp.get(i));
+                   TestNGCustomReporter.log(logger,"validate Adjustment Type field drop down values");
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=3; j++)
+                   {
+                          String AdjustTrm1=driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+AdjustTrm1.trim());
+                          if(AdjustTrm1.trim().contentEquals(AdjustTerm1.trim()))
+                          {
+                                 driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+            	}
+            }
+            
+            //Adjustment Amount
+            String adjustDiscount1 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "AdjustAmount", Row);
+            String[] arrDiscount1 = adjustDiscount1.split(",");
+            for (int k=0;k<arrDiscount1.length;k++) 
+            {
+            	if (!adjustDiscount1.equals("NA"))
+            	{
+                   actionHandler.waitForSomeTime(2000);
+                   elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(k), adjustDiscount1);
+            	}  
+            }
+            
+			//Bridge
+            String bridge1 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Bridge", Row);
+            String[] arrBridge1 = bridge1.split(",");
+            for (int k=0;k<arrBridge1.length;k++)
+            {
+	            if (!bridge1.equals("NA"))
+	            {
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnBridge5.get(k));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnBridge5.get(k));
+                   TestNGCustomReporter.log(logger,"validate Bridge field drop down values");
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=5; j++)
+                   {
+                          String bridgeTrm1=driver.findElement(By.xpath("//ul[contains(@id,'ui-select-choices-')]/li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+bridgeTrm1.trim());
+                          if(bridgeTrm1.trim().contentEquals(bridge1.trim()))
+                          {
+                                 driver.findElement(By.xpath("//ul[contains(@id,'ui-select-choices-')]/li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+	            }
+            } 
+            
+            javascripthandler.scrollIntoView(AddProductsPageObjects.lblNetAdjust);
+            TestNGCustomReporter.log(logger, "Net Adjustment Amount displayed" +ReportBuilder.takesScreenshot());
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(15000);
+
+			boolean status2= AddProductsPageObjects.btnFinalize.isEnabled();
+			if (status2 == true) {
+				elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.waitForXpathToLoad(imgQuotepg);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Finalize button" +ReportBuilder.takesScreenshot());	
+				
+			}
+			else {
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmtForApproval);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmtForApproval,AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit, AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit,AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(5000);
+				elementHandler.clickElement(AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(20000);
+				String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Submit for approval button" +ReportBuilder.takesScreenshot());
+			}
+			break;
+		
+			
+/*
+ * This case is to add Installed Products.
+ */
+			
+		case 5:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            String installedprod = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);
+            String[] listofproduct5 = installedprod.split(",");
+            TestNGCustomReporter.log(logger, "No of Products "+listofproduct5.length);
+            for (int i=0; i<listofproduct5.length; i++)
+            {
+			elementHandler.clickElement(AddProductsPageObjects.btnInstalledProduct);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitforElement(AddProductsPageObjects.txtInstalledProduct);
+			elementHandler.writeText(AddProductsPageObjects.txtInstalledProduct, listofproduct5[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.checkbox, AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.radiobtnoptn, AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng, AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			actionHandler.waitForSomeTime(20000);
+            }
+        	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng,AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(30000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(15000);
+			TestNGCustomReporter.log(logger, "Finalize button enabled for Renewal IMS or IME product with Contract Term as  1 yr" +ReportBuilder.takesScreenshot());
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnFinalize);
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			String quote= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote.contains("Q-"), "Quote page not displayed");
+			break;
+			
+/*
+ * This case is to add IM products and validating recommended product is been added for it or not			
+ */
+		case 6:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            String listofproducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] listofproducts1 = listofproducts.split(",");
+			for (int i=0; i<listofproducts1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listofproducts1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			elementHandler.waitForXpathToLoad(btnProductAttr);
+			elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(20000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lblrecommendproduct);
+			elementHandler.clickElement(AddProductsPageObjects.lblrecommendproduct, AddProductsPageObjects.lblWebchatConnect);
+			actionHandler.waitForSomeTime(2000);
+			TestNGCustomReporter.log(logger, "Recommended product of Web Chat option displayed for an IM Solution product" + listofproducts1[i] +" " +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng, AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForXpathToLoad(imgQuotepg);
+			String quote1= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote1.contains("Q-"), "Quote page not displayed");
+			TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+			break;
+	
+			
+/*
+* 	This case is to add multiple IM (IMS,IMP, IMC, IME) products and validate Recommended web-chat product.Finalize the cart		
+*/			
+		case 7:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            String imProducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] imProducts1 = imProducts.split(",");
+			for (int i=0; i<imProducts1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, imProducts1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			elementHandler.waitForXpathToLoad(btnProductAttr);
+			elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "6");
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			actionHandler.waitForSomeTime(15000);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng, AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lblrecommendproduct);
+			elementHandler.clickElement(AddProductsPageObjects.lblrecommendproduct, AddProductsPageObjects.lblWebchatConnect);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddToCart);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForXpathToLoad(imgQuotepg);
+			String quote2= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote2.contains("Q-"), "Quote page not displayed");
+			TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+			break;
+			
+/*
+ * This case is to Add Firmsite products: 40483693,40483696,40483699,40485592 to the Cart and validate error messages			
+ */
+		case 8:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            String FirmsiteProds = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] FirmsiteProd1 = FirmsiteProds.split(",");
+			for (int i=0; i<FirmsiteProd1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, FirmsiteProd1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			elementHandler.waitForXpathToLoad(btnProductAttr);
+			elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "2");
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.Checkbox);
+			TestNGCustomReporter.log(logger, "After adding Firmsite product" +FirmsiteProd1[i] +"Error Message displayed" +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.Checkbox, AddProductsPageObjects.btnRemove);
+			elementHandler.clickElement(AddProductsPageObjects.btnRemove);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			actionHandler.waitForSomeTime(10000);
+			}
+			TestNGCustomReporter.log(logger, "Validated the Error messages for all products" +ReportBuilder.takesScreenshot());
+			break;
+
+			
+/*
+ * This case is to add any blog product ex:41817449 or add any one of the engagement builder products 
+ * like: 42089522,42089521,41180810,42089524 and validate error message
+ */			
+		case 9:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            String blogProduct = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] blogProduct1 = blogProduct.split(",");
+            for (int i=0; i<blogProduct1.length; i++)
+            {
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, blogProduct1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddAnother);
+			actionHandler.waitForSomeTime(10000);
+            }
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(15000);
+			boolean errStatus= elementHandler.isElementDisplayed(AddProductsPageObjects.lblErrorMsg);
+			AssertionHandler.verifyTrue(errStatus, "Error Message not displayed");
+			String Error_Message= elementHandler.getText(AddProductsPageObjects.lblErrorMsg);
+			TestNGCustomReporter.log(logger, "Error Message displayed for adding the product as:" +Error_Message +ReportBuilder.takesScreenshot());
+			break;
+			
+/*
+ * This case is to add Installed Firmsite product: 40485592 to the cart. Validate all columns in the cart 				
+ */			
+		case 10:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String IM = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);	
+			elementHandler.clickElement(AddProductsPageObjects.btnInstalledProduct);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitforElement(AddProductsPageObjects.txtInstalledProduct);
+			elementHandler.writeText(AddProductsPageObjects.txtInstalledProduct,IM);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.checkbox, AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.radiobtnoptn, AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(20000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			Boolean startDate= elementHandler.isElementDisplayed(AddProductsPageObjects.lblStartDate);
+			AssertionHandler.verifyTrue(startDate, "Start Date field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean endDate= elementHandler.isElementDisplayed(AddProductsPageObjects.lblEndDate);
+			AssertionHandler.verifyTrue(endDate, "End Date field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean quantity= elementHandler.isElementDisplayed(AddProductsPageObjects.lblQuantity);
+			AssertionHandler.verifyTrue(quantity, "Quantity field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean adjustType= elementHandler.isElementDisplayed(AddProductsPageObjects.lblAdjustType);
+			AssertionHandler.verifyTrue(adjustType, "Adjust Type field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblAdjutAmt);
+			actionHandler.waitForSomeTime(2000);
+			Boolean adjustAmount= elementHandler.isElementDisplayed(AddProductsPageObjects.lblAdjutAmt);
+			AssertionHandler.verifyTrue(adjustAmount, "Adjust Type field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblGuidance);
+			actionHandler.waitForSomeTime(2000);
+			Boolean guidance= elementHandler.isElementDisplayed(AddProductsPageObjects.lblGuidance);
+			AssertionHandler.verifyTrue(guidance, "Guidance field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblNetPrice);
+			actionHandler.waitForSomeTime(2000);
+			Boolean netprice= elementHandler.isElementDisplayed(AddProductsPageObjects.lblNetPrice);
+			AssertionHandler.verifyTrue(netprice, "Net Price field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23);
+			actionHandler.waitForSomeTime(2000);
+			javascripthandler.highlightElement(AddProductsPageObjects.lblYear23);
+			Boolean year23= elementHandler.isElementDisplayed(AddProductsPageObjects.lblYear23);
+			AssertionHandler.verifyTrue(year23, "Yaer 2-3 price field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblCrntPrice);
+			actionHandler.waitForSomeTime(2000);
+			Boolean price= elementHandler.isElementDisplayed(AddProductsPageObjects.lblCrntPrice);
+			AssertionHandler.verifyTrue(price, "Current price field not displayed in the cart page");
+			TestNGCustomReporter.log(logger, "Validate all fields displayed on Cart page" +ReportBuilder.takesScreenshot());
+			break;
+			
+/*
+ * This case is to add 	IMP Installed product:41915678. Validate all columns in the cart page.			
+ */
+		case 11:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String impProd = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);
+			elementHandler.clickElement(AddProductsPageObjects.btnInstalledProduct);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitforElement(AddProductsPageObjects.txtInstalledProduct);
+			elementHandler.writeText(AddProductsPageObjects.txtInstalledProduct,impProd);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.checkbox, AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.radiobtnoptn, AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(20000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			Boolean lineStatus= elementHandler.isElementDisplayed(AddProductsPageObjects.lblLineStatus);
+			AssertionHandler.verifyTrue(lineStatus, "Line Status field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean startDate1= elementHandler.isElementDisplayed(AddProductsPageObjects.lblStartDate);
+			AssertionHandler.verifyTrue(startDate1, "Start Date field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean endDate1= elementHandler.isElementDisplayed(AddProductsPageObjects.lblEndDate);
+			AssertionHandler.verifyTrue(endDate1, "end date field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean contractTerm= elementHandler.isElementDisplayed(AddProductsPageObjects.lnlContractTrm);
+			AssertionHandler.verifyTrue(contractTerm, "Contract Term field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean quantity1= elementHandler.isElementDisplayed(AddProductsPageObjects.lblQuantity);
+			AssertionHandler.verifyTrue(quantity1, "Quantity field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean baseprice= elementHandler.isElementDisplayed(AddProductsPageObjects.lblBaseprice);
+			AssertionHandler.verifyTrue(baseprice, "Base price field not displayed in the cart page");
+			actionHandler.waitForSomeTime(2000);
+			Boolean adjustType1= elementHandler.isElementDisplayed(AddProductsPageObjects.lblAdjustType);
+			AssertionHandler.verifyTrue(adjustType1, "Adjust Type field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblAdjutAmt);
+			actionHandler.waitForSomeTime(2000);
+			Boolean adjustAmt= elementHandler.isElementDisplayed(AddProductsPageObjects.lblAdjutAmt);
+			AssertionHandler.verifyTrue(adjustAmt, "Adjust Amount field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblGuidance);
+			actionHandler.waitForSomeTime(2000);
+			javascripthandler.highlightElement(AddProductsPageObjects.lblGuidance);
+			Boolean guidance1= elementHandler.isElementDisplayed(AddProductsPageObjects.lblGuidance);
+			AssertionHandler.verifyTrue(guidance1, "Guidance field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblNetPrice);
+			actionHandler.waitForSomeTime(2000);
+			Boolean netPrice= elementHandler.isElementDisplayed(AddProductsPageObjects.lblNetPrice);
+			AssertionHandler.verifyTrue(netPrice, "Guidance field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23);
+			actionHandler.waitForSomeTime(2000);
+			Boolean year23p= elementHandler.isElementDisplayed(AddProductsPageObjects.lblYear23);
+			AssertionHandler.verifyTrue(year23p, "Yaer 2-3 price field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Surc);
+			actionHandler.waitForSomeTime(2000);
+			Boolean year23s= elementHandler.isElementDisplayed(AddProductsPageObjects.lblYear23Surc);
+			AssertionHandler.verifyTrue(year23s, "Year 2-3 Surc field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblCrntPrice);
+			actionHandler.waitForSomeTime(2000);
+			Boolean current= elementHandler.isElementDisplayed(AddProductsPageObjects.lblCrntPrice);
+			AssertionHandler.verifyTrue(current, "Current price field not displayed in the cart page");
+			javascripthandler.scrollIntoView(AddProductsPageObjects.lblbridge);
+			actionHandler.waitForSomeTime(2000);
+			Boolean bridge2= elementHandler.isElementDisplayed(AddProductsPageObjects.lblbridge);
+			AssertionHandler.verifyTrue(bridge2, "Bridge field not displayed in the cart page");
+			TestNGCustomReporter.log(logger, "Validate all fields displayed on Cart page" +ReportBuilder.takesScreenshot());
+			break;
+
+/*
+ * This case is to add PPC product and validate columns in the cart page		
+ */
+		case 12:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitforElement(AddProductsPageObjects.txtboxSearch);
+			String ppcProduct = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id",Row);
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ppcProduct);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			actionHandler.waitForSomeTime(5000);
+			for (int i=1;i<10;i++)
+			{
+			javascripthandler.highlightElement(AddProductsPageObjects.lblCartPage.get(i));
+			actionHandler.waitForSomeTime(2000);
+			TestNGCustomReporter.log(logger, "Validate the fields to be displayed in PPC Attributes" +ReportBuilder.takesScreenshot());
+			}
+			for(int i=15;i<18;i++)
+			{
+			Actions action= new Actions(driver);
+			action.moveToElement(AddProductsPageObjects.labelQuestion.get(i)).perform();
+			TestNGCustomReporter.log(logger, "Validate the Text for Question mark symbol" +ReportBuilder.takesScreenshot());
+			}
+			
+			String ppcType1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Type",Row);
+			String ppclang1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Lang",Row);
+			String ppcWebsite1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Website",Row);
+			String ppcAmount1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Amount",Row);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCType1);
+			TestNGCustomReporter.log(logger, "Validate drop down values for PPC Type field" +ReportBuilder.takesScreenshot());
+			actionHandler.waitForSomeTime(2000);
+			driver.findElement(By.xpath("//div[contains(text(),'"+ppcType1+"')]")).click();
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCLang);
+			TestNGCustomReporter.log(logger, "Validate drop down values for PPC languange selection field" +ReportBuilder.takesScreenshot());
+			actionHandler.waitForSomeTime(2000);
+			driver.findElement(By.xpath("//div[contains(text(),'"+ppclang1+"')]")).click();
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCWebsite);
+			TestNGCustomReporter.log(logger, "Validate drop down values for PPC Website Selection field" +ReportBuilder.takesScreenshot());
+			actionHandler.waitForSomeTime(2000);
+			driver.findElement(By.xpath("//div[text()='"+ppcWebsite1+"']")).click();
+			elementHandler.writeText(AddProductsPageObjects.txtPPCAmount, ppcAmount1);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.lblCartPage.get(5));
+			TestNGCustomReporter.log(logger, "Validate rounded value to be populated in Customers Total PPC Cost,PPC Management Fee,PPC Ad spent" +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(25000);
+			TestNGCustomReporter.log(logger, "Validate PPC Landing page Materials to be selected under PPC tab" +ReportBuilder.takesScreenshot());
+			String info= elementHandler.getText(AddProductsPageObjects.labelInfo);
+			AssertionHandler.verifyEquals(info, "US PPC Options with 2 Landing Pages Auto Included", "Informational message not displayed");
+			break;
+			
+/*
+ * This case is to add Installed Social promotion product:41817449 to the cart with Renewal option is No				
+ */			
+		case 13:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String BlogProd = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);	
+			elementHandler.clickElement(AddProductsPageObjects.btnInstalledProduct);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitforElement(AddProductsPageObjects.txtInstalledProduct);
+			elementHandler.writeText(AddProductsPageObjects.txtInstalledProduct,BlogProd);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.checkbox, AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.radiobtnoptn, AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(20000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(15000);
+			boolean enablebtn2= AddProductsPageObjects.btnFinalize.isEnabled();
+			if (enablebtn2 == true) {
+				elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.waitForXpathToLoad(AddProductsPageObjects.lblQuoteProposl);
+				String quote4= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote4.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Finalize button" +ReportBuilder.takesScreenshot());	
+				
+			}
+			else {
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmtForApproval);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmtForApproval,AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit, AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit,AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnReturn);
+				elementHandler.clickElement(AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(15000);
+				elementHandler.waitForPageToLoad();
+				String quote5= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote5.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Submit for approval button" +ReportBuilder.takesScreenshot());
+			}
+			break;
+	
+/*
+ * This case is to add PPC products: 41689180,41876119,Installed- 41689180 to the cart
+ */			
+		case 14:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String ppcproduct = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+			String[] ppcproduct1 = ppcproduct.split(",");
+			for (int i=0; i<ppcproduct1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ppcproduct1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(30000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			actionHandler.waitForSomeTime(15000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			actionHandler.waitForSomeTime(10000);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnInstalledProduct);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitforElement(AddProductsPageObjects.txtInstalledProduct);
+			String third_Prod = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);
+			elementHandler.writeText(AddProductsPageObjects.txtInstalledProduct, third_Prod);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.checkbox, AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnRenew);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.radiobtnoptn, AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfirm);
+			actionHandler.waitForSomeTime(15000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnGoToPricng);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			for (int i=1;i<4;i++) {
+			driver.findElement(By.xpath("//tr["+i+"]//td[5]//dynamic-field//a/span[3]")).click();
+			TestNGCustomReporter.log(logger, "Validate Short term contract length for PPC products" +ReportBuilder.takesScreenshot());
+			//driver.findElement(By.xpath("//div[6]/a/span[3]/b")).click();
+			actionHandler.waitForSomeTime(1000);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			String quote6= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote6.contains("Q-"), "Quote page not displayed");
+			break;
+
+/*
+ * This case is to  add product:42089521 to the cart and validate Adjustment columns in the cart				
+ */			
+		case 15:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String BlogProds = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, BlogProds);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			boolean finalize= elementHandler.isElementDisplayed(AddProductsPageObjects.btnFinalize);
+			AssertionHandler.verifyTrue(finalize, "Finalize button not displayed in cart page");
+			TestNGCustomReporter.log(logger, "Adjustment Type and Adjustment Amount columns not displayed in the Totals section"  +ReportBuilder.takesScreenshot());
+			actionHandler.waitForSomeTime(2000);
+			break;
+		
+/*
+ * This case is to add PPC products:30010890,41876119,41877783 and validate the Adjustment Type field for all products
+ */			
+		case 16:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String ppcprod = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ppcprod);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			actionHandler.waitForSomeTime(5000);
+			String ppcType=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Type",Row);
+			String ppclang =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Lang",Row);
+			String ppcWebsite=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Website",Row);
+			String ppcAmount =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Amount",Row);
+			elementHandler.waitForXpathToLoad("//span[text()='Product Attributes']");
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCType);
+			actionHandler.waitForSomeTime(2000);
+			driver.findElement(By.xpath("//div[contains(text(),'"+ppcType+"')]")).click();
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCLang);
+			actionHandler.waitForSomeTime(2000);
+			driver.findElement(By.xpath("//div[contains(text(),'"+ppclang+"')]")).click();
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCWebsite);
+			actionHandler.waitForSomeTime(2000);
+			driver.findElement(By.xpath("//div[text()='"+ppcWebsite+"']")).click();
+			elementHandler.writeText(AddProductsPageObjects.txtPPCAmount, ppcAmount);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(5000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(15000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(30000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts);
+			actionHandler.waitForSomeTime(25000);
+			
+			String listOfprod = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] listOfprod1 = listOfprod.split(",");
+            for (int i=0; i<listOfprod1.length; i++)
+            {
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listOfprod1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(15000);
+            }
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(30000);
+			javascripthandler.highlightElement(AddProductsPageObjects.drpdwnAdjustTypelist.get(0));
+			javascripthandler.highlightElement(AddProductsPageObjects.drpdwnAdjustTypelist.get(1));
+			javascripthandler.highlightElement(AddProductsPageObjects.drpdwnAdjustTypelist.get(2));
+			TestNGCustomReporter.log(logger, "Adjustment Type field with none displayed for PPC product which is configurable" +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.btnSave);
+			actionHandler.waitForSomeTime(25000);
+			String quote7= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote7.contains("Q-"), "Quote page not displayed");
+			break;
+/*
+ * This case is to Search for products:41819162,41948733 and validate the informational message displayed in the cart page			
+ */			
+		case 17:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+            String soc6196 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] soc6196_1 = soc6196.split(",");
+			for (int i=0; i<soc6196_1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, soc6196_1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(15000);
+			}
+			javascripthandler.highlightElement(AddProductsPageObjects.lblMessage1);
+			String message1= elementHandler.getText(AddProductsPageObjects.lblMessage1);
+			String message2= elementHandler.getText(AddProductsPageObjects.lblMessage2);
+			AssertionHandler.verifyTrue(message1.contains("Auto Included"), "Auto Included Message not displayed for adding 41819162 product");
+			AssertionHandler.verifyTrue(message2.contains("Auto Included"), "Auto Included Message not displayed for adding 41948733 product");
+			TestNGCustomReporter.log(logger, "Auto Included message displayed for adding PPC products" +ReportBuilder.takesScreenshot());
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(30000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(15000);
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			String quote8= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote8.contains("Q-"), "Quote page not displayed");
+			break;
+			
+			/* 
+			 * This case is to add IMS or IME products:41777796,41822784 to the cart. Give contract term 				
+			 */
+			
+		case 18:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String imse = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] imse1 = imse.split(",");
+			for (int i=0; i<imse1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, imse1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			elementHandler.waitForXpathToLoad(btnProductAttr);
+			elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			actionHandler.waitForSomeTime(15000);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng, AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(15000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(10000);
+			boolean enablebtn3= AddProductsPageObjects.btnSubmtForApproval.isEnabled();
+			if 	(enablebtn3== true) {
+				javascripthandler.highlightElement(AddProductsPageObjects.btnSubmtForApproval);
+			TestNGCustomReporter.log(logger, "Submit For Approval button enabled for IMS and IME product with Contract Term as 1 yr" +ReportBuilder.takesScreenshot());
+			}
+			
+			String contractTerms = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Contract_Term", Row);
+			String[] contractTerm1 = contractTerms.split(",");
+            for (int k=0;k<contractTerm1.length;k++) 
+            {
+            	if(!contractTerms.equals("NA"))
+            	{
+                   elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnContractTerm.get(k));          
+                   elementHandler.clickElement(AddProductsPageObjects.drpdwnContractTerm.get(k));
+                   TestNGCustomReporter.log(logger,"From sheet "+contractTerms.trim());
+                   actionHandler.waitForSomeTime(2000);
+                   for(int j=1; j<=5; j++)
+                   {
+                          String CntrctTrm=driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).getText();
+                          TestNGCustomReporter.log(logger,"From list["+j+"] "+CntrctTrm.trim());
+                          if(CntrctTrm.trim().contentEquals(contractTerms.trim()))
+                          {
+                                 driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).click();
+                                 break;
+                          }
+                          
+                   }
+            	}
+           }
+            
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(10000);
+			boolean enablebtn4= AddProductsPageObjects.btnFinalize.isEnabled();
+			if 	(enablebtn4 == true) {
+			AssertionHandler.verifyTrue(enablebtn4, "Finalize button not enabled for IMS and IME product with Contract Term as 2 or 3 yrs");
+			javascripthandler.highlightElement(AddProductsPageObjects.btnFinalize);
+			TestNGCustomReporter.log(logger, "Finalize button enabled for IMS and IME product with Contract Term as  2 or 3 yrs" +ReportBuilder.takesScreenshot());
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(19000);
+			break;
+			
+/*
+ * This case is to add EB Products:41870119,42089521,42089522 to the cart and give Discount to all				
+ */			
+		case 19:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String listofproducts4 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] ebProducts = listofproducts4.split(",");
+			for (int i=0; i<ebProducts.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ebProducts[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+			actionHandler.waitForSomeTime(10000);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(15000);
+			elementHandler.clickElement(AddProductsPageObjects.chkboxSelectAll,AddProductsPageObjects.btnMassUpdt);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnMassUpdt, AddProductsPageObjects.drpdwnAdjustty);
+			actionHandler.waitForSomeTime(2000);
+			javascripthandler.scrollIntoView(AddProductsPageObjects.drpdwnAdjustty);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnAdjustty);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnDiscnt);
+			actionHandler.waitForSomeTime(2000);
+			String adamount= ExcelUtils.getDataByColumnName("AddProducts", "AdjustAmount");
+			elementHandler.writeText(AddProductsPageObjects.txtAdjust2, adamount, AddProductsPageObjects.btnApply);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnApply,AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnFinalize);
+			elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.waitForXpathToLoad(imgQuotepg);
+			String quote9= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+			AssertionHandler.verifyTrue(quote9.contains("Q-"), "Quote page not displayed");
+			TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+			break;
+	
+/*
+ * This case is to add Firmsite and IM products to the cart. Apply bridge and discount.				
+ */			
+		case 20:
+			javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+			elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+			elementHandler.waitForXpathToLoad(lblCategorySelectn);
+			String imFirmsite = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+            String[] imFirmsite1 = imFirmsite.split(",");
+			for (int i=0; i<imFirmsite1.length; i++)
+			{
+			elementHandler.writeText(AddProductsPageObjects.txtboxSearch, imFirmsite1[i]);
+			actionHandler.keyboardAction(Keys.ENTER);
+			actionHandler.waitForSomeTime(30000);
+			elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+			elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+			elementHandler.waitForXpathToLoad(btnProductAttr);
+			elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+			elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+			actionHandler.waitForSomeTime(10000);
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+			actionHandler.waitForSomeTime(10000);
+			}
+			elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+			actionHandler.waitForSomeTime(25000);
+			elementHandler.clickElement(AddProductsPageObjects.chkboxSelectAll,AddProductsPageObjects.btnMassUpdt);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.btnMassUpdt, AddProductsPageObjects.drpdwnAdjustty);
+			actionHandler.waitForSomeTime(2000);
+			javascripthandler.scrollIntoView(AddProductsPageObjects.drpdwnAdjustty);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnAdjustty);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnDiscnt);
+			actionHandler.waitForSomeTime(2000);
+			javascripthandler.scrollIntoView(AddProductsPageObjects.txtAdjust2);
+			elementHandler.writeText(AddProductsPageObjects.txtAdjust2, "5");
+			actionHandler.waitForSomeTime(2000);
+			javascripthandler.scrollIntoView(AddProductsPageObjects.drpdwnBridge);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnBridge);
+			actionHandler.waitForSomeTime(2000);
+			elementHandler.clickElement(AddProductsPageObjects.drpdwnBridgeval);
+			actionHandler.waitForSomeTime(5000);
+			javascripthandler.scrollIntoView(AddProductsPageObjects.btnApply);
+			elementHandler.clickElement(AddProductsPageObjects.btnApply,AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(25000);
+
+			elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+			actionHandler.waitForSomeTime(20000);
+			boolean btn= AddProductsPageObjects.btnFinalize.isEnabled();
+			if (btn == true) {
+				elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+				actionHandler.waitForSomeTime(25000);
+				elementHandler.waitForXpathToLoad(imgQuotepg);
+				String quote_1= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote_1.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Finalize button" +ReportBuilder.takesScreenshot());	
+				
+			}
+			else {
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmtForApproval);
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmtForApproval,AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnSubmit);
+				TestNGCustomReporter.log(logger, "Valiadte submit button" +ReportBuilder.takesScreenshot());
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit, AddProductsPageObjects.btnSubmit);
+				actionHandler.waitForSomeTime(10000);
+				TestNGCustomReporter.log(logger, "Valiadte submit button" +ReportBuilder.takesScreenshot());
+				elementHandler.clickElement(AddProductsPageObjects.btnSubmit,AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(5000);
+				TestNGCustomReporter.log(logger, "Valiadte Return button" +ReportBuilder.takesScreenshot());
+				elementHandler.clickElement(AddProductsPageObjects.btnReturn);
+				actionHandler.waitForSomeTime(25000);
+				String quote_1= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+				AssertionHandler.verifyTrue(quote_1.contains("Q-"), "Quote page not displayed");
+				TestNGCustomReporter.log(logger, "products are added to the cart by clicking on Submit for approval button" +ReportBuilder.takesScreenshot());
+				QuotePage quotepage = new QuotePage(driver);
+				String Name= quotepage.submitForApproval();
+				SearchPage searchpage = new SearchPage(driver);
+				searchpage.searchDiffProfile("Jessica Albers");
+				searchpage.approvalProcess(Name);
+				BasePage basePage = new BasePage(driver);
+				basePage.Logout();
+				searchpage.changeTab();	
+			
+			}
+			break;
+			
+			
+		case 21:
+			
+			
+			
+			
+			}//switch statement close
+		
+		} //Method close
+		
+
+public void validateContractTerm(int Row){
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	 String contractProducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	 String[] contractProducts1 = contractProducts.split(",");
+	for (int i=0; i<contractProducts1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, contractProducts1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(20000);
+	
+	for (int k=0;k<2;k++) 
+	{
+		boolean contract= elementHandler.isElementDisplayed(AddProductsPageObjects.drpdwnContractTerm.get(k));
+		AssertionHandler.verifyTrue(contract, "Contract Term field not displayed in the cart page");
+		 elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnContractTerm.get(k));
+		 elementHandler.clickElement(AddProductsPageObjects.drpdwnContractTerm.get(k));
+		 TestNGCustomReporter.log(logger, "Contract Terms displayed in the drop down list for Engagement and OTC products" +ReportBuilder.takesScreenshot());
+		 actionHandler.waitForSomeTime(2000);
+	}	
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnFinalize);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(15000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+	
+}
+
+public void year23IMProducts(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+    String IMProducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+    String[] IMProducts1 = IMProducts.split(",");
+	for (int i=0; i<IMProducts1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, IMProducts1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	elementHandler.waitForXpathToLoad(btnProductAttr);
+	elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "2");
+	elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(10000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price);
+	String IMSuite= elementHandler.getText(AddProductsPageObjects.lblYear23Price);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price1);
+	String FSEssential= elementHandler.getText(AddProductsPageObjects.lblYear23Price1);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price2);
+	String FSCatalyst = elementHandler.getText(AddProductsPageObjects.lblYear23Price2);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price3);
+	String IMPresence= elementHandler.getText(AddProductsPageObjects.lblYear23Price3);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnFinalize);
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+	elementHandler.clickElement(AddProductsPageObjects.lnkLineItems, AddProductsPageObjects.lnkIMS );
+	elementHandler.clickElement(AddProductsPageObjects.lnkIMS, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId,AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	String price1= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	ReportBuilder.takesScreenshot();
+	String val_1= IMSuite.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_2=price1.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_1.contains(val_2));
+	TestNGCustomReporter.log(logger, "IMsuite Price2-3 value got matched sccessfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkIME, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId,AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	String price2= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	String val_3= FSEssential.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_4= price2.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_3.contains(val_4));
+	TestNGCustomReporter.log(logger, "FSEssential Price2-3 values matched properly");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkIMC, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId,AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	String price3= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	TestNGCustomReporter.log(logger, "FSCatalyst price2-3 values matched properly");
+	String val_5= FSCatalyst.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_6= price3.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_5.contains(val_6));
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkIMP, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId,AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	String price4= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	TestNGCustomReporter.log(logger, "IMPresence price2-3 values matched properly");
+	String val_7= IMPresence.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_8= price4.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_7.contains(val_8));		
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+}
+
+
+public void validateYear23Firmsite(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String FirmsiteProducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	String[] FirmsiteProducts1 = FirmsiteProducts.split(",");
+	for (int i=0; i<FirmsiteProducts1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, FirmsiteProducts1[1]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	elementHandler.waitForXpathToLoad(btnProductAttr);
+	elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "2");
+	elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lblShowOptions);
+	elementHandler.clickElement(AddProductsPageObjects.lblShowOptions);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price4);
+	String FirmsiteI= elementHandler.getText(AddProductsPageObjects.lblYear23Price4);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price5);
+	String CustContent= elementHandler.getText(AddProductsPageObjects.lblYear23Price5);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price6);
+	String IntkForm= elementHandler.getText(AddProductsPageObjects.lblYear23Price6);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price7);
+	String Search= elementHandler.getText(AddProductsPageObjects.lblYear23Price7);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price8);
+	String Video= elementHandler.getText(AddProductsPageObjects.lblYear23Price8);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price9);
+	String Starter= elementHandler.getText(AddProductsPageObjects.lblYear23Price9);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price0);
+	String FirmsiteMbl= elementHandler.getText(AddProductsPageObjects.lblYear23Price0);
+	elementHandler.clickElement(AddProductsPageObjects.lblShowOptions1);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_1);
+	String FirmsiteStart= elementHandler.getText(AddProductsPageObjects.lblYear23Price_1);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_2);
+	String IntForm= elementHandler.getText(AddProductsPageObjects.lblYear23Price_2);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_3);
+	String FirmsiteII= elementHandler.getText(AddProductsPageObjects.lblYear23Price_3);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_4);
+	String SearchII= elementHandler.getText(AddProductsPageObjects.lblYear23Price_4);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_5);
+	String CustCont = elementHandler.getText(AddProductsPageObjects.lblYear23Price_5);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_6);
+	String Video1= elementHandler.getText(AddProductsPageObjects.lblYear23Price_6);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_7);
+	String Starter2= elementHandler.getText(AddProductsPageObjects.lblYear23Price_7);
+	elementHandler.clickElement(AddProductsPageObjects.lblShowOptions2);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_8);
+	String FirmsiteStart2= elementHandler.getText(AddProductsPageObjects.lblYear23Price_8);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price_9);
+	String Intkfom= elementHandler.getText(AddProductsPageObjects.lblYear23Price_9);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc);
+	String Accelerate= elementHandler.getText(AddProductsPageObjects.lblYear23Prc);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc1);
+	String FirmsiteIII= elementHandler.getText(AddProductsPageObjects.lblYear23Prc1);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc2);
+	String SrchIII= elementHandler.getText(AddProductsPageObjects.lblYear23Prc2);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc3);
+	String Cust1= elementHandler.getText(AddProductsPageObjects.lblYear23Prc3);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc4);
+	String Video3= elementHandler.getText(AddProductsPageObjects.lblYear23Prc4);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc5);
+	String Starter3= elementHandler.getText(AddProductsPageObjects.lblYear23Prc5);
+	elementHandler.clickElement(AddProductsPageObjects.lblShowOptions3);
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc6);
+	String Firmsite3= elementHandler.getText(AddProductsPageObjects.lblYear23Prc6);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc7);
+	String Intk1= elementHandler.getText(AddProductsPageObjects.lblYear23Prc7);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc8);
+	String Accelert= elementHandler.getText(AddProductsPageObjects.lblYear23Prc8);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Prc9);
+	String Firmsite4= elementHandler.getText(AddProductsPageObjects.lblYear23Prc9);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYr23Prc1);
+	String Search3= elementHandler.getText(AddProductsPageObjects.lblYr23Prc1);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYr23Prc2);
+	String Cust2= elementHandler.getText(AddProductsPageObjects.lblYr23Prc2);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYr23Prc3);
+	String Video4= elementHandler.getText(AddProductsPageObjects.lblYr23Prc3);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYr23Prc4);
+	String Starter4= elementHandler.getText(AddProductsPageObjects.lblYr23Prc4);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(15000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+	elementHandler.clickElement(AddProductsPageObjects.lnkLineItems, AddProductsPageObjects.lnkGoToList);
+	elementHandler.clickElement(AddProductsPageObjects.lnkGoToList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption1);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption1, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val1= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	System.out.println(val1);
+	System.out.println(FirmsiteI  +"Firmsuite");
+	AssertionHandler.verifyEquals(val1, FirmsiteI, "FirmSite I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite I option of Firmsite 111C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	actionHandler.waitForSomeTime(2000);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption2,AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val2= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val2, CustContent, "Cust Content I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Cust Content I option of Firmsite 111C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption3);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption3, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val3= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val3, IntkForm, "Intk Form I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Intk Form option of Firmsite 111C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption4);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption4, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val4= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val4,Search, "Search mkt I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Search Mkt option of Firmsite 111C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption5);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption5, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val5= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val5,Video, "Video Host I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Video Host option of Firmsite 111C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption6);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption6, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId, AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	//DecimalFormat df = new DecimalFormat("##.00");
+   // String val6 = df.format(elementHandler.getText(AddProductsPageObjects.lblAdjustAmt));
+	actionHandler.waitForSomeTime(5000);
+	//AssertionHandler.verifyTrue(Starter.contains(val6), "Video Host I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Starter profile option of Firmsite 111C product matched successfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption7);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption7, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val7= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val7,FirmsiteMbl , "FirmSite Mobile Starter I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite Mobile option of Firmsite 111C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption8);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption8, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val8= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val8,FirmsiteStart , "FirmSite Mobile Starter I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite Mobile option of Firmsite 222C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption9);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOption9, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val9= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val9, IntForm, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price forIntk Form option of Firmsite 222C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String val12= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(val12,FirmsiteII , "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite II option of Firmsite 222C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn1, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value1= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value1,SearchII , "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Search Mkt II option of Firmsite 222C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn2, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value2= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value2, CustCont , "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Cust Content II option of Firmsite 222C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn3, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value3= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value3, Video1 , "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Video Host option of Firmsite 222C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn4, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId, AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	//DecimalFormat df1 = new DecimalFormat("##.00");
+    //String value4 = df1.format(elementHandler.getText(AddProductsPageObjects.lblAdjustAmt));
+	actionHandler.waitForSomeTime(5000);
+	//AssertionHandler.verifyTrue(Starter2.contains(value4), "Video Host I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Starter profile option of Firmsite 111C product matched successfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn5, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value5= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value5, FirmsiteStart2 , "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite Mobile option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn6, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value6= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value6,Intkfom, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Intk Form option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn7, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value7= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value7,Accelerate, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Accelerated Web option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn8, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value8= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value8,FirmsiteIII, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for FirmsiteIII option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOptn9, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String value9= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(value9,SrchIII, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Search MKT III option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt1, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue1= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue1,Cust1, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Cust Content III option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt2, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue2= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue2,Video3, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Video Host option of Firmsite 333C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt3, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId, AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	//DecimalFormat df2 = new DecimalFormat("##.00");
+   /// String lblvalue3 = df2.format(elementHandler.getText(AddProductsPageObjects.lblAdjustAmt));
+	actionHandler.waitForSomeTime(5000);
+	//AssertionHandler.verifyTrue(Starter3.contains(lblvalue3), "Video Host I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Starter profile option of Firmsite 111C product matched successfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt4, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue4= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue4,Firmsite3, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite Mobile option of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt5, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue5= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue5,Intk1, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Intk Form option of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt6, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue6= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue6,Accelert, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Accelerated Web option of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt7, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue7= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue7,Firmsite4, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite IV option of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt8, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue8= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue8,Search3, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Search Mkt IV option of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt9, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue9= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue9,Cust2, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Cust Content IV option of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkOpt, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.waitForXpathToLoad(lblPrice);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String lblvalue= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(5000);
+	AssertionHandler.verifyEquals(lblvalue,Video4, "FirmSite Mobile Starter II Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Firmsite Video Host of Firmsite 444C product matched successfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	
+	elementHandler.clickElement(AddProductsPageObjects.linkOptn, AddProductsPageObjects.lnkPriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lnkMatrxpricing );
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrxpricing, AddProductsPageObjects.lnkMatrixId);
+	elementHandler.clickElement(AddProductsPageObjects.lnkMatrixId, AddProductsPageObjects.lblEntries);
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblEntries);
+	//DecimalFormat df3 = new DecimalFormat("##.00");
+    //String lblval = df3.format(elementHandler.getText(AddProductsPageObjects.lblAdjustAmt));
+	actionHandler.waitForSomeTime(5000);
+	//AssertionHandler.verifyTrue(Starter4.contains(lblval), "Video Host I Year 2-3 Price not matched properly");
+	TestNGCustomReporter.log(logger, "Year 2-3 price for Starter profile option of Firmsite 111C product matched successfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkOption2);
+	TestNGCustomReporter.log(logger, "Validation of Year 2-3 price for all products is completed" +ReportBuilder.takesScreenshot());
+	
+}
+
+
+public void validateBridgeValues(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String ebproducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	String[] ebproducts1 = ebproducts.split(",");
+	for (int i=0; i<ebproducts1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ebproducts1[1]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(20000);
+	
+	String bridge = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Bridge", Row);
+    String[] arrBridge = bridge.split(",");
+    for (int k=0;k<arrBridge.length;k++)
+    {
+        if (!bridge.equals( "NA"))
+        {
+           elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnBridge5.get(k));          
+           elementHandler.clickElement(AddProductsPageObjects.drpdwnBridge5.get(k));
+           actionHandler.waitForSomeTime(2000);
+           for(int j=1; j<=5; j++)
+           {
+                  String bridgeTrm=driver.findElement(By.xpath("//ul[@id='ui-select-choices-12']/li["+j+"]")).getText();
+                  TestNGCustomReporter.log(logger,"From list["+j+"] "+bridgeTrm.trim());
+                  if(bridgeTrm.trim().contentEquals(bridge.trim()))
+                  {
+                         driver.findElement(By.xpath("//ul[@id='ui-select-choices-12']/li["+j+"]")).click();
+                         actionHandler.waitForSomeTime(2000);
+                         break;
+                  }
+                  
+           }
+        }
+    } 
+	elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+	actionHandler.waitForSomeTime(20000);
+	//Add Blog set up product:41819163
+	String prod1= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, prod1);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(20000);
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnFinalize);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	String quote_3= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+	AssertionHandler.verifyTrue(quote_3.contains("Q-"), "Quote page not displayed");
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+}
+
+public void validateYear23EBProducts(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+    String ebYearProd = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+    String[] ebYearProd1 = ebYearProd.split(",");
+	for (int i=0; i<ebYearProd1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ebYearProd1[1]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(15000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price);
+	String Impact= elementHandler.getText(AddProductsPageObjects.lblYear23Price);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price1);
+	String Engage= elementHandler.getText(AddProductsPageObjects.lblYear23Price1);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price2);
+	String Quartely = elementHandler.getText(AddProductsPageObjects.lblYear23Price2);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price3);
+	TestNGCustomReporter.log(logger, "Year 23 price displayed for all products" +ReportBuilder.takesScreenshot());
+	String Client= elementHandler.getText(AddProductsPageObjects.lblYear23Price3);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(20000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+	elementHandler.clickElement(AddProductsPageObjects.lnkLineItems, AddProductsPageObjects.lnlImpact );
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnlImpact, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblpriceList );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(2000);
+	String lstPrice= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	AssertionHandler.verifyEquals(lstPrice, Impact);
+	TestNGCustomReporter.log(logger, "IMsuite Price2-3 value got matched sccessfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkEngage, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblpriceList );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(2000);
+	String lstPrice1= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	AssertionHandler.verifyEquals(lstPrice1, Engage);
+	TestNGCustomReporter.log(logger, "IMsuite Price2-3 value got matched sccessfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkQuarterly, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblpriceList );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(2000);
+	String lstPrice2= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	AssertionHandler.verifyEquals(lstPrice2, Quartely);
+	TestNGCustomReporter.log(logger, "IMsuite Price2-3 value got matched sccessfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkClient, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblpriceList );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	actionHandler.waitForSomeTime(2000);
+	String lstPrice3= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	AssertionHandler.verifyEquals(lstPrice3, Client);
+	TestNGCustomReporter.log(logger, "IMsuite Price2-3 value got matched sccessfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+}
+
+
+/*
+* This case is to add Blog products: 41817449,30405072 to the cart. Verify Year 2-3 price.				
+*/
+public void validateYear23Blogprod(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+    String blogCPQ = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+    String[] blogCPQ1 = blogCPQ.split(",");
+	for (int i=0; i<blogCPQ1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, blogCPQ1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(10000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price);
+	TestNGCustomReporter.log(logger, "Year 23 Price for Findlaw Social promotion product" +ReportBuilder.takesScreenshot());
+	String Social= elementHandler.getText(AddProductsPageObjects.lblYear23Price);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price1);
+	TestNGCustomReporter.log(logger, "Year 23 Price for End user Interface product" +ReportBuilder.takesScreenshot());
+	String User= elementHandler.getText(AddProductsPageObjects.lblYear23Price1);
+	actionHandler.waitForSomeTime(10000);
+    elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(20000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+	elementHandler.clickElement(AddProductsPageObjects.lnkLineItems, AddProductsPageObjects.lnkSocial );
+	elementHandler.clickElement(AddProductsPageObjects.lnkSocial, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblpriceList );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String va1= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	AssertionHandler.verifyEquals(va1, Social, "values not matched for Social product");
+	TestNGCustomReporter.log(logger, "FL Social promotion services Price2-3 value got matched sccessfully");
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkEndUser, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblpriceList );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	String va2= elementHandler.getText(AddProductsPageObjects.lblvalue1);
+	//AssertionHandler.verifyEquals(va2, User, "values not matched for User product");
+	TestNGCustomReporter.log(logger, "End User Interface Price2-3 value got matched sccessfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+}
+
+
+/*
+ * This case is to add PPC products :41876119,41877783,40586465 to the cart and validate Year 2-3 price for all				
+ */
+public void validateYear23PPCProd(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String soc6201 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+    String[] soc6201_1 = soc6201.split(",");
+	for (int i=0; i<soc6201_1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, soc6201_1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(20000);
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(10000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price);
+	TestNGCustomReporter.log(logger, "Year 2-3 price displayed for PPC Additional landing page OTC product" +ReportBuilder.takesScreenshot());
+	//String IMSuite= elementHandler.getText(AddProductsPageObjects.lblYear23Price);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price1);
+	TestNGCustomReporter.log(logger, "Year 2-3 price displayed for PPC Espanol Additional landing page OTC product" +ReportBuilder.takesScreenshot());
+	//String FSEssential= elementHandler.getText(AddProductsPageObjects.lblYear23Price1);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price2);
+	TestNGCustomReporter.log(logger, "Year 2-3 price displayed for Additional Call Tracking Number product" +ReportBuilder.takesScreenshot());
+	//String FSCatalyst = elementHandler.getText(AddProductsPageObjects.lblYear23Price2);
+	//javascripthandler.scrollIntoView(AddProductsPageObjects.lblYear23Price3);
+	//String IMPresence= elementHandler.getText(AddProductsPageObjects.lblYear23Price3);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(20000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.lnkLineItems);
+	elementHandler.clickElement(AddProductsPageObjects.lnkLineItems, AddProductsPageObjects.lnkPPCadd );
+	elementHandler.clickElement(AddProductsPageObjects.lnkPPCadd, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblvalue1 );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	/*String price1= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	ReportBuilder.takesScreenshot();
+	String val_1= IMSuite.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_2=price1.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_1.contains(val_2));*/
+	TestNGCustomReporter.log(logger, "PPC Additional landing page OTC product Price2-3 value got matched sccessfully" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkPPCEspanol, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblvalue1 );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	/*
+	String price2= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	String val_3= FSEssential.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_4= price2.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_3.contains(val_4));*/
+	TestNGCustomReporter.log(logger, "PPC Espanol product Price2-3 values matched properly" +ReportBuilder.takesScreenshot());
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	
+	
+	elementHandler.clickElement(AddProductsPageObjects.lnkCallTrack, AddProductsPageObjects.lblpriceList);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkPriceList, AddProductsPageObjects.lnkItem);
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.lnkItem,AddProductsPageObjects.lblvalue1 );
+	actionHandler.waitForSomeTime(5000);
+	javascripthandler.scrollIntoView(AddProductsPageObjects.lblvalue1);
+	TestNGCustomReporter.log(logger, "Additional Call Tracking no product Price2-3 values matched properly" +ReportBuilder.takesScreenshot());
+	/*String price3= elementHandler.getText(AddProductsPageObjects.lblAdjustmntAmt);
+	TestNGCustomReporter.log(logger, "FSCatalyst price2-3 values matched properly");
+	String val_5= FSCatalyst.replace("USD", "").replace("\\s", "").replace(",", "").replaceAll("\\.0*$", "");
+	String val_6= price3.replace(",", "").replaceAll("\\.0*$", "");
+	AssertionHandler.verifyTrue(val_5.contains(val_6));*/
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+	driver.navigate().back();
+	actionHandler.waitForSomeTime(2000);
+}
+
+/*
+ * This case is to add OTC products: 42089523,41870119 and add it to the cart. Give discount and validate Submit for Approval				
+ */
+public void validateGuidanceOTCprod(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+    String otcProducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+    String[] otcProducts1 = otcProducts.split(",");
+	for (int i=0; i<otcProducts1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, otcProducts1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(30000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	
+           actionHandler.waitForSomeTime(2000);
+           elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(0), "10");
+           actionHandler.waitForSomeTime(5000);
+    	
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(20000);
+	TestNGCustomReporter.log(logger, "Discount successfully added to the product" +ReportBuilder.takesScreenshot());
+	javascripthandler.scrollIntoView(AddProductsPageObjects.imgGuidance.get(0));
+	elementHandler.clickElement(AddProductsPageObjects.imgGuidance.get(0));
+	TestNGCustomReporter.log(logger, "Validate pricing guidance for the product " +ReportBuilder.takesScreenshot());
+	boolean enblbtn1= AddProductsPageObjects.btnSubmtForApproval.isEnabled();
+	if (enblbtn1 == true) {
+		AssertionHandler.verifyTrue(enblbtn1, "Submit for Approval button is not enabled");
+		TestNGCustomReporter.log(logger, "Submit for Approval button is enabled" +ReportBuilder.takesScreenshot());	
+		
+	}
+	else {
+		TestNGCustomReporter.log(logger, "Submit for Approval button is disabled" +ReportBuilder.takesScreenshot());
+	}
+	
+           actionHandler.waitForSomeTime(2000);
+           elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(0), "0");
+           actionHandler.waitForSomeTime(5000);
+    	
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(25000);
+	TestNGCustomReporter.log(logger, "After removing Discounts" +ReportBuilder.takesScreenshot());	
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);	
+	actionHandler.waitForSomeTime(25000);	
+	TestNGCustomReporter.log(logger, "products added to the cart" +ReportBuilder.takesScreenshot());
+}
+
+/*
+ * This case is to add Animation Essential product: 41323281 to the cart. Give discount and Finalize the cart			
+ */
+public void validateGuidance(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String prod4 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, prod4);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(15000);
+	String AdjustTerm = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Adjust_Type", Row);
+    String[] arrAdjust = AdjustTerm.split(",");
+    for (int i=0;i<arrAdjust.length;i++)
+    {
+    if (!AdjustTerm.equals( "NA"))
+    {
+           elementHandler.waitForElementTobeClickable(AddProductsPageObjects.drpdwnAdjustmentTyp.get(i));          
+           elementHandler.clickElement(AddProductsPageObjects.drpdwnAdjustmentTyp.get(i));
+           TestNGCustomReporter.log(logger,"From sheet "+AdjustTerm.trim());
+           actionHandler.waitForSomeTime(2000);
+           for(int j=1; j<=3; j++)
+           {
+                  String AdjustTrm=driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).getText();
+                  TestNGCustomReporter.log(logger,"From list["+j+"] "+AdjustTrm.trim());
+                  if(AdjustTrm.trim().contentEquals(AdjustTerm.trim()))
+                  {
+                         driver.findElement(By.xpath("//li[@class='ui-select-choices-group']//li["+j+"]")).click();
+                         break;
+                  }
+                  
+           }
+    	}
+    }
+    
+	String adjustDiscount = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "AdjustAmount", Row);
+    String[] arrDiscount = adjustDiscount.split(",");
+    for (int k=0;k<arrDiscount.length;k++) 
+    {
+    	if (!adjustDiscount.equals( "NA"))
+    	{
+           actionHandler.waitForSomeTime(2000);
+           elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(k), adjustDiscount);
+    	}  
+    }
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(5000);
+	TestNGCustomReporter.log(logger, "Discount successfully added to the cart" +ReportBuilder.takesScreenshot());
+	javascripthandler.scrollIntoView(AddProductsPageObjects.imgGuidance.get(0));
+	elementHandler.clickElement(AddProductsPageObjects.imgGuidance.get(0));
+	TestNGCustomReporter.log(logger, "Validate pricing guidance for the product " +ReportBuilder.takesScreenshot());
+	boolean enblbtn2= AddProductsPageObjects.btnSubmtForApproval.isEnabled();
+	if (enblbtn2 == true) {
+		AssertionHandler.verifyTrue(enblbtn2, "Submit for Approval button is not enabled in the cart page");
+		TestNGCustomReporter.log(logger, "Submit for Approval button is enabled" +ReportBuilder.takesScreenshot());	
+		
+	}
+	else {
+		TestNGCustomReporter.log(logger, "Submit for Approval button is disabled" +ReportBuilder.takesScreenshot());
+	}
+	 elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(0), "0");
+	 actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(5000);
+	TestNGCustomReporter.log(logger, "After removing Discounts" +ReportBuilder.takesScreenshot());	
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);	
+	actionHandler.waitForSomeTime(10000);	
+	TestNGCustomReporter.log(logger, "products added to the cart" +ReportBuilder.takesScreenshot());
+	
+}
+
+/*
+ * This case is to add all Firmsite and IM products and validate quantity for all				
+ */
+public void validateQuantityforProducts(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String imFirmsite1 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	String[] imFirmsite = imFirmsite1.split(",");
+	for (int i=0; i<imFirmsite.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, imFirmsite[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(30000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	elementHandler.waitForXpathToLoad(btnProductAttr);
+	elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+	elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts, AddProductsPageObjects.txtboxSearch);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	String Discount= AddProductsPageObjects.lblDiscount.get(0).getText();
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(0));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(1));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(2));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(3));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(4));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(5));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(6));
+	actionHandler.waitForSomeTime(2000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblDiscount.get(7));
+	actionHandler.waitForSomeTime(2000);
+	boolean discount1= elementHandler.isElementDisplayed(AddProductsPageObjects.lblDiscount.get(7));
+	AssertionHandler.verifyTrue(discount1, "Discount field value not displayed in the cart page");
+	TestNGCustomReporter.log(logger, "Discount is displayed as:" +Discount +"for all IM and Firmsite products and its not editable" +ReportBuilder.takesScreenshot());
+	elementHandler.clickElement(AddProductsPageObjects.btnSave);
+	actionHandler.waitForSomeTime(12000);
+}
+
+/*
+ * This case is to add multiple Blog Model products:41325003,41701486,41323282,41323281 with Firmsite 333C product:40483699, Validate the error message
+ * 
+ */
+public void validateErrorMessage(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String blogproducts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	String firmsite= ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Installed_Product", Row);
+    String[] listofproduct3 = blogproducts.split(",");
+    for (int i=0; i<listofproduct3.length; i++)
+    {
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, listofproduct3[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddAnother);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, firmsite);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnConfigure);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	elementHandler.waitForXpathToLoad(btnProductAttr);
+	elementHandler.writeText(AddProductsPageObjects.txtboxNumbAttrys, "5");
+	elementHandler.clickElement(AddProductsPageObjects.tabSecondaries);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(10000);
+	javascripthandler.highlightElement(AddProductsPageObjects.lblErrorMsg);
+	boolean error= elementHandler.isElementDisplayed(AddProductsPageObjects.lblErrorMsg);
+	AssertionHandler.verifyTrue(error, "Error message not displayed in the cart page");
+	TestNGCustomReporter.log(logger, "Error Message displayed for adding FNDLW FIRMSITE MOBILE ESSENTIAL product:"  +ReportBuilder.takesScreenshot());
+	driver.findElement(By.xpath("//cart-header//div[1]/label")).click();
+	elementHandler.clickElement(AddProductsPageObjects.btnRemove);
+	actionHandler.waitForSomeTime(10000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts);
+	actionHandler.waitForSomeTime(15000);
+    }
+}
+
+/*
+ * This case is to add PPC products: 41877783,41876119 to the cart and validate the discount.				
+ */
+public void validateDiscount(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String soc4555 = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+	String[] soc4555_1 = soc4555.split(",");
+	for (int i=0; i<soc4555_1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, soc4555_1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(30000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForXpathToLoad("//td[9]//p[1]/input");
+	
+	 String adjustDiscount = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "AdjustAmount", Row);
+     String[] arrDiscount = adjustDiscount.split(",");
+     for (int k=0;k<arrDiscount.length;k++) 
+     {
+     	if (!adjustDiscount.equals( "NA"))
+     	{
+            actionHandler.waitForSomeTime(2000);
+            elementHandler.writeText(AddProductsPageObjects.txtAdjustAmount1.get(k), adjustDiscount);
+            actionHandler.waitForSomeTime(2000);
+     	}  
+     }
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(20000);
+	TestNGCustomReporter.log(logger, "Able to give discount for PPC products before finalize button" +ReportBuilder.takesScreenshot());
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(25000);
+	String quote_4= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+	AssertionHandler.verifyTrue(quote_4.contains("Q-"), "Quote page not displayed");
+	TestNGCustomReporter.log(logger, "Able to give discount for PPC products after finalize button" +ReportBuilder.takesScreenshot());
+	
+}
+
+/*
+ * This case is to add   products and validate contract terms and bridge details
+ */
+public void validateContractBridge(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForXpathToLoad(lblCategorySelectn);
+	String otcProd = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id", Row);
+    String[] otcProd1 = otcProd.split(",");
+	for (int i=0; i<otcProd1.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, otcProd1[i]);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddToCart1);
+	actionHandler.waitForSomeTime(10000);
+	}
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng);
+	actionHandler.waitForSomeTime(15000);
+	for (int k=0;k<2;k++) 
+	{
+		elementHandler.clickElement(AddProductsPageObjects.drpdwnContractTerm.get(k));
+		TestNGCustomReporter.log(logger, "Validate Contract Term not available for Findlw Client pulse" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+	}
+	for (int k=0;k<2;k++) 
+	{
+		elementHandler.clickElement(AddProductsPageObjects.drpdwnBridge5.get(k));
+		TestNGCustomReporter.log(logger, "Validate Bridge field not available for Findlw Client pulse" +ReportBuilder.takesScreenshot());
+		actionHandler.waitForSomeTime(2000);
+	}
+	elementHandler.waitForElementTobeClickable(AddProductsPageObjects.btnFinalize);
+	elementHandler.clickElement(AddProductsPageObjects.btnFinalize);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.waitForXpathToLoad(imgQuotepg);
+	String quote_6= elementHandler.getText(AddProductsPageObjects.lblproposalId);
+	AssertionHandler.verifyTrue(quote_6.contains("Q-"), "Quote page not displayed");
+	TestNGCustomReporter.log(logger, "products are added to the cart" +ReportBuilder.takesScreenshot());
+}
+
+
+/*
+ * This case is to add PPC products and validate the Approval and Finalize button is enabled or not
+ */
+public void validateSubmitForApproval(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	//elementHandler.waitforElement(AddProductsPageObjects.txtboxSearch);
+	elementHandler.waitForPageToLoad();
+	actionHandler.waitForSomeTime(10000);
+	String ppcProduct = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id",Row);
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ppcProduct);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	actionHandler.waitForSomeTime(5000);
+	String ppcType1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Type",Row);
+	String ppclang1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Lang",Row);
+	String ppcWebsite1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Website",Row);
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCType1);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[contains(text(),'"+ppcType1+"')]")).click();
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCLang);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[contains(text(),'"+ppclang1+"')]")).click();
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCWebsite);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[text()='"+ppcWebsite1+"']")).click();
+	String ppcAmount1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Amount",Row);
+	String[] ppcAmount2 = ppcAmount1.split(",");
+	for (int i=0; i<ppcAmount2.length; i++)
+	{
+	elementHandler.writeText(AddProductsPageObjects.txtPPCAmount, ppcAmount2[i]);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(30000);
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(30000);
+	String status= elementHandler.getText(AddProductsPageObjects.labelStatus);
+	if (status.contains("Approval Required")){
+		AssertionHandler.verifyTrue(status.contains("Approval Required"), "Approval not required for adding PPC products");
+		TestNGCustomReporter.log(logger, "Approval required when PPC bundle is less than $500 and more than $10,000" +ReportBuilder.takesScreenshot());
+	}
+	else {
+		TestNGCustomReporter.log(logger, "Approval not required for the cart is between $500-10,000" +ReportBuilder.takesScreenshot());
+	}
+	}
+	
+}
+
+
+/*
+ * This case is to add PPC product and validate the recommended product is displayed or not
+ */
+public void validateRecommendedProduct(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForPageToLoad();
+	actionHandler.waitForSomeTime(10000);
+	String ppcProduct = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id",Row);
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ppcProduct);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	actionHandler.waitForSomeTime(5000);
+	String ppcType1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Type",Row);
+	String ppclang1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Lang",Row);
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCType1);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[contains(text(),'"+ppcType1+"')]")).click();
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCLang);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[contains(text(),'"+ppclang1+"')]")).click();
+	String ppcWebsite1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Website",Row);
+	String[] ppcWebsite2 = ppcWebsite1.split(",");
+	for (int i=0; i<ppcWebsite2.length; i++)
+	{
+		elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCWebsite);
+		actionHandler.waitForSomeTime(2000);
+		driver.findElement(By.xpath("//div[text()='"+ppcWebsite2[i]+"']")).click();
+		actionHandler.waitForSomeTime(2000);
+		String ppcAmount1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Amount",Row);
+		elementHandler.writeText(AddProductsPageObjects.txtPPCAmount, ppcAmount1);
+		actionHandler.waitForSomeTime(2000);
+		elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+		actionHandler.waitForSomeTime(30000);
+		elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+		actionHandler.waitForSomeTime(30000);
+		elementHandler.clickElement(AddProductsPageObjects.lblRecommend);
+		boolean status= elementHandler.isElementDisplayed(AddProductsPageObjects.btnAddtoCart);
+		if(status== true) {
+			AssertionHandler.verifyTrue(status, "Recommended product not displayed");
+		TestNGCustomReporter.log(logger, "Additional Firmsite Landing Page material displayed as Recommended product" +ReportBuilder.takesScreenshot());
+		}
+		else {
+			TestNGCustomReporter.log(logger, "Additional Firmsite Landing Page material not displayed as Recommended product" +ReportBuilder.takesScreenshot());	
+		}
+		
+		}	
+}
+
+/*
+ * 
+ * This case is to add PPC product and validate the error message
+ */
+public void validateErrorMessage1(int Row) {
+	javascripthandler.scrollIntoView(QuotePageObjects.lblAddProducts);
+	elementHandler.clickElement(QuotePageObjects.btnAddProduct);
+	elementHandler.waitForPageToLoad();
+	actionHandler.waitForSomeTime(10000);
+	String ppclang1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Lang",Row);
+	String[] ppclang = ppclang1.split(",");
+	String ppcAmount1 =ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Amount",Row);
+	String[] ppcAmount2 = ppcAmount1.split(",");
+    for (int i=0; i<ppclang.length; i++)
+    {	
+	String ppcProduct = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "Product_Id",Row);
+	elementHandler.writeText(AddProductsPageObjects.txtboxSearch, ppcProduct);
+	actionHandler.keyboardAction(Keys.ENTER);
+	actionHandler.waitForSomeTime(25000);
+	elementHandler.clickElement(AddProductsPageObjects.btnConfigure);
+	actionHandler.waitForSomeTime(50000);
+	String ppcType1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Type",Row);
+	String ppcWebsite1=ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "PPC_Website",Row);
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCType1);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[contains(text(),'"+ppcType1+"')]")).click();
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCLang);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[contains(text(),'"+ppclang[i]+"')]")).click();
+	actionHandler.waitForSomeTime(5000);
+	elementHandler.writeText(AddProductsPageObjects.txtPPCAmount, ppcAmount2[i]);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.drpdwnPPCWebsite);
+	actionHandler.waitForSomeTime(2000);
+	driver.findElement(By.xpath("//div[text()='"+ppcWebsite1+"']")).click();
+	actionHandler.waitForSomeTime(5000);
+	TestNGCustomReporter.log(logger, "Validate Bundle 1 and 4" +ReportBuilder.takesScreenshot());
+	elementHandler.clickElement(AddProductsPageObjects.btnValidate);
+	actionHandler.waitForSomeTime(40000);
+	elementHandler.clickElement(AddProductsPageObjects.btnGoToPricng, AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(35000);
+	elementHandler.clickElement(AddProductsPageObjects.btnReprice);
+	actionHandler.waitForSomeTime(20000);
+	String message= elementHandler.getText(AddProductsPageObjects.lnlerrorMessage);
+	AssertionHandler.verifyNotEquals(message, "", "Error Message not displayed for adding PPC product Bundle 1 or 4");
+	TestNGCustomReporter.log(logger, "Validate Error message for adding PPC product as Bundle 1 and 4 :" +message +ReportBuilder.takesScreenshot());
+	elementHandler.clickElement(AddProductsPageObjects.chkboxSelectAll, AddProductsPageObjects.btnRemove);
+	actionHandler.waitForSomeTime(2000);
+	elementHandler.clickElement(AddProductsPageObjects.btnRemove);
+	actionHandler.waitForSomeTime(20000);
+	elementHandler.clickElement(AddProductsPageObjects.btnAddMoreProducts,AddProductsPageObjects.txtboxSearch);
+	actionHandler.waitForSomeTime(30000);	
+}
+    elementHandler.clickElement(AddProductsPageObjects .btnSave1);
+    actionHandler.waitForSomeTime(20000);
+}
+
+
+
+} //main class close 

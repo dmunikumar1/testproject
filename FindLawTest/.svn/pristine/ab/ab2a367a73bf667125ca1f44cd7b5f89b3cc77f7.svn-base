@@ -1,0 +1,40 @@
+package tr.findlaw.tests;
+
+import org.testng.annotations.Test;
+
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+
+public class Sprint_21 extends FindlawBaseTest {
+
+	
+	/*
+	 * Take any Existing Account which is not having US PPC product.Add US PPC product:30010890.
+	 * 	
+	 */
+	
+		 @Test(enabled = false, description = "SOC_6442_Implementing max quantity rule for Existing PPC with Firmsite")
+	     public void soc_6442() {	 
+				applicationLogin();
+               /* String Account = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "ProductID", 74);
+				accountpage = new Accountpage(driver);	
+				accountpage.searchExistAccounts(Account);*/
+				contactsPage = new ContactsPage(driver);
+				//String ContactName= contactsPage.createNewContact();
+				ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id", 74);
+				contactsPage.searchExistContact(74);
+				OpptyPage optypage = new OpptyPage(driver);
+				optypage.createOpty();
+				quotepage = new QuotePage(driver);
+				quotepage.createQuote();
+				addproductspage = new AddProductsPage(driver);
+				addproductspage.validatePPCMessage(74);          
+		 }	
+		 
+		 
+}

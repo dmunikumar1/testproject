@@ -1,0 +1,389 @@
+package tr.findlaw.tests;
+
+import org.testng.annotations.Test;
+import com.framework.utils.ExcelUtils;
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.objects.LoginPageObjects;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.FindLawOrderToolPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchPage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+
+public class Sprint_6 extends FindlawBaseTest{
+	
+	/*
+	 * Take any existing account which is not having Firmsite 333C as an Asset & add product Id-40483699,apply bride details
+	 * Finalize the cart and complete the order.
+	 */
+	
+	@Test(enabled = true, priority =1, description = "SOC-4102 Ability to bridge IM & Firmsites for only 30,60,90 days for 100 percent")
+	public void soc_4102() {
+		applicationLogin();
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(2);
+		contactsPage = new ContactsPage(driver);
+		String ContactName= contactsPage.createNewContact();
+		//String ContactName= ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",2);
+		//contactsPage.searchExistContact(2);
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId=quotepage.createQuote();
+		ExcelUtils.writeData(System.getProperty("user.dir") +"testdata.excel.file", "SOC_4102_Quote", QuoteId);
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 2; 
+		addproductspage.addProducts(ctrl,2);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		contact28page = new Contact28Page(driver);
+		contact28page.addContact28(ContactName);
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.generateDocument();
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.sendForEsign();		
+		webmailLogin();
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.esignProcess();
+		applicationLogin();
+		//String QuoteId= "Q-00409971";
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateEsign();
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOBbutton();
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		int ctrlval=24;
+		findlawordertoolpage.cobProcess(ctrlval);
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateOrder();	
+	}
+	
+	/*
+	 * Take any account which is not having Firmsite 333C as an Asset and add product id:40483699 
+	 * 
+	 * Give discount to the product, Finalize the Cart and complete the Order
+	 */
+	@Test(enabled = true, description = "SOC-4105_As CDC, I should have the ability to discount for IM Solutions and Firmsites")
+	public void soc_4105()  {
+		applicationLogin();
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(3);
+		contactsPage = new ContactsPage(driver);
+		//contactsPage.searchExistContact(3);
+		//String ContactName=ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",3);
+		String ContactName=contactsPage.createNewContact();
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId=quotepage.createQuote();
+		ExcelUtils.writeData("C:\\Users\\UX010052\\Documents\\Workspace\\FindLawTest\\src\\test\\resources\\testdata\\TestData.xls", "SOC_4105_Quote", QuoteId);
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 2; 
+		addproductspage.addProducts(ctrl,3);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		contact28page = new Contact28Page(driver);
+		contact28page.addContact28(ContactName);
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.generateDocument();
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.sendForEsign();
+		//String QuoteId=ExcelUtils.getDataByColumnName("Quote", "Name");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		webmailLogin();
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.esignProcess();
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateEsign();
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOBbutton();
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		int ctrlval= 24;
+		findlawordertoolpage.cobProcess(ctrlval);
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateOrder();		
+	}
+	
+	/*
+	 * Take any existing account which is not having Firmsite 333C as an Asset and add product id:40483699 
+	 *  
+	 * Give Contract term and Finalize the cart. Complete the Order
+	 */
+	@Test(enabled = true, description = "SOC-4106_As a CDC, I have the ability to chose contract terms available 1,2, 3 for Firmsite and IM solutions")
+	public void soc_4106()  {
+		applicationLogin();
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(4);
+		contactsPage = new ContactsPage(driver);
+		//contactsPage.searchExistContact(4);
+		//String ContactName=ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",4);
+		String ContactName=contactsPage.createNewContact();
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId=quotepage.createQuote();
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 2; 
+		addproductspage.addProducts(ctrl,4);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		contact28page = new Contact28Page(driver);
+		contact28page.addContact28(ContactName);
+		//String QuoteId=ExcelUtils.getDataByColumnName("Quote", "Name");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.generateDocument();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.sendForEsign();
+		webmailLogin();
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.esignProcess();
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateEsign();	
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOBbutton();
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		int ctrlval= 24;
+		findlawordertoolpage.cobProcess(ctrlval);
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateOrder();
+	
+	}
+	
+	/*
+	 * Take any existing account which is not having these IM products as an Asset and add IM products :41777796,41822784,41892830
+	 *  
+	 * validate recommended product added for all IM products in the cart
+	 * script will fail for this scenario as the functionality got changed or its a defect
+	 */
+	@Test(enabled = true, description = "SOC-4218 Set Up recommended product to be set up for the IM solution products")
+	public void soc_4218()  {
+		applicationLogin();
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(5);
+		contactsPage = new ContactsPage(driver);
+		//contactsPage.searchExistContact(5);
+		//String ContactName=ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",5);
+		contactsPage.createNewContact();
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId= quotepage.createQuote();
+		ExcelUtils.writeData("C:\\Users\\UX010052\\Documents\\Workspace\\FindLawTest\\src\\test\\resources\\testdata\\TestData.xlsx", "createQuote()", QuoteId);
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 6; 
+		addproductspage.addProducts(ctrl,5);	
+	
+	}
+	
+	/*
+	 * Take any existing account which is not having IM product as an Asset and add FNDLW FS Integrated Marketing Catalyst product :41892830
+	 * 
+	 * Validate bridge list and finalize the cart. Complete the Order
+	 */
+	@Test(enabled = true, description = "SOC-4482 Ability to bridge IM  for only 30,60,90 days at 100 percent")
+	public void soc_4482() {
+		applicationLogin();
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(6);
+		contactsPage = new ContactsPage(driver);
+		String ContactName=contactsPage.createNewContact();
+		//String ContactName= ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",6);
+		//contactsPage.searchExistContact(6);
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId=quotepage.createQuote();
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 2; 
+		addproductspage.addProducts(ctrl,6);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		contact28page = new Contact28Page(driver);
+		contact28page.addContact28(ContactName);
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.generateDocument();
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.sendForEsign();
+		//String QuoteId=ExcelUtils.getDataByColumnName("Quote", "Name");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+	    webmailLogin();
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.esignProcess();
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateEsign();
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOBbutton();
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		int ctrlval=24;
+		findlawordertoolpage.cobProcess(ctrlval);
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateOrder();	
+	}
+	
+		
+	/*
+	 * Take any Existing Account which is not having IMC Product as an Asset and add product :41892830 
+	 * 
+	 * Choose Contract Term, Finalize the Cart and Complete the order
+	 */
+	@Test(enabled = true, description = "SOC-4484 As a CDC, I have the ability to chose contract terms available 1,2, 3 for IM solutions")
+	public void soc_4484()  {
+		applicationLogin();
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(7);
+		contactsPage = new ContactsPage(driver);
+		//contactsPage.searchExistContact(7);
+		//String ContactName=ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",7);
+		String ContactName=contactsPage.createNewContact();
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId=quotepage.createQuote();
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 2; 
+		addproductspage.addProducts(ctrl,7);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		contact28page = new Contact28Page(driver);
+		contact28page.addContact28(ContactName);
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.generateDocument();
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.sendForEsign();
+		webmailLogin();
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.esignProcess();
+		applicationLogin();
+		//String QuoteId=ExcelUtils.getDataByColumnName("Quote", "Name");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateEsign();	
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOBbutton();
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		int ctrlval= 24;
+		findlawordertoolpage.cobProcess(ctrlval);
+		applicationLogin();
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateOrder();
+	}
+	
+	/*
+	 * Login as Super_Law user and Take any account which is not having Firmsite 333C product as an Asset and add product:40483699  to the cart 
+	 * 
+	 * Finalize and complete the Order
+	 */
+	@Test(enabled = true, description = "SOC-4698 FindLaw rep types will need to be mapped in SFDC to have a revenue channel assigned to the order")
+	public void soc_4698_Profiles()  {
+		applicationLogin();
+		String profiles= ExcelUtils.getDataByColumnNameWithRowIndex("Login", "Profiles",2);
+        //String[] listofprofiles = profiles.split(",");
+        /*for (int i=0; i<listofprofiles.length; i++) 
+        {*/
+		searchpage= new SearchPage(driver);
+		searchpage.searchDiffProfile(profiles);	
+		accountpage = new Accountpage(driver);
+		accountpage.searchExistAccount(8);
+		contactsPage = new ContactsPage(driver);
+		String ContactName=contactsPage.createNewContact();
+		//contactsPage.searchExistContact(8);
+		//String ContactName=ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id",8);
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty(); 
+		quotepage = new QuotePage(driver);
+		String QuoteId=quotepage.createQuotefrSpecificuser();
+		//String QuoteId = ExcelUtils.getDataByColumnNameWithRowIndex("Quote", "Name", 8);
+        //String[] listofquotes = QuoteId.split(",");
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);	
+		addproductspage = new AddProductsPage(driver);
+		int ctrl = 1; 
+		addproductspage.addProducts(ctrl,8);
+		quotepage = new QuotePage(driver);
+		quotepage.logoutUser();
+		if (LoginPageObjects.txtBoxUsrname.size()>0) {
+			basePage.loginWithValidUser();
+	     }
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);	
+		contact28page = new Contact28Page(driver);
+		contact28page.addContact28(ContactName);
+		applicationLogin();
+		searchpage.searchDiffProfile(profiles);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		generateDocumentPage = new GenerateDocumentPage(driver);
+		generateDocumentPage.generateDocument();
+		quotepage.logoutUser();
+		if (LoginPageObjects.txtBoxUsrname.size()>0) {
+			basePage.loginWithValidUser();
+	     }
+		searchquotepage.searchQuote(QuoteId);
+		sendesignPage = new SendEsignPage(driver);
+		sendesignPage.sendForEsign();
+		webmailLogin();
+		esignprocesspage = new EsignProcessPage(driver);
+		esignprocesspage.esignProcess();
+		applicationLogin();
+		searchpage.searchDiffProfile(profiles);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateEsign();	
+		findlawordertoolpage = new FindLawOrderToolPage(driver);
+		findlawordertoolpage.clickCOBbutton();
+		findlawordertoolpage.loginWithSafeuserId(QuoteId);
+		int ctrlval= 24;
+		findlawordertoolpage.cobProcess(ctrlval);
+		applicationLogin();
+		searchpage.searchDiffProfile(profiles);
+		searchquotepage = new SearchQuotePage(driver);
+		searchquotepage.searchQuote(QuoteId);
+		validateesignpage = new ValidateEsignPage(driver);
+		validateesignpage.validateOrder();
+        //}
+	}
+	
+	
+	
+}

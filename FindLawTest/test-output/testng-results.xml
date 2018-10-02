@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" ignored="0" total="1" passed="0">
+  <reporter-output>
+    <line>
+      <![CDATA[soc_4102 : Launched the url</br>]]>
+    </line>
+  </reporter-output>
+  <suite name="RegressionTestQA" duration-ms="35062" started-at="2018-09-10T17:39:24Z" finished-at="2018-09-10T17:39:59Z">
+    <groups>
+    </groups>
+    <test name="SmokeTest" duration-ms="35062" started-at="2018-09-10T17:39:24Z" finished-at="2018-09-10T17:39:59Z">
+      <class name="tr.findlaw.tests.Sprint_6">
+        <test-method status="PASS" signature="beforeSuite(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:tr.findlaw.tests.Sprint_6@69504ae9]" name="beforeSuite" is-config="true" duration-ms="268" started-at="2018-09-10T10:39:24Z" finished-at="2018-09-10T10:39:24Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[Smoke_Chrome]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[UAT]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[chrome]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="setup()[pri:0, instance:tr.findlaw.tests.Sprint_6@69504ae9]" name="setup" is-config="true" duration-ms="5946" started-at="2018-09-10T10:39:24Z" finished-at="2018-09-10T10:39:30Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="FAIL" signature="soc_4102()[pri:1, instance:tr.findlaw.tests.Sprint_6@69504ae9]" name="soc_4102" duration-ms="25721" started-at="2018-09-10T10:39:30Z" description="SOC-4102 Ability to bridge IM &amp; Firmsites for only 30,60,90 days for 100 percent" finished-at="2018-09-10T10:39:56Z">
+          <exception class="junit.framework.AssertionFailedError">
+            <message>
+              <![CDATA[Found 5 accessibility violations:
+1) id attribute value must be unique: https://dequeuniversity.com/rules/axe/3.0/duplicate-id?application=axeAPI
+  a) ["#marketing","html > body > div:nth-child(2) > .columnContainer.parbase > div > .container > .columns-wrapper.xs-min-height-500 > .col.text-left > div:nth-child(2) > h2"]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: salesforce-for-small-business
+
+
+  b) ["#marketing","html > body > div:nth-child(16) > .columnContainer.parbase > div > .container > .columns-wrapper.xs-min-height-500 > .col.text-left > div:nth-child(3) > h1"]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: agenda-builder-is-live
+
+
+  c) ["#marketing","html > body > div:nth-child(16) > .columnContainer.parbase > div > .container > .columns-wrapper.xs-min-height-500 > .col.text-left > div:nth-child(4) > h2"]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: start-planning-your-sessions-today
+
+
+2) <html> element must have a lang attribute: https://dequeuniversity.com/rules/axe/3.0/html-has-lang?application=axeAPI
+  a) ["body > iframe[src$=\"sessionserver212.html\"]","html"]
+    Fix any of the following:
+      The <html> element does not have a lang attribute
+
+
+3) Images must have alternate text: https://dequeuniversity.com/rules/axe/3.0/image-alt?application=axeAPI
+  a) ["#marketing","#small-business-kit > a > svg[role=\"img\"]"]
+    Fix any of the following:
+      Element does not have an alt attribute
+      aria-label attribute does not exist or is empty
+      aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible
+      Element has no title attribute or the title attribute is empty
+      Element's default semantics were not overridden with role="presentation"
+      Element's default semantics were not overridden with role="none"
+
+
+4) Page must contain one main landmark.: https://dequeuniversity.com/rules/axe/3.0/landmark-one-main?application=axeAPI
+  a) ["html"]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  b) ["#marketing","html"]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  c) ["body > iframe[src$=\"sessionserver212.html\"]","html"]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+5) Content should be contained in a landmark region: https://dequeuniversity.com/rules/axe/3.0/region?application=axeAPI
+  a) ["html"]
+    Fix any of the following:
+      Content not contained by an ARIA landmark
+
+]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[junit.framework.AssertionFailedError: Found 5 accessibility violations:
+1) id attribute value must be unique: https://dequeuniversity.com/rules/axe/3.0/duplicate-id?application=axeAPI
+  a) ["#marketing","html > body > div:nth-child(2) > .columnContainer.parbase > div > .container > .columns-wrapper.xs-min-height-500 > .col.text-left > div:nth-child(2) > h2"]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: salesforce-for-small-business
+
+
+  b) ["#marketing","html > body > div:nth-child(16) > .columnContainer.parbase > div > .container > .columns-wrapper.xs-min-height-500 > .col.text-left > div:nth-child(3) > h1"]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: agenda-builder-is-live
+
+
+  c) ["#marketing","html > body > div:nth-child(16) > .columnContainer.parbase > div > .container > .columns-wrapper.xs-min-height-500 > .col.text-left > div:nth-child(4) > h2"]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: start-planning-your-sessions-today
+
+
+2) <html> element must have a lang attribute: https://dequeuniversity.com/rules/axe/3.0/html-has-lang?application=axeAPI
+  a) ["body > iframe[src$=\"sessionserver212.html\"]","html"]
+    Fix any of the following:
+      The <html> element does not have a lang attribute
+
+
+3) Images must have alternate text: https://dequeuniversity.com/rules/axe/3.0/image-alt?application=axeAPI
+  a) ["#marketing","#small-business-kit > a > svg[role=\"img\"]"]
+    Fix any of the following:
+      Element does not have an alt attribute
+      aria-label attribute does not exist or is empty
+      aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible
+      Element has no title attribute or the title attribute is empty
+      Element's default semantics were not overridden with role="presentation"
+      Element's default semantics were not overridden with role="none"
+
+
+4) Page must contain one main landmark.: https://dequeuniversity.com/rules/axe/3.0/landmark-one-main?application=axeAPI
+  a) ["html"]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  b) ["#marketing","html"]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  c) ["body > iframe[src$=\"sessionserver212.html\"]","html"]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+5) Content should be contained in a landmark region: https://dequeuniversity.com/rules/axe/3.0/region?application=axeAPI
+  a) ["html"]
+    Fix any of the following:
+      Content not contained by an ARIA landmark
+
+
+	at com.framework.reports.ReportBuilder.buildTestNodes(ReportBuilder.java:134)
+	at com.framework.reports.ReportBuilder.buildReports(ReportBuilder.java:60)
+	at com.framework.test.BaseTest.afterSuite(BaseTest.java:66)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:108)
+	at org.testng.internal.Invoker.invokeConfigurationMethod(Invoker.java:523)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:224)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:146)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:350)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:289)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1301)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1226)
+	at org.testng.TestNG.runSuites(TestNG.java:1144)
+	at org.testng.TestNG.run(TestNG.java:1115)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+]]>
+            </full-stacktrace>
+          </exception> <!-- junit.framework.AssertionFailedError -->
+          <reporter-output>
+            <line>
+              <![CDATA[soc_4102 : Launched the url</br>]]>
+            </line>
+          </reporter-output>
+        </test-method> <!-- soc_4102 -->
+        <test-method status="PASS" signature="tearDown(org.testng.ITestResult)[pri:0, instance:tr.findlaw.tests.Sprint_6@69504ae9]" name="tearDown" is-config="true" duration-ms="2763" started-at="2018-09-10T10:39:56Z" finished-at="2018-09-10T10:39:59Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=soc_4102 status=FAILURE method=Sprint_6.soc_4102()[pri:1, instance:tr.findlaw.tests.Sprint_6@69504ae9] output=soc_4102 : Launched the url</br>]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="afterSuite(org.testng.ITestContext)[pri:0, instance:tr.findlaw.tests.Sprint_6@69504ae9]" name="afterSuite" is-config="true" duration-ms="597" started-at="2018-09-10T10:39:59Z" finished-at="2018-09-10T10:40:00Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@1286528d]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterSuite -->
+      </class> <!-- tr.findlaw.tests.Sprint_6 -->
+    </test> <!-- SmokeTest -->
+  </suite> <!-- RegressionTestQA -->
+</testng-results>

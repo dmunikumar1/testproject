@@ -1,0 +1,149 @@
+package tr.findlaw.tests;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.testng.annotations.Test;
+
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.FindLawOrderToolPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+
+public class Sprint_10 extends FindlawBaseTest{
+	
+	private Logger logger = LogManager.getLogger(this.getClass());
+	
+	 @Test(enabled = false, description = "SOC-4705 Approval Segment to be defaulted to FindLaw for FindLaw user")
+     public void SOC_4705() {
+		 TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+         applicationLogin();
+        /* TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+         accountpage = new Accountpage(driver);
+         accountpage.SearchExistAccount();
+         TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+         contactsPage = new ContactsPage(driver);
+         contactsPage.createNewContact();*/
+         contactsPage = new ContactsPage(driver);
+         contactsPage.SearchExistContact();
+         TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOptywtOwnerName(); 
+         TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+         quotepage = new QuotePage(driver);
+         quotepage.createQuotewoOwnerchange(); 
+		 
+	 }
+	 
+	 
+	 //1000008743- not include IMP
+	// 1000290260, 1000331114, 1003179608
+	 @Test(enabled = false, description = "SOC-5176 Update Margin Type for IM Solution Products")
+     public void SOC_5176() {
+		 TestNGCustomReporter.log(logger,"======================== Login Page script execution started ========================");
+         applicationLogin();
+         TestNGCustomReporter.log(logger,"======================== Accountpage script execution started ========================");
+         accountpage = new Accountpage(driver);
+         int ctrl1= 2;
+         accountpage.SearchAccount(ctrl1);
+         TestNGCustomReporter.log(logger,"======================== Create New Contact script execution started ========================");
+         contactsPage = new ContactsPage(driver);
+         contactsPage.createNewContact();
+         TestNGCustomReporter.log(logger,"======================== Create New Oppty script execution started ========================");
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOpty(); 
+         TestNGCustomReporter.log(logger,"======================== Create Quote page script execution started ========================");
+         quotepage = new QuotePage(driver);
+         quotepage.createQuote();
+         TestNGCustomReporter.log(logger,"======================== Add Product page script execution started ========================");
+         addproductspage = new AddProductsPage(driver);
+         int ctrl = 18; //If ctrl = 12 then execute the Validaion of Price for all products
+         addproductspage.AddProducts(ctrl);
+         TestNGCustomReporter.log(logger,"======================== Validate Margin Type script execution started ======================");
+         quotepage = new QuotePage(driver);
+         quotepage.ValidateMarginTyp();
+         
+         
+		 
+	 }
+	
+	// 1000008743
+	 //41915678
+	 @Test(enabled = false, description = "SOC-5389 Integration for Renewal Process")
+     public void SOC_5389() {
+		 
+		 TestNGCustomReporter.log(logger,
+					"======================== Login Page script execution started ========================");
+			applicationLogin();
+			TestNGCustomReporter.log(logger,
+					"======================== Accountpage script execution started ========================");
+			accountpage = new Accountpage(driver);
+			int ctrl1=3;
+			accountpage.SearchAccount(ctrl1);
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Contact script execution started ========================");
+			contactsPage = new ContactsPage(driver);
+			String ContactName= contactsPage.createNewContact();
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Oppty script execution started ========================");
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			TestNGCustomReporter.log(logger,
+					"======================== Create Quote page script execution started ========================");
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			TestNGCustomReporter.log(logger,
+					"======================== Add Product page script execution started ========================");
+			
+			addproductspage = new AddProductsPage(driver);
+			int ctrl = 19; // If ctrl = 14 then execute the Add bridge for the product in cart page
+			addproductspage.AddProducts(ctrl); 
+	         
+			TestNGCustomReporter.log(logger,
+					"======================== Contact28 page script execution started ========================");
+			contact28page = new Contact28Page(driver);
+			contact28page.AddContact28(ContactName);
+			// String ProposalName=ExcelUtils.getDataByColumnName("Quote", "Name");
+			searchquotepage = new SearchQuotePage(driver);
+			searchquotepage.SearchQuote(QuoteId);
+			ExcelUtils.writeData("C:\\Users\\UX010052\\Documents\\Workspace\\FindLawTest\\src\\test\\resources\\testdata", "SOC_5389_Quote", QuoteId);
+			TestNGCustomReporter.log(logger,
+					"======================== Generate Document page script execution started ========================");
+			generateDocumentPage = new GenerateDocumentPage(driver);
+			generateDocumentPage.Generate_Document();
+			TestNGCustomReporter.log(logger,
+					"======================== Send For Esign page script execution started ========================");
+			sendesignPage = new SendEsignPage(driver);
+			sendesignPage.Send_For_Esign();
+			webmailLogin();
+			TestNGCustomReporter.log(logger,
+					"========================  Esign Process page script execution started ========================");
+			esignprocesspage = new EsignProcessPage(driver);
+			esignprocesspage.EsignProcess();
+			TestNGCustomReporter.log(logger,
+					"======================== SFDC Login script execution started ========================");
+			applicationLogin();
+			TestNGCustomReporter.log(logger,
+					"========================  Esign Process page script execution started ========================");
+			searchquotepage = new SearchQuotePage(driver);
+			searchquotepage.SearchQuote(QuoteId);
+			TestNGCustomReporter.log(logger,
+					"========================  Esign Process page script execution started ========================");
+			validateesignpage = new ValidateEsignPage(driver);
+			validateesignpage.ValidateEsign();
+			
+		 
+	 }
+
+}

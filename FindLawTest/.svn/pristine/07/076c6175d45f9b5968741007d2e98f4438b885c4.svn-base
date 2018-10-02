@@ -1,0 +1,72 @@
+package tr.findlaw.tests;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.testng.annotations.Test;
+
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+
+public class Sprint_19 extends FindlawBaseTest{
+	private Logger logger = LogManager.getLogger(this.getClass());
+	
+	/*
+	 * Take any 2 Existing Account which is having Firmsite product and other one is not having firmsite product.Add US PPC product:30010890.
+	 * 	Create Bundle 1 and 4 and validate the error message.
+	 */
+	
+		 @Test(enabled = false, description = "SOC_4570_Implement the max quantity rule for PPC products ")
+	     public void soc_4570() {	 
+				applicationLogin();
+               /* String Accounts = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "ProductID", 72);
+                String[] Accounts1 = Accounts.split(",");
+                for (int i=0; i<Accounts1.length; i++)
+                {
+				accountpage = new Accountpage(driver);	
+				accountpage.searchExistAccounts(Accounts1[i]);*/
+				contactsPage = new ContactsPage(driver);
+				//String ContactName= contactsPage.createNewContact();
+				String ContactNo = ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id", 72);
+				String[] ContactNo1 = ContactNo.split(",");
+				for (int i=0; i<ContactNo1.length; i++)
+                {
+				//contactsPage.searchExistContact(72);
+				contactsPage.searchExistContacts(ContactNo1[i]);
+				OpptyPage optypage = new OpptyPage(driver);
+				optypage.createOpty();
+				quotepage = new QuotePage(driver);
+				quotepage.createQuote();
+				addproductspage = new AddProductsPage(driver);
+				addproductspage.validateErrorMessage1(72);
+                }
+		 }	 
+		 
+/*
+ * Take any Existing Account and add US PPC product and validate recommend product is getting added or not for respective scenarios
+ * 		 
+ */
+		 @Test(enabled = false, description = "SOC_4571_Additional Landing pages will appear in the recommended product (only when a Firmsite or LawInfo site)")
+	     public void soc_4571() {	 
+				applicationLogin();
+				/*T
+				accountpage = new Accountpage(driver);	
+				accountpage.searchExistAccount(73);*/
+				contactsPage = new ContactsPage(driver);
+				//String ContactName= contactsPage.createNewContact();
+				contactsPage.searchExistContact(73);
+				OpptyPage optypage = new OpptyPage(driver);
+				optypage.createOpty();
+				quotepage = new QuotePage(driver);
+				quotepage.createQuote();
+				addproductspage = new AddProductsPage(driver);
+				addproductspage.validateRecommendedProduct(73);  
+				       
+		 }
+}

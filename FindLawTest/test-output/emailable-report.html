@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>TestNG Report</title><style type="text/css">table {margin-bottom:10px;border-collapse:collapse;empty-cells:show}th,td {border:1px solid #009;padding:.25em .5em}th {vertical-align:bottom}td {vertical-align:top}table a {font-weight:bold}.stripe td {background-color: #E6EBF9}.num {text-align:right}.passedodd td {background-color: #3F3}.passedeven td {background-color: #0A0}.skippedodd td {background-color: #DDD}.skippedeven td {background-color: #CCC}.failedodd td,.attn {background-color: #F33}.failedeven td,.stripe .attn {background-color: #D00}.stacktrace {white-space:pre;font-family:monospace}.totop {font-size:85%;text-align:center;border-bottom:2px solid #000}</style></head><body><table><tr><th>Test</th><th># Passed</th><th># Skipped</th><th># Failed</th><th>Time (ms)</th><th>Included Groups</th><th>Excluded Groups</th></tr><tr><th colspan="7">RegressionTestQA</th></tr><tr><td><a href="#t0">SmokeTest</a></td><td class="num">0</td><td class="num">0</td><td class="num attn">1</td><td class="num">35,062</td><td></td><td></td></tr></table><table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">RegressionTestQA</th></tr></tbody><tbody id="t0"><tr><th colspan="4">SmokeTest &#8212; failed</th></tr><tr class="failedeven"><td rowspan="1">tr.findlaw.tests.Sprint_6</td><td><a href="#m0">soc_4102</a></td><td rowspan="1">1536601170453</td><td rowspan="1">25721</td></tr></tbody></table><h2>SmokeTest</h2><h3 id="m0">tr.findlaw.tests.Sprint_6#soc_4102</h3><table class="result"><tr><th>Messages</th></tr><tr><td><div class="messages">soc_4102 : Launched the url</br></div></td></tr><tr><th>Exception</th></tr><tr><td><div class="stacktrace">junit.framework.AssertionFailedError: Found 5 accessibility violations:
+1) id attribute value must be unique: https://dequeuniversity.com/rules/axe/3.0/duplicate-id?application=axeAPI
+  a) [&quot;#marketing&quot;,&quot;html &gt; body &gt; div:nth-child(2) &gt; .columnContainer.parbase &gt; div &gt; .container &gt; .columns-wrapper.xs-min-height-500 &gt; .col.text-left &gt; div:nth-child(2) &gt; h2&quot;]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: salesforce-for-small-business
+
+
+  b) [&quot;#marketing&quot;,&quot;html &gt; body &gt; div:nth-child(16) &gt; .columnContainer.parbase &gt; div &gt; .container &gt; .columns-wrapper.xs-min-height-500 &gt; .col.text-left &gt; div:nth-child(3) &gt; h1&quot;]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: agenda-builder-is-live
+
+
+  c) [&quot;#marketing&quot;,&quot;html &gt; body &gt; div:nth-child(16) &gt; .columnContainer.parbase &gt; div &gt; .container &gt; .columns-wrapper.xs-min-height-500 &gt; .col.text-left &gt; div:nth-child(4) &gt; h2&quot;]
+    Fix any of the following:
+      Document has multiple elements with the same id attribute: start-planning-your-sessions-today
+
+
+2) &lt;html&gt; element must have a lang attribute: https://dequeuniversity.com/rules/axe/3.0/html-has-lang?application=axeAPI
+  a) [&quot;body &gt; iframe[src$=\&quot;sessionserver212.html\&quot;]&quot;,&quot;html&quot;]
+    Fix any of the following:
+      The &lt;html&gt; element does not have a lang attribute
+
+
+3) Images must have alternate text: https://dequeuniversity.com/rules/axe/3.0/image-alt?application=axeAPI
+  a) [&quot;#marketing&quot;,&quot;#small-business-kit &gt; a &gt; svg[role=\&quot;img\&quot;]&quot;]
+    Fix any of the following:
+      Element does not have an alt attribute
+      aria-label attribute does not exist or is empty
+      aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible
+      Element has no title attribute or the title attribute is empty
+      Element&apos;s default semantics were not overridden with role=&quot;presentation&quot;
+      Element&apos;s default semantics were not overridden with role=&quot;none&quot;
+
+
+4) Page must contain one main landmark.: https://dequeuniversity.com/rules/axe/3.0/landmark-one-main?application=axeAPI
+  a) [&quot;html&quot;]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  b) [&quot;#marketing&quot;,&quot;html&quot;]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+  c) [&quot;body &gt; iframe[src$=\&quot;sessionserver212.html\&quot;]&quot;,&quot;html&quot;]
+    Fix all of the following:
+      Document has no main landmarks
+
+
+5) Content should be contained in a landmark region: https://dequeuniversity.com/rules/axe/3.0/region?application=axeAPI
+  a) [&quot;html&quot;]
+    Fix any of the following:
+      Content not contained by an ARIA landmark
+
+
+	at com.framework.reports.ReportBuilder.buildTestNodes(ReportBuilder.java:134)
+	at com.framework.reports.ReportBuilder.buildReports(ReportBuilder.java:60)
+	at com.framework.test.BaseTest.afterSuite(BaseTest.java:66)
+... Removed 19 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p></body></html>

@@ -1,0 +1,106 @@
+package tr.findlaw.tests;
+
+
+import org.testng.annotations.Test;
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+
+
+public class Sprint_17 extends FindlawBaseTest{
+	
+	
+/*
+ * Take any Existing Account which is not having Firmsite 333C  products as an Asset
+ * 
+ * add that product to cart and validate the error message
+ */
+	 @Test(enabled = false, description = "SOC_6011_update max qty rule 1 per Firmsite for Blog Platform - BPI & other products listed in AC")
+     public void soc_6011() {
+			applicationLogin();
+			accountpage = new Accountpage(driver);	
+			accountpage.searchExistAccount(56);
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.searchExistContact(56);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			quotepage.createQuote();
+			addproductspage = new AddProductsPage(driver);
+			addproductspage.validateErrorMessage(56);      
+	 }
+		 
+/*
+ * Take any Existing account and add product:42089521
+ * 
+ * validate the Adjustment columns
+ */
+	 @Test(enabled = false, description = "SOC_6122_Within the cart, the totals section to be updated")
+     public void soc_6122() {		 
+			applicationLogin();
+			/*
+			accountpage = new Accountpage(driver);	
+			accountpage.searchExistAccount(57);*/
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.searchExistContact(57);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			quotepage.createQuote();	
+			addproductspage = new AddProductsPage(driver);
+			int ctrl = 15; 
+			addproductspage.addProducts(ctrl,57); 
+	        
+	 }	 
+	 
+/*
+ * Take any Existing Account and Add PPC products:41877783,41876119 to the cart
+ * 
+ * give Discount and Finalize the cart	 
+ */
+	 @Test(enabled = false, description = "SOC_4555_Testing Only -Ability to discount by % for PPC model products (CPQ")
+     public void SOC_4555() {
+			applicationLogin();
+			/*
+			accountpage = new Accountpage(driver);	
+			accountpage.searchExistAccount(58);*/
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.searchExistContact(58);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			quotepage.createQuote();
+			addproductspage = new AddProductsPage(driver);
+			addproductspage.validateDiscount(58);       
+	 }
+	 
+	 
+/*
+ * Take any Existing Account and add PPC products:41876119,41877783,40586465 to the cart
+ * 
+ * 	 Finalize the cart,Validate the year 2-3 price for all
+ */
+	 @Test(enabled = false, description = "SOC_6201_Change for PPC Year 2 to 3 Price within Cart")
+     public void soc_6201() {
+         applicationLogin();
+         /*
+         accountpage = new Accountpage(driver);
+         accountpage.searchExistAccount(59);*/
+         contactsPage = new ContactsPage(driver);
+         //contactsPage.createNewContact();
+         contactsPage.searchExistContact(59);
+         OpptyPage optypage = new OpptyPage(driver);
+         optypage.createOpty(); 
+         quotepage = new QuotePage(driver);
+         quotepage.createQuote();
+         addproductspage = new AddProductsPage(driver);
+         addproductspage.validateYear23PPCProd(59);                      
+                              
+     }
+}

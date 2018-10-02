@@ -1,0 +1,170 @@
+package tr.findlaw.pages;
+
+import org.openqa.selenium.WebDriver;
+
+import com.framework.reports.ReportBuilder;
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.objects.BasePageObjects;
+
+public class Accountpage extends BasePage {
+
+	public Accountpage(WebDriver webDriver) {
+		super(webDriver);
+		
+	}
+
+	public void SearchExistAccount() {
+		String AccountNo = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 2);
+		elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo, BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Entered Account Number");
+		elementHandler.clickElement(BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo+ " "+ReportBuilder.takesScreenshot());
+	}
+	
+	public void SearchExistAccountfordiffprofile() {
+		String AccountNo = ExcelUtils.getDataByColumnName("Account", "Id3");
+		elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo, BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Entered Account Number");
+		elementHandler.clickElement(BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo+ " "+ReportBuilder.takesScreenshot());
+	}
+	
+	public void SearchExistAccounts(int Row) {
+		String AccountNo = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", Row);
+		elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo, BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Entered Account Number");
+		elementHandler.clickElement(BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo+ " "+ReportBuilder.takesScreenshot());
+	}
+	
+	public void SearchAccount(int ctrl1) {
+		switch(ctrl1)
+		{
+	
+		case 1:
+		String AccountNo = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 3);
+		elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo, BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Entered Account Number");
+		elementHandler.clickElement(BasePageObjects.btnSearch);
+		TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo+ " "+ReportBuilder.takesScreenshot());
+		break;
+		
+		case 2:
+			String AccountNo1 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 4);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo1, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo1+ " "+ReportBuilder.takesScreenshot());
+		break;
+		
+		case 3:
+			String AccountNo2 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 5);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo2, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo2+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 4:
+			String AccountNo3 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 6);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo3, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo3+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 5:
+			String AccountNo4 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 7);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo4, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo4+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 6:
+			String AccountNo5 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 8);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo5, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo5+ " "+ReportBuilder.takesScreenshot());
+			break;	
+			
+		case 7:
+			String AccountNo6 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 9);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo6, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo6+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 8:
+			String AccountNo7 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 10);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo7, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo7+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 9:
+			String AccountNo8 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 11);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo8, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo8+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 10:
+			String AccountNo9 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 12);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, AccountNo9, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +AccountNo9+ " "+ReportBuilder.takesScreenshot());
+			break;	
+			
+		case 11:
+			String Accnt = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 13);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, Accnt, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +Accnt+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 12:
+			String Accnt1 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 14);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, Accnt1, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +Accnt1+ " "+ReportBuilder.takesScreenshot());
+			break;
+		
+		case 13:
+			String Accnt2 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 15);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, Accnt2, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +Accnt2+ " "+ReportBuilder.takesScreenshot());
+			break;
+		
+		case 14:
+			String Accnt3 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 16);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, Accnt3, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +Accnt3+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		case 15:
+			String Accnt4 = ExcelUtils.getDataByColumnNameWithRowIndex("Account", "Id", 17);
+			elementHandler.writeText(BasePageObjects.txtBoxSearch, Accnt4, BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Entered Account Number");
+			elementHandler.clickElement(BasePageObjects.btnSearch);
+			TestNGCustomReporter.log(logger, "Account Searched Successfully: Account No:" +Accnt4+ " "+ReportBuilder.takesScreenshot());
+			break;
+			
+		}
+		}
+	
+} 
+  

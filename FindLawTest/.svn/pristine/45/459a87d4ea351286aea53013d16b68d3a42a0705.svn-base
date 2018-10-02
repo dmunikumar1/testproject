@@ -1,0 +1,123 @@
+package tr.findlaw.tests;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.testng.annotations.Test;
+
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+
+public class Sprint_17 extends FindlawBaseTest{
+	private Logger logger = LogManager.getLogger(this.getClass());
+	
+	 @Test(enabled = false, description = "SOC_6011_update max qty rule 1 per Firmsite for Blog Platform - BPI & other products listed in AC")
+     public void SOC_6011() {
+		 
+		 	TestNGCustomReporter.log(logger,
+					"======================== Login Page script execution started ========================");
+			applicationLogin();
+			/*TestNGCustomReporter.log(logger,
+					"======================== Accountpage script execution started ========================");
+			accountpage = new Accountpage(driver);	
+			accountpage.SearchExistAccounts(6);*/
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Contact script execution started ========================");
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.SearchExistContact();
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Oppty script execution started ========================");
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			TestNGCustomReporter.log(logger,
+					"======================== Create Quote page script execution started ========================");
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			//String QuoteId= ExcelUtils.getDataByColumnName("Quote", "Name");
+			//searchquotepage = new SearchQuotePage(driver);
+			//searchquotepage.SearchQuote(QuoteId);
+			TestNGCustomReporter.log(logger,
+					"======================== Add Product page script execution started ========================");
+			
+			addproductspage = new AddProductsPage(driver);
+			int ctrl = 51; // If ctrl = 14 then execute the Add bridge for the product in cart page
+			addproductspage.AddProducts(ctrl); 
+	        
+	 }
+	
+	 @Test(enabled = false, description = "SOC_6122_Within the cart, the totals section to be updated")
+     public void SOC_6122() {
+		 
+		 	TestNGCustomReporter.log(logger,
+					"======================== Login Page script execution started ========================");
+			applicationLogin();
+			/*TestNGCustomReporter.log(logger,
+					"======================== Accountpage script execution started ========================");
+			accountpage = new Accountpage(driver);	
+			accountpage.SearchExistAccounts(6);*/
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Contact script execution started ========================");
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.SearchExistContact();
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Oppty script execution started ========================");
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			TestNGCustomReporter.log(logger,
+					"======================== Create Quote page script execution started ========================");
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			//String QuoteId= ExcelUtils.getDataByColumnName("Quote", "Name");
+			//searchquotepage = new SearchQuotePage(driver);
+			//searchquotepage.SearchQuote(QuoteId);
+			TestNGCustomReporter.log(logger,
+					"======================== Add Product page script execution started ========================");	
+			addproductspage = new AddProductsPage(driver);
+			int ctrl = 52; // If ctrl = 14 then execute the Add bridge for the product in cart page
+			addproductspage.AddProducts(ctrl); 
+	        
+	 }
+	 //add products:41877783, 41876119
+	 //as there is an issue so need to execute once after issue resolved
+	 @Test(enabled = false, description = "SOC_4555_Testing Only -Ability to discount by % for PPC model products (CPQ")
+     public void SOC_4555() {
+		 
+		 	TestNGCustomReporter.log(logger,
+					"======================== Login Page script execution started ========================");
+			applicationLogin();
+			/*TestNGCustomReporter.log(logger,
+					"======================== Accountpage script execution started ========================");
+			accountpage = new Accountpage(driver);	
+			accountpage.SearchExistAccounts(6);*/
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Contact script execution started ========================");
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.SearchExistContact();
+			TestNGCustomReporter.log(logger,
+					"======================== Create New Oppty script execution started ========================");
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			TestNGCustomReporter.log(logger,
+					"======================== Create Quote page script execution started ========================");
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			//String QuoteId= ExcelUtils.getDa taByColumnName("Quote", "Name");
+			//searchquotepage = new SearchQuotePage(driver);
+			//searchquotepage.SearchQuote(QuoteId);
+			TestNGCustomReporter.log(logger,
+					"======================== Add Product page script execution started ========================");	
+			addproductspage = new AddProductsPage(driver);
+			int ctrl = 53; // If ctrl = 14 then execute the Add bridge for the product in cart page
+			addproductspage.AddProducts(ctrl); 
+	        
+	 }
+}

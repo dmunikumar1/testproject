@@ -1,0 +1,149 @@
+package tr.findlaw.tests;
+
+import java.util.ArrayList;
+import org.testng.annotations.Test;
+import com.framework.utils.ExcelUtils;
+import tr.findlaw.basetest.FindlawBaseTest;
+import tr.findlaw.pages.Accountpage;
+import tr.findlaw.pages.AddProductsPage;
+import tr.findlaw.pages.Contact28Page;
+import tr.findlaw.pages.ContactsPage;
+import tr.findlaw.pages.EsignProcessPage;
+import tr.findlaw.pages.GenerateDocumentPage;
+import tr.findlaw.pages.OpptyPage;
+import tr.findlaw.pages.QuotePage;
+import tr.findlaw.pages.SearchQuotePage;
+import tr.findlaw.pages.SendEsignPage;
+import tr.findlaw.pages.ValidateEsignPage;
+
+public class Sprint_21 extends FindlawBaseTest {
+
+	/*
+	 * Take any Existing Account and validate the Payment option value	
+	 */
+	 @Test(enabled = false, description = "SOC_6761_Implementing max quantity rule for Existing PPC with Firmsite")
+     public void soc_6761() {	 
+		applicationLogin();
+       /* String Account = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "ProductID", 76);
+		accountpage = new Accountpage(driver);	
+		accountpage.searchExistAccounts(Account);*/
+		contactsPage = new ContactsPage(driver);
+		//String ContactName= contactsPage.createNewContact();
+		ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id", 76);
+		contactsPage.searchExistContact(76);
+		OpptyPage optypage = new OpptyPage(driver);
+		optypage.createOpty();
+		quotepage = new QuotePage(driver);
+		quotepage.createQuote();
+		quotepage.validatePaymentOption();
+		
+	}	
+		 
+	
+	 /*
+	* Take any Existing Account which is having individual ppc products as an asset and have less no of products in the asset line items sold to
+	* take the sequence of the products from Asset line Items (Sold To) and validate the same in cart page,Installed products page and Asset Line Items in Quote Page
+	* take these accounts: 1000013841- ,1000014325,1000014794,1000027379,1000027753,1000028150
+	* use account: 1000014325
+	*/
+		 @Test(enabled = false, description = "SOC_6817_Testing Only PPC Assets Grouped ")
+	     public void soc_6817() {	 
+			applicationLogin();
+	        //String Account = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "ProductID", 77);
+			accountpage = new Accountpage(driver);
+			ArrayList<String> assetText= accountpage.getAssetSequence(77);
+			accountpage.searchExistAccount(77);
+			contactsPage = new ContactsPage(driver);
+			contactsPage.createNewContact();
+			//contactsPage.searchExistContact(77);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			addproductspage = new AddProductsPage(driver);
+			addproductspage.addMultipleInstalledprod(77,assetText);
+			searchquotepage = new SearchQuotePage(driver);
+		    searchquotepage.searchQuote(QuoteId);
+			quotepage.validateAssetLine(assetText);
+		}	 
+	 
+ /*
+* below scenarios covering this Test
+* Scenario 1: Account should have bundle 1(FNDLW PPC ADVERTISEMENT COSTS,FNDLW PPC CALL TRACKING NUMBER,FNDLW PPC LANDING PAGE,FNDLW PPC ADVERTISING) as an asset and no IM products as an asset.Add product 30010890 (Existing ppc,english) and 41876119. able to finalize
+* Scenario 2: Account should have bundle 5(FNDLW PPC ESPAÑOL ADVERTISEMENT COSTS, FNDLW PPC ESPAÑOL CALL TRACKING NUMBER, FNDLW PPC ESPAÑOL ADVERTISING) as an asset and no IM products as an asset. Add product 30010890 (Existing ppc,espanol),and 41876119 and validate warning message for 41876119
+* Scenario 3: Account should have any IM product as an asset and no Bundles as an asset. Add product 41876119 and 30010890 (Existing ppc,english) and validate warning message for 30010890
+*  Need to add 2 more scenarios
+*/
+		 
+		 @Test(enabled = false, description = "SOC_6035_Prerequisite Validations for PPC ")
+	     public void soc_6035() {	 
+			applicationLogin();
+	        /*String Account = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "ProductID", 78);
+	        String[] listofaccount = Account.split(",");
+            for (int i=0; i<listofaccount.length; i++)
+            {
+			accountpage = new Accountpage(driver);	
+			accountpage.searchExistAccounts(Account);*/
+			String contactName= ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id", 78);
+			String[] listOfContact = contactName.split(",");
+            for (int j=0; j<listOfContact.length; j++)
+            {
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.searchExistContacts(listOfContact[j]);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			quotepage.createQuote();
+			addproductspage = new AddProductsPage(driver);
+			addproductspage.addPPCLandingPage(78);
+           // }
+            }	
+		}
+		 
+		
+/*
+ * Take any Existing Account which have Bundle 1,2,3,4,5,6 as an Asset and renew them and complete the order.
+ * Execution is on hold due to assets not available in the application.		 
+ */
+		 @Test(enabled = false, description = "SOC_6366_PPC New Bundle Renewal Integration  ")
+	     public void soc_6366() {	 
+			applicationLogin();
+	        String Account = ExcelUtils.getDataByColumnNameWithRowIndex("AddProducts", "ProductID", 79);
+	        String[] listofaccount = Account.split(",");
+            for (int i=0; i<listofaccount.length; i++)
+            {
+			accountpage = new Accountpage(driver);
+			accountpage.searchExistAccounts(Account);
+			String ContactName= ExcelUtils.getDataByColumnNameWithRowIndex("Contacts", "Id", 79);
+			String[] listOfContact = ContactName.split(",");
+            for (int j=0; j<listOfContact.length; j++)
+            {
+			contactsPage = new ContactsPage(driver);
+			//String ContactName= contactsPage.createNewContact();
+			contactsPage.searchExistContacts(listOfContact[j]);
+			OpptyPage optypage = new OpptyPage(driver);
+			optypage.createOpty();
+			quotepage = new QuotePage(driver);
+			String QuoteId= quotepage.createQuote();
+			addproductspage = new AddProductsPage(driver);
+			addproductspage.addProducts(5,79);
+			contact28page = new Contact28Page(driver);
+		      contact28page.addContact28(ContactName);
+		      generateDocumentPage = new GenerateDocumentPage(driver);
+		      generateDocumentPage.generateDocument();
+		      sendesignPage = new SendEsignPage(driver);
+		      sendesignPage.sendForEsign();
+		      webmailLogin();
+		      esignprocesspage = new EsignProcessPage(driver);
+		      esignprocesspage.esignProcess();
+		      applicationLogin();
+		      searchquotepage = new SearchQuotePage(driver);
+		      searchquotepage.searchQuote(QuoteId);
+		      validateesignpage = new ValidateEsignPage(driver);
+		 		validateesignpage.validateOrder();   
+            }
+		 }
+		}	
+	 
+}

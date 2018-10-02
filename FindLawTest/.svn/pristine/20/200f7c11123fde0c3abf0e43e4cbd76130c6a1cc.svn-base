@@ -1,0 +1,59 @@
+package tr.findlaw.pages;
+
+import org.openqa.selenium.WebDriver;
+
+import com.framework.asserts.AssertionHandler;
+import com.framework.reports.ReportBuilder;
+import com.framework.reports.TestNGCustomReporter;
+import com.framework.utils.ExcelUtils;
+
+import tr.findlaw.objects.OrderDetailPageObjects;
+import tr.findlaw.objects.QuotePageObjects;
+
+public class ValidateEsignPage extends BasePage {
+
+	String lblOrder1= "//div[@id='Name_ileinner']";
+	public ValidateEsignPage(WebDriver webDriver) {
+		super(webDriver);
+	
+	}
+	
+	public void validateEsign() {	
+		elementHandler.clickElement(QuotePageObjects.btnValidateEsign, QuotePageObjects.lblCheckeSgnStatus);
+		actionHandler.waitForSomeTime(80000);
+		actionHandler.waitForSomeTime(40000);
+		windowHandler.refereshWebPage();
+		windowHandler.refereshWebPage();
+		windowHandler.refereshWebPage();
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lnkOrders);
+		elementHandler.clickElement(QuotePageObjects.lnkOrders);
+		elementHandler.clickElement(QuotePageObjects.lnkOrderNumber);
+		TestNGCustomReporter.log(logger, "Order Detail page displayed");
+		elementHandler.waitForXpathToLoad(lblOrder1);
+		String OrderNo= elementHandler.getText(QuotePageObjects.lblOrderNo);
+		TestNGCustomReporter.log(logger, "Order No has been generated : " +OrderNo+ " "+ ReportBuilder.takesScreenshot());
+		String sapStatus= elementHandler.getText(OrderDetailPageObjects.lblSAPStaus);
+		AssertionHandler.verifyTrue(sapStatus.contains("Ready for COB"), "Quote status is pending and not reaching Findlaw Order Tool");
+		elementHandler.waitForElementTobeClickable(OrderDetailPageObjects.lnkQuoteId);
+		elementHandler.clickElement(OrderDetailPageObjects.lnkQuoteId, QuotePageObjects.lblQuoteproposal);
+		actionHandler.waitForSomeTime(10000);
+	}
+	
+	
+	public void validateOrder() {		
+		windowHandler.refereshWebPage();
+		elementHandler.waitForElementTobeClickable(QuotePageObjects.lnkOrders);
+		elementHandler.clickElement(QuotePageObjects.lnkOrders);
+		actionHandler.waitForSomeTime(5000);
+		elementHandler.clickElement(QuotePageObjects.lnkOrderNumber);
+		TestNGCustomReporter.log(logger, "Order Detail page displayed");
+		elementHandler.waitForXpathToLoad(lblOrder1);
+		String OrderNo= elementHandler.getText(QuotePageObjects.lblOrderNo);
+		String sapStatus= elementHandler.getText(OrderDetailPageObjects.lblSAPStaus);
+		AssertionHandler.verifyNotEquals(sapStatus, "Pending", "Order created successfully and sent to SAP");
+		TestNGCustomReporter.log(logger, "COB Process has Completed for Order: " +OrderNo+ " "+ ReportBuilder.takesScreenshot());
+
+	}
+	
+	
+}
